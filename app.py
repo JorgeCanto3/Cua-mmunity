@@ -25,6 +25,11 @@ def registro():
 @app.route('/iniciar-sesion')
 def iniciar_sesion():
     return render_template('iniciar-sesion.html')
+    
+@app.route('/Community')
+def iniciar_sesion():
+    return render_template('community.html')
+    
 
 @app.route('/iniciar', methods=['POST'])
 def iniciar():
@@ -41,6 +46,7 @@ def iniciar():
 @app.route('/registrar', methods=['POST'])
 def registrar():
     ## Registramos al usuario con los dato recibidos
+    
 
     return 1; ## Este  1 simula, de momento, que se realizo el registro
 
