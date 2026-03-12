@@ -1,9 +1,9 @@
 
+let button = document.getElementById("Sign_Up");
 function passwordCheck() {
     var pass = document.getElementById("pswd-input-holder").value;
     var passCheck = document.getElementById("pswd-input-holder-verification").value;
     var mensaje = document.getElementById("match");
-    var button = document.getElementById("Sign_Up");
 
 
 
@@ -67,6 +67,7 @@ passwordSec.addEventListener('input', () => {
 function updateBar(percent) {
     progressBar.style.width = `${percent}%`;
     let text ="";
+    let btn = false;
     const hue = percent * 1.2; 
     progressBar.style.backgroundColor = `hsl(${hue-30}, 100%, 40%)`;
    
@@ -75,14 +76,21 @@ function updateBar(percent) {
         securityFrame.style.display = "none";
     } else if (percent <= 30) {
         text = "Debil";
+        btn = false;
     } else if (percent <= 60) {
         text = "Aceptable";
+        btn = true;
     } else if (percent <= 90) {
         text = "Fuerte";
+        btn = true;
+
     } else {
         text = "Muy Fuerte";
+        btn = true;
+
     }
 
+    button.disabled = btn;
     progresstext.innerHTML = text;
     progresstext.style.borderRadius =`${25}px`; 
     progresstext.style.backgroundColor = `hsl(${hue-30}, 100%, 30%)`;
