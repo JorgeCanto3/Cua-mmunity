@@ -225,8 +225,6 @@ display: flex;
 
 #Comment-Text {
 
-  backdrop-filter: blur(8.9px);
-  background-color: #5882c147;
   border-radius: 28.5px;
   width: 38px;
   height: 38px;

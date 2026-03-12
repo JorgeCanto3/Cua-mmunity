@@ -1,0 +1,359 @@
+* {
+  font-family: Poppins;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: #FFFF;
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+input {
+  border: none;
+  outline: none;
+  border-radius:5px ;
+  height: 2rem;
+  padding-left: 10%;
+}
+
+button {
+  border-style: none;
+  width: auto;
+  line-height: normal;
+}
+
+a{
+  text-decoration: none;
+  font-weight: bolder;
+}
+
+
+
+
+
+#Background-Back {
+  background-blend-mode: normal;
+  background-image: radial-gradient(
+    58.4% 103.9% at 56.7%,
+    #ff6a00 0%,
+    #652a00 100%
+    );
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+}
+
+#Background-Front {
+  position: relative;
+  background-blend-mode: normal;
+  background-image: radial-gradient(
+    58.4% 103.9% at 56.7%,
+    #ff6a00 0%,
+    #653200 100%
+    );
+    border-radius: 24px;
+    width: 90vw;
+    height: 95vh;
+    box-shadow:
+    89px 139px 165px #00000017,
+    22px 35px 91px #0000001a;
+    overflow: hidden;
+
+  }
+
+#Form-Section {
+    -webkit-backdrop-filter: blur(8.9px);
+    backdrop-filter: blur(8.9px);
+    background-color: #5882c147;
+    border-radius: 28.5px;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+    row-gap: 40px;
+    height: 572px;
+    display: flex;
+    padding: 2% 2% 2% 2%;
+    position: absolute;
+    top: calc(50% - 313.8px);
+    left: calc(50% - 250.5px);
+    overflow: hidden;
+    width: 25%;
+  }
+  
+  #Title-Logo {
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    height: auto;
+    gap: 2%;
+  }
+
+  #Title {
+  text-align: left;
+  color: #fff;
+  -webkit-background-clip: text;
+  background-clip: text;
+  flex-shrink: 0;
+  width: max-content;
+  margin: 0;
+  font-family: Poppins;
+  font-size: 29px;
+  font-weight: 600;
+
+
+  color: #fff;
+  -webkit-background-clip: text;
+  background-clip: text;
+  font-family: Poppins;
+
+}
+
+#Logo {
+  justify-content: center;
+  align-items: center;
+  border-radius: 80px;
+  width: 20%;
+  height: 100%;
+}
+
+#Subtitle {
+  text-align: left;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+#Form {
+  flex-flow: column;
+  row-gap: 24px;
+  width: 250px;
+  height: 100%;
+  display: flex;
+  position: relative;
+}
+
+#Form-R{
+  display: flex;
+  flex-direction: column;
+  gap: 5%;
+  width: 100%;
+  height: 100%;
+}
+
+#user-label{
+  text-align: left;
+  width: max-content;
+  margin: 0;
+  font-size: 18px;
+  font-weight: 400;
+  display: inline;
+  position: relative; 
+}
+
+#pswd-label {
+  width: max-content;
+  margin: 0;
+  font-family: Poppins;
+  font-size: 18px;
+  font-weight: 400;
+
+}
+
+#pswd-input-holder, #user-input-holder {
+  color: #bcbec0;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+#Missing {
+  margin-top: 5%;
+  text-align: left;
+  background-clip: text;
+  width: max-content;
+  font-size: 13px;
+  font-weight: 400;
+  display: inline;
+  color: #fff;
+
+}
+
+#Log_In {
+  display: flex;
+  background-color: #9d4e00;
+  border-radius: 7.1px;
+  justify-content: center;
+  align-items: center;
+  height: 10%;
+  padding: .5rem 5.7rem;
+  font-size: 16px;
+  font-weight: 400;
+
+  text-align: left;
+  width: max-content;
+  margin: 0;
+
+}
+
+#Not-Account {
+  text-align: center;
+  width: 100%;
+  margin: 0;
+  font-size: 11px;
+  font-weight: 400;
+}
+
+#PopCard {
+  display: none; 
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10000; 
+  justify-content: center; 
+  align-items: center;     
+  backdrop-filter: blur(5px);
+  background-color: rgba(0, 0, 0, 0.3); 
+}
+  
+#PopCard_Content{
+  display: flex;
+  gap: 30%;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center;    
+  width: 50%;
+  height: 50%; 
+}
+
+#msg{
+  font-size: 4rem;
+  font-weight: bolder;
+}
+
+#pop_btn{
+  font-size: 2rem;
+  border-radius: 25px;
+  width: 40%;
+  height: 10%;
+}
+
+#Group_12 {
+  width: 13.1%;
+  height: 11.6%;
+  position: absolute;
+  inset: -0.5% 59.3% 80.4% 26.7%;
+
+}
+#Group_13 {
+  width: 20.4%;
+  height: 40.3%;
+  position: absolute;
+  inset: 60.3% 78.6% 0 0.1%;
+}
+
+#Group_14 {
+    --f2w-order: 7;
+
+  width: 14%;
+  height: 17.2%;
+  position: absolute;
+  inset: 82.8% 3.1% 0 85.9%;
+}
+
+#Group_15 {
+  --f2w-order: 0;
+  width: 11.9%;
+  height: 14.1%;
+  position: absolute;
+  inset: 73.5% 66.4% 12.5% 21.7%;
+}
+#Group_16 {
+  --f2w-order: 1;
+  width: 19.3%;
+  height: 34.2%;
+  position: absolute;
+  inset: 59.5% 57.9% 6.3% 22.9%;
+}
+#Group_17 {
+  --f2w-order: 2;
+  width: 13.1%;
+  height: 11.6%;
+  position: absolute;
+  inset: -0.5% 59.3% 80.4% 26.7%;
+}
+#Group_18 {
+  --f2w-order: 3;
+  width: 34.8%;
+  height: 57.7%;
+  position: absolute;
+  inset: 10.2% 15.3% 32.1% 49.9%;
+}
+
+#Group_2250 {
+  --f2w-order: 1;
+  flex-shrink: 0;
+  width: 250px;
+  height: 167px;
+  margin: 0;
+  position: relative;
+}
+
+#Group_19 {
+  --f2w-order: 5;
+  width: 8.1%;
+  height: 7.9%;
+  position: absolute;
+  inset: 42.8% 71.8% 49.3% 20%;
+}
+#Group_20 {
+  --f2w-order: 6;
+  width: 9.2%;
+  height: 5.3%;
+  position: absolute;
+  inset: 75.1% 20.1% 19.6% 70.6%;
+}
+#Group_21 {
+  --f2w-order: 7;
+  width: 10.8%;
+  height: 8.1%;
+  position: absolute;
+  inset: 67.9% 23.7% 24.1% 65.5%;
+}
+#Group_22 {
+  width: 20.4%;
+  height: 40.3%;
+  position: absolute;
+  inset: 60.3% 78.6% 0 0.1%;
+}
+#Group_23 {
+  --f2w-order: 7;
+  width: 14%;
+  height: 17.2%;
+  position: absolute;
+  inset: 82.8% 3.1% 0 85.9%;
+
+}
+#Group_24 {
+  --f2w-order: 10;
+  width: 14.3%;
+  height: 15.1%;
+  position: absolute;
+  inset: 27.2% 64.6% 57.7% 21%;
+}
