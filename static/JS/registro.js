@@ -69,7 +69,7 @@ function updateBar(percent) {
     let text ="";
     let btn = false;
     const hue = percent * 1.2; 
-    progressBar.style.backgroundColor = `hsl(${hue-30}, 100%, 40%)`;
+    progressBar.style.color = `hsl(${hue-30}, 100%, 40%)`;
    
   if (percent === 0) {
         text = "";

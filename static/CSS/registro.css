@@ -126,6 +126,11 @@ a{
     width: 50%;
     
   }
+
+  #anchor-Title-logo{
+    width: 100%;
+    height: auto;
+  }
   
   #Title-Logo {
     align-items: center;
@@ -136,7 +141,7 @@ a{
     justify-content: center;
     width: 100%;
     height: auto;
-    gap: 2%;
+    gap: 5%;
   }
 
   #Title {
@@ -147,13 +152,24 @@ a{
   font-weight: 600;
 }
 
-#Logo {
-  justify-content: center;
-  align-items: center;
+
+  #Logo_frame {
   border-radius: 80px;
-  width: 14%;
+  width: 104px;
+  height: 102px;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  }
+
+  #Logo {
+  object-fit: cover;
+  border-radius: 80px;
+  width: 100%;
   height: 100%;
+  inset: 0;
 }
+
 
 #Subtitle {
   text-align: left;
@@ -252,7 +268,10 @@ a{
   height: 90%;
 
   transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s linear;
-  background-color: #ff4d4d;
+ -webkit-backdrop-filter: blur(8.9px);
+  backdrop-filter: blur(10px);
+  background-color: #5882c123;
+  border-radius: 28.5px; 
   box-shadow: inset .3px .3px .3px .3px  rgba(0,0,0,0.4); 
 
 }

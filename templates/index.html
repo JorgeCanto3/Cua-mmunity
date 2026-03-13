@@ -1,224 +1,204 @@
 <!DOCTYPE html>
 <html lang="en" xml:lang="en">
-  <head><meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8">
     <title>Dashboard</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Source+Code+Pro:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css' ) }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Source+Code+Pro:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css' ) }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='Img/Logo-Cuammunity.avif') }}" type="image/x-icon">
 
-</head>
+  </head>
 
-<body>
-  
-  <div id="Background_Back">
-    <div id="Background_Front">
+  <body>
+    
+    <div id="Background_Back">
+      <div id="Background_Front">
 
-      
-      <header id="Header_0">
-        <div id="Logo_Name_0">
-              <div id="Logo_0" class="pointer-events-none">
-                <picture id="__114">
-                  <source srcset="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" media="not ((min-width: 1380px))" id="__115">
-                  <img src="{{url_for('static',filename='Img/Logo-Cuammunity.avif')}}" alt="Logo" id="__116" decoding="async">
-                </picture>
-              </div>
-              <span id="_1_52380" class="pointer-events-none"><span id="__117" class="text">Cua-mmunity</span></span>
+        <header>
+          <div id="Logo_Name">
+            <div id="Logo_frame">
+              <img src="{{url_for('static',filename='Img/Logo-Cuammunity.avif')}}" alt="Logo" id="Logo">
             </div>
-            <!--Quitar la lupa por una imagen-->
-            
-            <!--Barra de Navegación-->
-            <div id="Look-up">
-              <span id="_1_52383" class="pointer-events-none"><span id="__118" class="text">Busca una Comunidad</span></span>
-              <div id="Look-Icon">
-                <div id="Line_1" class="pointer-events-none">
+            <span id="Title">Cua-mmunity</span></span>
+          </div>
+              <!--Quitar la lupa por una imagen-->
+              
+              <!--Barra de Navegación-->
+              <div id="Look-up">
+                <input id="Text-Lp" type="text"  placeholder="Busca una Comunidad"</input>
+
+                <div id="Look-Icon">
+                  <div id="Line_1" class="pointer-events-none">
+                  </div>
+                  <div id="Ellipse_1" class="pointer-events-none">
+                  </div>
                 </div>
-                <div id="Ellipse_1" class="pointer-events-none">
-                </div>
+              
               </div>
-            </div>
-            
-        </header>
+              
+          </header>
+          <section id="main-layout">
+          <aside id="Left-Panel">
+
+              <div id="Profile">
+                <div id="User_Info">
+                  <span id="Name_User" >Name</span></span>
+                  <span id="User_Name" >@User Name</span></span>
+                </div>
+                <div id="See_more">
+                  <span id="See_more_text">Ver más</span></span>
+                </div>
+
+                <div id="background_pic_frame" class="pointer-events-none">
+                    <img src="{{url_for('static',filename='Img/Img_Borrador.avif')}}" alt="User background image" id="background_pic" >
+                </div>
+                <div id="Profile-Pic_Frame">
+                      <img src="{{url_for('static',filename='Img/Img_Borrador.avif')}}" alt="User profile image" id="Profile-Pic" >
+                </div>
+                <span id="Amount_Friends">Amigos</span></span>
+                <span id="Amount_Community"></span>Comunidades</span></span>
           
-          <aside id="Profile-resume">
-            <div id="Profile">
-              <div id="User_Name">
-                <span id="_1_52343" class="pointer-events-none"><span id="__81" class="text">Name</span></span>
-                <span id="_1_52344" class="pointer-events-none"><span id="__82" class="text">@User Name</span></span>
               </div>
-              <div id="Frame_2261_0">
-                <span id="_1_52347" class="pointer-events-none"><span id="__83" class="text">Ver más</span></span>
-              </div>
-              <div id="image_1_11" class="pointer-events-none">
-                <picture id="__84">
-                  <source srcset="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" media="not ((min-width: 1380px))" id="__85">
-                  <img src="{{url_for('static',filename='Img/Img_Borrador.avif')}}" alt="image 1" id="__86" fetchpriority="high" decoding="async">
-                </picture>
-              </div>
-              <div id="Profile-Pic">
-                <div id="image_2" class="pointer-events-none">
-                  <picture id="__87">
-                    <source srcset="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" media="not ((min-width: 1380px))" id="__88">
-                    <img src="{{url_for('static',filename='Img/Img_Borrador.avif')}}" alt="image 2" id="__89" fetchpriority="high" decoding="async">
-                  </picture>
+            
+            
+              <div id="Communitys">
+                <div id="Comunity">
+                  <div id="Community_pic_frame" class="pointer-events-none">
+                      <img src="{{url_for('static',filename='Img/Img_Borrador.avif')}}" alt="Logo_Comunity" id="Community_pic"  >
+                  </div>
+                  <div id="Community_text_frame">
+                    <span id="Community_Name" >Community Name</span></span>
+                    <span id="Community_Users">#### People</span></span>
+                  </div>
                 </div>
+            
+              
               </div>
-              <span id="_1_52352" class="pointer-events-none"><span id="__90" class="text">Amigos</span></span>
-              <span id="_1_52353" class="pointer-events-none"><span id="__91" class="text">Comunidades</span></span>
-              <span id="_1_52354" class="pointer-events-none"><span id="__92" class="text">##</span></span>
-              <span id="_1_52355" class="pointer-events-none"><span id="__93" class="text">##</span></span>
-            </div>
-           
-           
-            <div id="Communitys_0">
-              <div id="Comunity_1">
-                <div id="Logo_Comunity" class="pointer-events-none">
-                  <picture id="__94">
-                    <source srcset="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" media="not ((min-width: 1380px))" id="__95">
-                    <img src="{{url_for('static',filename='Img/Img_Borrador.avif')}}" alt="Logo_Comunity" id="__96" fetchpriority="high" decoding="async">
-                  </picture>
-                </div>
-                <div id="Frame_2260_9">
-                  <span id="_1_52360" class="pointer-events-none"><span id="__97" class="text">Community Name</span></span>
-                  <span id="_1_52361" class="pointer-events-none"><span id="__98" class="text">#### People</span></span>
-                </div>
-              </div>
-          
-              <div id="Scorlling_Bar">
-                <div id="Scroll-Section" class="pointer-events-none">
-                </div>
-                <div id="Scroll-icon" class="pointer-events-none">
-                </div>
-              </div>
-            </div>
           </aside>
-          
-          
-          <section id="Posts">
             
-            <div id="New-Post">
-              
-              
-              <div id="Text-Photo">
-              
-              <img src="{{url_for('static',filename='Img/Img_Borrador.avif')}}" alt="image 1" id="User_Photo">
-              
-              
-              <div id="Text_Box">
-                <span id="Text_Post" class="text">Crea un post!</span></span>
-              </div>
-            </div>
-              
-              <div id="Community-Selection">
-                  <img src="{{url_for('static',filename='Img/Img_Borrador.avif')}}" alt="image 1" id="Community_Img" >
-                  
-                    <span id="__80" class="text">Comunidad</span></span>
-                    <svg preserveAspectRatio="none" id="Menu-Comunity" class="pointer-events-none" width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.49512 12L12.9903 0H-7.34329e-05L6.49512 12Z" fill="#D9D9D9"></path></svg>
-              </div>
-
-            </div>
-
-
-
-
-          <div id="Post">
             
-              <div id="Post_User">
-                    <img src="{{url_for('static',filename='Img/Img_Borrador.avif')}}" alt="image 1" id="Post_Img_User" >
-                    <span id="Post_Name" class="text">Name</span>
-              </div>
+            <section id="Posts">
               
-              <div id="Post_Content">
-                <span id="Content-Text" class="text">
-                  Lorem Ipsum&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
-                </span>
+              <div id="New-Post">
+                <div id="Text-Photo">
+                
+                <img src="{{url_for('static',filename='Img/Img_Borrador.avif')}}" alt="image 1" id="User_Photo">
+                
+                
+                <div id="Text_Box">
+                  <input id="Text_Post" class="text" placeholder="Crea un post!">
+                </div>
+              </div>
+                
+                <div id="Community-Selection">
+                    <img src="{{url_for('static',filename='Img/Img_Borrador.avif')}}" alt="image 1" id="Community_Img" >
+                    
+                      <span id="__80" class="text">Comunidad</span></span>
+                      <svg preserveAspectRatio="none" id="Menu-Comunity" class="pointer-events-none" width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.49512 12L12.9903 0H-7.34329e-05L6.49512 12Z" fill="#D9D9D9"></path></svg>
+                </div>
 
-                <img src="{{url_for('static',filename='Img/Img_Borrador.avif')}}" alt="image 1" id="Post_Img_Content" >
               </div>
 
-              <div id="Icons">
+
+
+
+            <div id="Post">
               
-                <div id="Compartir">
-                  <svg preserveAspectRatio="none" id="Vector" class="pointer-events-none" width="25" height="22" viewBox="0 0 25 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.6762 2.22375C14.6356 2.20235 14.5913 2.19352 14.5472 2.19805C14.5031 2.20259 14.4606 2.22036 14.4237 2.24972C14.3869 2.27908 14.3567 2.31909 14.3361 2.36608C14.3154 2.41307 14.305 2.46553 14.3057 2.51863V5.05594C14.3057 5.34775 14.2091 5.62762 14.0371 5.83397C13.8651 6.04031 13.6318 6.15624 13.3886 6.15624C12.1653 6.15624 9.69657 6.16724 7.33608 7.96514C5.53133 9.33832 3.68623 11.8382 2.57659 16.4947C4.44738 14.3315 6.5841 13.1586 8.45489 12.5358C9.60465 12.154 10.7865 11.9281 11.9782 11.8624C12.4659 11.8349 12.9546 11.8408 13.4418 11.88H13.4657L13.4748 11.8822L13.3886 12.9781L13.4803 11.8822C13.7067 11.9095 13.9165 12.0368 14.069 12.2393C14.2216 12.4418 14.3059 12.7052 14.3057 12.9781V15.5154C14.3057 15.7531 14.5074 15.9027 14.6762 15.8103L21.9832 9.35592L22.0602 9.2943C22.1001 9.26555 22.1331 9.2249 22.156 9.17632C22.1789 9.12773 22.191 9.07285 22.191 9.01703C22.191 8.9612 22.1789 8.90633 22.156 8.85774C22.1331 8.80915 22.1001 8.76851 22.0602 8.73975L21.9832 8.67813L14.6762 2.22375ZM12.4716 14.0476C12.3456 14.0476 12.2093 14.052 12.0626 14.0608C11.2666 14.1048 10.1661 14.2501 8.94459 14.6572C6.51258 15.467 3.63304 17.3023 1.71823 21.4351C1.61469 21.6581 1.44969 21.8311 1.25154 21.9242C1.05338 22.0173 0.834391 22.0249 0.632107 21.9455C0.429823 21.8662 0.256836 21.7049 0.142792 21.4893C0.0287476 21.2737 -0.0192528 21.0173 0.00701904 20.7639C0.858042 12.5996 3.46613 8.30403 6.35301 6.10783C8.63646 4.36935 10.9878 4.03485 12.4716 3.97104V2.51863C12.4714 2.06546 12.5732 1.62063 12.7662 1.23109C12.9592 0.841546 13.2362 0.521732 13.5681 0.305392C13.9 0.0890516 14.2744 -0.0157917 14.6518 0.00192497C15.0292 0.0196416 15.3956 0.159261 15.7124 0.406051L23.0378 6.87584C23.3407 7.10265 23.5904 7.41821 23.7636 7.7928C23.9367 8.16739 24.0276 8.58869 24.0276 9.01703C24.0276 9.44537 23.9367 9.86667 23.7636 10.2413C23.5904 10.6158 23.3407 10.9314 23.0378 11.1582L15.7124 17.628C15.3956 17.8748 15.0292 18.0144 14.6518 18.0321C14.2744 18.0498 13.9 17.945 13.5681 17.7287C13.2362 17.5123 12.9592 17.1925 12.7662 16.803C12.5732 16.4134 12.4714 15.9686 12.4716 15.5154V14.0476Z" fill="white"></path></svg>
-                  <span id="__34" class="text">Compartir</span>
+                <div id="Post_User">
+                      <img src="{{url_for('static',filename='Img/Img_Borrador.avif')}}" alt="image 1" id="Post_Img_User" >
+                      <span id="Post_Name" class="text">Name</span>
                 </div>
                 
-                <div id="Comentar">
-                  <div id="chat-right">
-    <svg preserveAspectRatio="none" id="Vector_0" class="pointer-events-none" width="25" height="22" viewBox="0 0 25 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.125 1.4375C2.7106 1.4375 2.31317 1.58895 2.02015 1.85853C1.72712 2.12812 1.5625 2.49375 1.5625 2.875V14.375C1.5625 14.7562 1.72712 15.1219 2.02015 15.3915C2.31317 15.661 2.7106 15.8125 3.125 15.8125H18.1031C18.9319 15.8127 19.7266 16.1157 20.3125 16.6549L23.4375 19.5299V2.875C23.4375 2.49375 23.2729 2.12812 22.9799 1.85853C22.6868 1.58895 22.2894 1.4375 21.875 1.4375H3.125ZM21.875 0C22.7038 0 23.4987 0.302901 24.0847 0.842068C24.6708 1.38124 25 2.1125 25 2.875V21.2649C25 21.4072 24.9541 21.5462 24.8681 21.6644C24.7822 21.7826 24.6601 21.8747 24.5172 21.929C24.3743 21.9834 24.2172 21.9975 24.0656 21.9696C23.914 21.9417 23.7748 21.8731 23.6656 21.7724L19.2078 17.6712C18.9149 17.4016 18.5175 17.2501 18.1031 17.25H3.125C2.2962 17.25 1.50134 16.9471 0.915291 16.4079C0.32924 15.8688 0 15.1375 0 14.375V2.875C0 2.1125 0.32924 1.38124 0.915291 0.842068C1.50134 0.302901 2.2962 0 3.125 0L21.875 0Z" fill="white"></path></svg>
-                  </div>
-                  <span id="__35" class="text">Comentar</span></span>
+                <div id="Post_Content">
+                  <span id="Content-Text" class="text">
+                    Lorem Ipsum&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
+                  </span>
+
+                  <img src="{{url_for('static',filename='Img/Img_Borrador.avif')}}" alt="image 1" id="Post_Img_Content" >
                 </div>
 
-                <div id="Like">
-                  <div id="heart">
-    <svg preserveAspectRatio="none" id="Vector_1" class="pointer-events-none" width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.50016 3.29765L8.6487 2.41325C6.65008 0.337257 2.98534 1.05366 1.66243 3.66365C1.04134 4.89124 0.901215 6.66364 2.03531 8.92563C3.12785 11.1036 5.40079 13.7124 9.50016 16.554C13.5995 13.7124 15.8713 11.1036 16.965 8.92563C18.0991 6.66244 17.9602 4.89124 17.3379 3.66365C16.015 1.05366 12.3503 0.336057 10.3516 2.41205L9.50016 3.29765ZM9.50016 18C-8.70833 5.84164 3.89381 -3.64793 9.29116 1.37165C9.36241 1.43805 9.43208 1.50645 9.50016 1.57685C9.56706 1.50601 9.63678 1.43795 9.70917 1.37285C15.1053 -3.65033 27.7087 5.84044 9.50016 18Z" fill="white"></path></svg>
+                <div id="Icons">
+                
+                  <div id="Compartir">
+                    
+                    <svg preserveAspectRatio="none" id="Vector" class="pointer-events-none" width="25" height="22" viewBox="0 0 25 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.6762 2.22375C14.6356 2.20235 14.5913 2.19352 14.5472 2.19805C14.5031 2.20259 14.4606 2.22036 14.4237 2.24972C14.3869 2.27908 14.3567 2.31909 14.3361 2.36608C14.3154 2.41307 14.305 2.46553 14.3057 2.51863V5.05594C14.3057 5.34775 14.2091 5.62762 14.0371 5.83397C13.8651 6.04031 13.6318 6.15624 13.3886 6.15624C12.1653 6.15624 9.69657 6.16724 7.33608 7.96514C5.53133 9.33832 3.68623 11.8382 2.57659 16.4947C4.44738 14.3315 6.5841 13.1586 8.45489 12.5358C9.60465 12.154 10.7865 11.9281 11.9782 11.8624C12.4659 11.8349 12.9546 11.8408 13.4418 11.88H13.4657L13.4748 11.8822L13.3886 12.9781L13.4803 11.8822C13.7067 11.9095 13.9165 12.0368 14.069 12.2393C14.2216 12.4418 14.3059 12.7052 14.3057 12.9781V15.5154C14.3057 15.7531 14.5074 15.9027 14.6762 15.8103L21.9832 9.35592L22.0602 9.2943C22.1001 9.26555 22.1331 9.2249 22.156 9.17632C22.1789 9.12773 22.191 9.07285 22.191 9.01703C22.191 8.9612 22.1789 8.90633 22.156 8.85774C22.1331 8.80915 22.1001 8.76851 22.0602 8.73975L21.9832 8.67813L14.6762 2.22375ZM12.4716 14.0476C12.3456 14.0476 12.2093 14.052 12.0626 14.0608C11.2666 14.1048 10.1661 14.2501 8.94459 14.6572C6.51258 15.467 3.63304 17.3023 1.71823 21.4351C1.61469 21.6581 1.44969 21.8311 1.25154 21.9242C1.05338 22.0173 0.834391 22.0249 0.632107 21.9455C0.429823 21.8662 0.256836 21.7049 0.142792 21.4893C0.0287476 21.2737 -0.0192528 21.0173 0.00701904 20.7639C0.858042 12.5996 3.46613 8.30403 6.35301 6.10783C8.63646 4.36935 10.9878 4.03485 12.4716 3.97104V2.51863C12.4714 2.06546 12.5732 1.62063 12.7662 1.23109C12.9592 0.841546 13.2362 0.521732 13.5681 0.305392C13.9 0.0890516 14.2744 -0.0157917 14.6518 0.00192497C15.0292 0.0196416 15.3956 0.159261 15.7124 0.406051L23.0378 6.87584C23.3407 7.10265 23.5904 7.41821 23.7636 7.7928C23.9367 8.16739 24.0276 8.58869 24.0276 9.01703C24.0276 9.44537 23.9367 9.86667 23.7636 10.2413C23.5904 10.6158 23.3407 10.9314 23.0378 11.1582L15.7124 17.628C15.3956 17.8748 15.0292 18.0144 14.6518 18.0321C14.2744 18.0498 13.9 17.945 13.5681 17.7287C13.2362 17.5123 12.9592 17.1925 12.7662 16.803C12.5732 16.4134 12.4714 15.9686 12.4716 15.5154V14.0476Z" fill="white"></path></svg>
+                    <span  class="Icon_text">Compartir</span>
                   </div>
-                  <span id="Me_gusta" class="pointer-events-none"><span id="__36" class="text">Me gusta</span></span>
+                  
+                  <div id="Comentar">
+                      <svg preserveAspectRatio="none" id="Vector_0" class="pointer-events-none" width="25" height="22" viewBox="0 0 25 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.125 1.4375C2.7106 1.4375 2.31317 1.58895 2.02015 1.85853C1.72712 2.12812 1.5625 2.49375 1.5625 2.875V14.375C1.5625 14.7562 1.72712 15.1219 2.02015 15.3915C2.31317 15.661 2.7106 15.8125 3.125 15.8125H18.1031C18.9319 15.8127 19.7266 16.1157 20.3125 16.6549L23.4375 19.5299V2.875C23.4375 2.49375 23.2729 2.12812 22.9799 1.85853C22.6868 1.58895 22.2894 1.4375 21.875 1.4375H3.125ZM21.875 0C22.7038 0 23.4987 0.302901 24.0847 0.842068C24.6708 1.38124 25 2.1125 25 2.875V21.2649C25 21.4072 24.9541 21.5462 24.8681 21.6644C24.7822 21.7826 24.6601 21.8747 24.5172 21.929C24.3743 21.9834 24.2172 21.9975 24.0656 21.9696C23.914 21.9417 23.7748 21.8731 23.6656 21.7724L19.2078 17.6712C18.9149 17.4016 18.5175 17.2501 18.1031 17.25H3.125C2.2962 17.25 1.50134 16.9471 0.915291 16.4079C0.32924 15.8688 0 15.1375 0 14.375V2.875C0 2.1125 0.32924 1.38124 0.915291 0.842068C1.50134 0.302901 2.2962 0 3.125 0L21.875 0Z" fill="white"></path></svg>
+                    <span class="Icon_text">Comentar</span>
+                  </div>
+
+                  <div id="Like">
+                    <svg preserveAspectRatio="none" id="Vector_1" class="pointer-events-none" width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.50016 3.29765L8.6487 2.41325C6.65008 0.337257 2.98534 1.05366 1.66243 3.66365C1.04134 4.89124 0.901215 6.66364 2.03531 8.92563C3.12785 11.1036 5.40079 13.7124 9.50016 16.554C13.5995 13.7124 15.8713 11.1036 16.965 8.92563C18.0991 6.66244 17.9602 4.89124 17.3379 3.66365C16.015 1.05366 12.3503 0.336057 10.3516 2.41205L9.50016 3.29765ZM9.50016 18C-8.70833 5.84164 3.89381 -3.64793 9.29116 1.37165C9.36241 1.43805 9.43208 1.50645 9.50016 1.57685C9.56706 1.50601 9.63678 1.43795 9.70917 1.37285C15.1053 -3.65033 27.7087 5.84044 9.50016 18Z" fill="white"></path></svg>
+                    <span  class="Icon_text">Me gusta</span>
+                  </div>
                 </div>
-              </div>
-          </div>
-
-
-          <div id="Comment_Section_0">
-            <img src="{{url_for('static',filename='Img/Img_Borrador.avif')}}" alt="image 1" id="__40" fetchpriority="high" decoding="async">
-            <div id="Coment-Text">
-              <span id="_1_52316" class="pointer-events-none"><span id="__37" class="text">Add a Coment</span></span>
             </div>
-          </div>
 
-        
-         
-          
 
+            <div id="Comment_Section">
+              <img src="{{url_for('static',filename='Img/Img_Borrador.avif')}}" alt="image 1" class="User_pic" >
+              <form id="Coment-Text" method="POST">
+                <input id="comment_holder"  type="text" placeholder="Add a Coment" >
+              </div>
+            </section>
+
+            <aside id="Right-Panel">
+
+                <div id="Trends">
+                <span id="Title_Trends" class="text">Trends en Cua-mmunity</span></span>
+                  <div id="Trend">
+                    <span id="Trend_No" class="text">1.</span></span>
+                    <span id="Trend_Name" class="pointer-events-none" class="text">#Trend1</span></span>
+                  </div>  
+                </div>
+
+                <div id="Proximos_Eventos">
+                    <span id="Title_Events" class="text">Proximos Eventos</span></span>
+                  
+                    <div id="Evento">
+                      <div id="Logo_Evento" class="pointer-events-none">
+                          <img src="{{url_for('static',filename='Img/Img_Borrador.avif')}}" alt="Logo_Evento" class="Img_Evento" >
+                      </div>
+
+                      <div id="Nombre_Evento">
+                        <span id="Evento_Name" class="text">Evento 1</span></span>
+                      </div>
+                    </div>
+                
+                  </div>
+            </aside>
           </section>
-
-            <aside id="Communitys">
-
-            <div id="Trends">
-              <span id="_1_52320" class="pointer-events-none"><span id="__41" class="text">Trends en Cua-mmunity</span></span>
-              <div id="Trend3">
-                <span id="_1" class="pointer-events-none"><span id="__42" class="text">1.</span></span>
-                <span id="Trend1" class="pointer-events-none"><span id="__43" class="text">#Trend1</span></span>
-              </div>  
-            </div>
-
-            <div id="Proximos_Eventos">
-              <span id="_38_9" class="pointer-events-none"><span id="__48" class="text">Proximos Eventos</span></span>
-              <div id="Evento_1">
-                <div id="Logo_Evento" class="pointer-events-none">
-                  <picture id="__49">
-                    <img src="{{url_for('static',filename='Img/Img_Borrador.avif')}}" alt="Logo_Evento" id="__51" fetchpriority="high" decoding="async">
-                  </picture>
-                </div>
-                <div id="Nombre_Evento">
-                  <span id="_38_70" class="pointer-events-none"><span id="__52" class="text">Evento 1</span></span>
-                </div>
-              </div>
-              
-            </div>
-          </aside>
-
-          
-        </div>
-        <menu id="Menu">
-          <div id="Home">
-<svg preserveAspectRatio="none" id="Vector_2" class="pointer-events-none" width="40" height="37" viewBox="0 0 40 37" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21.8852 0.785418C21.3851 0.282515 20.707 0 20 0C19.293 0 18.6149 0.282515 18.1148 0.785418L0.390985 18.6137C0.267027 18.7384 0.168699 18.8865 0.101614 19.0494C0.0345284 19.2124 0 19.387 0 19.5633C0 19.7397 0.0345284 19.9143 0.101614 20.0773C0.168699 20.2402 0.267027 20.3883 0.390985 20.513C0.641328 20.7648 0.980866 20.9063 1.33491 20.9063C1.51021 20.9063 1.68379 20.8716 1.84575 20.8041C2.00771 20.7366 2.15487 20.6377 2.27883 20.513L4.00135 18.7774V32.9762C4.00135 34.0433 4.42274 35.0668 5.17282 35.8214C5.9229 36.5761 6.94023 37 8.00101 37H31.999C33.0598 37 34.0771 36.5761 34.8272 35.8214C35.5773 35.0668 35.9987 34.0433 35.9987 32.9762V18.7774L37.7212 20.513C37.9715 20.7648 38.3111 20.9063 38.6651 20.9063C39.0191 20.9063 39.3587 20.7648 39.609 20.513C39.8594 20.2611 40 19.9195 40 19.5633C40 19.2072 39.8594 18.8656 39.609 18.6137L33.3322 12.3017V3.46798C33.3322 3.11225 33.1917 2.77109 32.9417 2.51955C32.6917 2.26801 32.3526 2.1267 31.999 2.1267H29.3325C28.979 2.1267 28.6398 2.26801 28.3898 2.51955C28.1398 2.77109 27.9993 3.11225 27.9993 3.46798V6.93653L21.8852 0.785418ZM33.3322 16.0948V32.9762C33.3322 33.3319 33.1917 33.673 32.9417 33.9246C32.6917 34.1761 32.3526 34.3174 31.999 34.3174H8.00101C7.64742 34.3174 7.30831 34.1761 7.05828 33.9246C6.80825 33.673 6.66779 33.3319 6.66779 32.9762V16.0948L20 2.68199L33.3322 16.0948Z" fill="white"></path></svg>
-            <span id="_45_43" class="pointer-events-none"><span id="__119" class="text">Principal</span></span>
-          </div>
-          <div id="Perfil">
-            <div id="person">
-              <svg preserveAspectRatio="none" id="Vector_3" class="pointer-events-none" width="36" height="37" viewBox="0 0 36 37" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 18.5C20.3869 18.5 22.6761 17.5254 24.364 15.7907C26.0518 14.056 27 11.7033 27 9.25C27 6.79675 26.0518 4.44397 24.364 2.70926C22.6761 0.974551 20.3869 0 18 0C15.6131 0 13.3239 0.974551 11.636 2.70926C9.94821 4.44397 9 6.79675 9 9.25C9 11.7033 9.94821 14.056 11.636 15.7907C13.3239 17.5254 15.6131 18.5 18 18.5ZM24 9.25C24 10.8855 23.3679 12.454 22.2426 13.6105C21.1174 14.767 19.5913 15.4167 18 15.4167C16.4087 15.4167 14.8826 14.767 13.7574 13.6105C12.6321 12.454 12 10.8855 12 9.25C12 7.6145 12.6321 6.04598 13.7574 4.88951C14.8826 3.73303 16.4087 3.08333 18 3.08333C19.5913 3.08333 21.1174 3.73303 22.2426 4.88951C23.3679 6.04598 24 7.6145 24 9.25ZM36 33.9167C36 37 33 37 33 37H3C3 37 0 37 0 33.9167C0 30.8333 3 21.5833 18 21.5833C33 21.5833 36 30.8333 36 33.9167ZM33 33.9043C32.997 33.1458 32.538 30.8642 30.504 28.7737C28.548 26.7633 24.867 24.6667 18 24.6667C11.133 24.6667 7.452 26.7633 5.496 28.7737C3.462 30.8642 3.006 33.1458 3 33.9043H33Z" fill="white"></path></svg>
-            </div>
-            <span id="_45_36" class="pointer-events-none"><span id="__120" class="text">Perfil</span></span>
-          </div>
-          <div id="Salir">
-              <svg preserveAspectRatio="none" id="Vector_4" class="pointer-events-none" width="43" height="41" viewBox="0 0 43 41" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M1.53562 0C1.12835 0 0.737755 0.179975 0.449772 0.500333C0.161788 0.820691 0 1.25519 0 1.70824V18.1074C0 19.229 0.198599 20.3397 0.584459 21.376C0.970319 22.4122 1.53588 23.3538 2.24886 24.1469C3.68878 25.7487 5.64173 26.6486 7.67808 26.6486H37.7547L27.4752 38.0802C27.1869 38.4009 27.0249 38.836 27.0249 39.2896C27.0249 39.7432 27.1869 40.1783 27.4752 40.499C27.7636 40.8198 28.1547 41 28.5625 41C28.9702 41 29.3613 40.8198 29.6497 40.499L42.5489 26.1498C42.6919 25.9911 42.8053 25.8026 42.8827 25.5951C42.9602 25.3875 43 25.165 43 24.9404C43 24.7157 42.9602 24.4932 42.8827 24.2856C42.8053 24.0781 42.6919 23.8896 42.5489 23.7309L30.2639 10.065C29.9756 9.74421 29.5845 9.56401 29.1767 9.56401C28.7689 9.56401 28.3778 9.74421 28.0895 10.065C27.8011 10.3857 27.6392 10.8208 27.6392 11.2744C27.6392 11.728 27.8011 12.1631 28.0895 12.4838L37.7547 23.2321H7.67808C6.45627 23.2321 5.2845 22.6922 4.42055 21.7311C3.5566 20.77 3.07123 19.4665 3.07123 18.1074V1.70824C3.07123 1.25519 2.90945 0.820691 2.62146 0.500333C2.33348 0.179975 1.94289 0 1.53562 0Z" fill="#FFF4F4"></path></svg>
-            <span id="_45_41" class="pointer-events-none"><span id="__121" class="text">Cerrar Sesión</span></span>
-          </div>
-        </menu>
       </div>
 
+          
+      <menu id="Menu">
+            
+        <a href="main" id="Home">
+          <svg  id="Vector_2"width=40" height="37" viewBox="0 0 40 37" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21.8852 0.785418C21.3851 0.282515 20.707 0 20 0C19.293 0 18.6149 0.282515 18.1148 0.785418L0.390985 18.6137C0.267027 18.7384 0.168699 18.8865 0.101614 19.0494C0.0345284 19.2124 0 19.387 0 19.5633C0 19.7397 0.0345284 19.9143 0.101614 20.0773C0.168699 20.2402 0.267027 20.3883 0.390985 20.513C0.641328 20.7648 0.980866 20.9063 1.33491 20.9063C1.51021 20.9063 1.68379 20.8716 1.84575 20.8041C2.00771 20.7366 2.15487 20.6377 2.27883 20.513L4.00135 18.7774V32.9762C4.00135 34.0433 4.42274 35.0668 5.17282 35.8214C5.9229 36.5761 6.94023 37 8.00101 37H31.999C33.0598 37 34.0771 36.5761 34.8272 35.8214C35.5773 35.0668 35.9987 34.0433 35.9987 32.9762V18.7774L37.7212 20.513C37.9715 20.7648 38.3111 20.9063 38.6651 20.9063C39.0191 20.9063 39.3587 20.7648 39.609 20.513C39.8594 20.2611 40 19.9195 40 19.5633C40 19.2072 39.8594 18.8656 39.609 18.6137L33.3322 12.3017V3.46798C33.3322 3.11225 33.1917 2.77109 32.9417 2.51955C32.6917 2.26801 32.3526 2.1267 31.999 2.1267H29.3325C28.979 2.1267 28.6398 2.26801 28.3898 2.51955C28.1398 2.77109 27.9993 3.11225 27.9993 3.46798V6.93653L21.8852 0.785418ZM33.3322 16.0948V32.9762C33.3322 33.3319 33.1917 33.673 32.9417 33.9246C32.6917 34.1761 32.3526 34.3174 31.999 34.3174H8.00101C7.64742 34.3174 7.30831 34.1761 7.05828 33.9246C6.80825 33.673 6.66779 33.3319 6.66779 32.9762V16.0948L20 2.68199L33.3322 16.0948Z" fill="white"></path></svg>
+          <span id="menu_Text" >Principal</span></span>
+        </a>
+        
+        <a href= "profile" id="Perfil">
+        
+          <svg  id="Vector_3" width="40" height="37" viewBox="0 0 40 37" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 18.5C20.3869 18.5 22.6761 17.5254 24.364 15.7907C26.0518 14.056 27 11.7033 27 9.25C27 6.79675 26.0518 4.44397 24.364 2.70926C22.6761 0.974551 20.3869 0 18 0C15.6131 0 13.3239 0.974551 11.636 2.70926C9.94821 4.44397 9 6.79675 9 9.25C9 11.7033 9.94821 14.056 11.636 15.7907C13.3239 17.5254 15.6131 18.5 18 18.5ZM24 9.25C24 10.8855 23.3679 12.454 22.2426 13.6105C21.1174 14.767 19.5913 15.4167 18 15.4167C16.4087 15.4167 14.8826 14.767 13.7574 13.6105C12.6321 12.454 12 10.8855 12 9.25C12 7.6145 12.6321 6.04598 13.7574 4.88951C14.8826 3.73303 16.4087 3.08333 18 3.08333C19.5913 3.08333 21.1174 3.73303 22.2426 4.88951C23.3679 6.04598 24 7.6145 24 9.25ZM36 33.9167C36 37 33 37 33 37H3C3 37 0 37 0 33.9167C0 30.8333 3 21.5833 18 21.5833C33 21.5833 36 30.8333 36 33.9167ZM33 33.9043C32.997 33.1458 32.538 30.8642 30.504 28.7737C28.548 26.7633 24.867 24.6667 18 24.6667C11.133 24.6667 7.452 26.7633 5.496 28.7737C3.462 30.8642 3.006 33.1458 3 33.9043H33Z" fill="white"></path></svg>
+          <span id="menu_Text" >Perfil</span></span>
+        
+        </a>
+        
+        <a href= "log-out" id="Salir">
+          <svg  id="Vector_4"width="40" height="37" viewBox="0 0 50 37 " fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M1.53562 0C1.12835 0 0.737755 0.179975 0.449772 0.500333C0.161788 0.820691 0 1.25519 0 1.70824V18.1074C0 19.229 0.198599 20.3397 0.584459 21.376C0.970319 22.4122 1.53588 23.3538 2.24886 24.1469C3.68878 25.7487 5.64173 26.6486 7.67808 26.6486H37.7547L27.4752 38.0802C27.1869 38.4009 27.0249 38.836 27.0249 39.2896C27.0249 39.7432 27.1869 40.1783 27.4752 40.499C27.7636 40.8198 28.1547 41 28.5625 41C28.9702 41 29.3613 40.8198 29.6497 40.499L42.5489 26.1498C42.6919 25.9911 42.8053 25.8026 42.8827 25.5951C42.9602 25.3875 43 25.165 43 24.9404C43 24.7157 42.9602 24.4932 42.8827 24.2856C42.8053 24.0781 42.6919 23.8896 42.5489 23.7309L30.2639 10.065C29.9756 9.74421 29.5845 9.56401 29.1767 9.56401C28.7689 9.56401 28.3778 9.74421 28.0895 10.065C27.8011 10.3857 27.6392 10.8208 27.6392 11.2744C27.6392 11.728 27.8011 12.1631 28.0895 12.4838L37.7547 23.2321H7.67808C6.45627 23.2321 5.2845 22.6922 4.42055 21.7311C3.5566 20.77 3.07123 19.4665 3.07123 18.1074V1.70824C3.07123 1.25519 2.90945 0.820691 2.62146 0.500333C2.33348 0.179975 1.94289 0 1.53562 0Z" fill="#FFF4F4"></path></svg>
+          <span id="menu_Text" >Cerrar Sesión</span></span>
+        
+        </a>
+            
+      </menu>
 
-<body>
+
+  </div>
+  <body>
 </html>
