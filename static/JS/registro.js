@@ -1,5 +1,5 @@
 
-let button = document.getElementById("Sign_Up");
+var button = document.getElementById("Sign_Up");
 function passwordCheck() {
     var pass = document.getElementById("pswd-input-holder").value;
     var passCheck = document.getElementById("pswd-input-holder-verification").value;
@@ -19,7 +19,7 @@ function passwordCheck() {
         mensaje.innerHTML = "Coinciden";
         mensaje.style.textAlign="center"
         mensaje.style.borderRadius = `${25}px`;
-        mensaje.style.backgroundColor = "#219644"; 
+        mensaje.style.color = "#219644"; 
         mensaje.style.width = `${100}%`;
         mensaje.style.paddingLeft = `${1}%`;
         button.disabled = false;
@@ -28,7 +28,7 @@ function passwordCheck() {
         mensaje.innerHTML = "No coinciden";
         mensaje.style.textAlign="center"
         mensaje.style.borderRadius = `${25}px`;
-        mensaje.style.backgroundColor = "#a71606"; 
+        mensaje.style.color = "#a71606"; 
         button.disabled = true;
 
     }
@@ -69,7 +69,7 @@ function updateBar(percent) {
     let text ="";
     let btn = false;
     const hue = percent * 1.2; 
-    progressBar.style.color = `hsl(${hue-30}, 100%, 40%)`;
+    progressBar.style.backgroundColor = `hsl(${hue-30}, 100%, 40%)`;
    
   if (percent === 0) {
         text = "";
@@ -93,7 +93,7 @@ function updateBar(percent) {
     button.disabled = btn;
     progresstext.innerHTML = text;
     progresstext.style.borderRadius =`${25}px`; 
-    progresstext.style.backgroundColor = `hsl(${hue-30}, 100%, 30%)`;
+    progresstext.style.color = `hsl(${hue-30}, 100%, 30%)`;
 
 }
 
@@ -104,7 +104,7 @@ const pop_btn = document.getElementById("pop_btn")
 
 function mostrarPopCard(mensaje,type){
 
-    if(type === "Error"){
+    if(type === "error"){
         pop_text.innerHTML = mensaje;
         popcard.style.display = "flex";
         pop_btn.style.backgroundColor = "red";

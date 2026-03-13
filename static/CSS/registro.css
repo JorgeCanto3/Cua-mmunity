@@ -270,24 +270,29 @@ a{
   transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s linear;
  -webkit-backdrop-filter: blur(8.9px);
   backdrop-filter: blur(10px);
-  background-color: #5882c123;
+  background-color: #6688b911;
   border-radius: 28.5px; 
-  box-shadow: inset .3px .3px .3px .3px  rgba(0,0,0,0.4); 
+  text-shadow: 1px 1px 1px rgba(255, 255, 255, 1); 
+
+  box-shadow: inset .3px .3px .3px .3px  rgba(255, 255, 255, ); 
 
 }
 
 #match {
+  -webkit-backdrop-filter: blur(8.9px);
+  backdrop-filter: blur(10px);
+  background-color: #5882c123;
   display: none;
   justify-content: center;
   align-items: center;
   font-weight: 600;
   letter-spacing: 1px;
-  text-shadow: 1px 1px 4px rgba(0, 0, 0, .8); /* Sombra sutil */
+  text-shadow: 1px 1px 4px rgba(255, 255, 255, 0.8);
   margin: 13px;
   text-align: center;
   width: 100%; 
   height: 7%;
-  box-shadow: inset .3px .3px .3px .3px  rgba(0,0,0,0.4); 
+  box-shadow: inset .3px .3px .3px .3px  rgba(255, 255, 255, 0.4); 
 
 }
 

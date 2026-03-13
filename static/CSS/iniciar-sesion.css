@@ -117,20 +117,24 @@ a{
   font-size: 29px;
   font-weight: 600;
 
-
-  color: #fff;
-  -webkit-background-clip: text;
-  background-clip: text;
-  font-family: Poppins;
-
 }
 
-#Logo {
-  justify-content: center;
-  align-items: center;
+
+  #Logo_frame {
   border-radius: 80px;
-  width: 20%;
+  width: 104px;
+  height: 102px;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  }
+
+  #Logo {
+  object-fit: cover;
+  border-radius: 80px;
+  width: 100%;
   height: 100%;
+  inset: 0;
 }
 
 #Subtitle {
@@ -238,7 +242,7 @@ a{
   flex-direction: column;
   justify-content: center; 
   align-items: center;    
-  width: 50%;
+  width: 70%;
   height: 50%; 
 }
 
