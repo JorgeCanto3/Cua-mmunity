@@ -16,7 +16,7 @@ body {
   align-content: center;
 }
 
-input {
+input,textarea {
   border: none;
   outline: none;
   border-radius: 5px;
@@ -24,10 +24,20 @@ input {
   padding-left: 3%;
   background-color: transparent;
   color: #ffffff !important;
+  resize: none;
   font-family: "Poppins", sans-serif;
+  align-items: center;
 }
 
-input::placeholder {
+textarea::-webkit-scrollbar {
+  width: 6px;
+}
+textarea::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+input::placeholder,textarea::placeholder {
   color: rgba(255, 255, 255, 0.7);
 }
 a {
@@ -35,6 +45,10 @@ a {
   font-weight: bolder;
 }
 
+button{
+  border: none;
+  border-radius: 28.5px;
+}
 #Background_Back {
   background-blend-mode: normal;
   --f2w-order: 0;
@@ -207,22 +221,27 @@ header {
 
 #New-Post {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  flex-direction: row;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 0.5rem;
+  gap: 0.8em;
   background-color: #5882c147;
   border-radius: 28.5px;
   width: 70%;
   height: auto;
-  padding: 1em;
+  min-height: 100px;
+  padding: 2em;
+  flex-wrap: wrap;
+  box-sizing: border-box;
 }
 
 #Text-Photo {
   display: flex;
   flex-direction: row;
+  border-radius: 28px;
   height: auto;
-  width: 100%;
+  width: 13%;
   justify-content: center;
   align-items: center;
   gap: 5%;
@@ -237,13 +256,35 @@ header {
   align-items: center;
   width: 80%;
   height: auto;
-  padding: 1.5em;
+  padding: 1em;
   display: flex;
 }
 
 #Text_Post {
+  width: 100%;
+  field-sizing: content;
+  min-block-size: 1rlh;
+  max-block-size: 3rlh;
+
+  min-inline-size: 20ch;
+  max-inline-size: 50ch;
+  height: auto;
   font-size: 15px;
   font-weight: 600;
+  word-break: break-all;
+}
+
+
+
+#post_action{
+
+  border-radius:28px ;
+  width: 30%;
+  height: auto;
+  min-height: 50px;
+  background-color: #5882c147;
+
+
 }
 
  #User_frame {
@@ -264,27 +305,46 @@ header {
 }
 
 #Community-Selection {
-  grid-column-gap: 9px;
   -webkit-backdrop-filter: blur(8.9px);
   backdrop-filter: blur(8.9px);
   background-color: #5882c147;
 
   border-radius: 28.5px;
-
   flex-flow: row;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
-
-  padding: 1%;
-  width: 30%;
-  height: Auto;
+  padding: .8em;
+  gap:10%;
+  min-width: fit-content;
+  width: 29%;
+  height: auto;
   display: flex;
 }
 
+#Community-Photo {
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  border-radius: 80px;
+  width: 40px;
+  height: 33px;
+  overflow: hidden;
+}
+
+
+
 #Community_Img {
-  border-radius: 50px;
-  width: 15%;
+  object-fit: cover;
+  width: 100%;
   height: 100%;
+}
+
+#Community-options{
+  width: 90%;
+  font-size: 1em;
+  border: none;
+  background-color: transparent;
+
 }
 
 #Posts::-webkit-scrollbar {
@@ -400,6 +460,9 @@ header {
 #Comment-Text {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  align-content: center;
+
   border-radius: 28.5px;
   width:80%;
   height: 38px;
@@ -408,9 +471,15 @@ header {
 
 #comment_holder {
   text-align: left;
-  width: max-content;
+  align-content: center;
+  width: 100%;
   font-size: 15px;
   font-weight: 600;
+  max-block-size: 2rlh;
+
+  min-inline-size: 20ch;
+  max-inline-size: 50ch;
+  
 }
 
 #add_comment {

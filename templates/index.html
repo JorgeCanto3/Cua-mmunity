@@ -79,28 +79,31 @@
           </aside>
             
             
-            <section id="Posts">
+            <section id="Posts" >
               
-              <div id="New-Post">
+              <form id="New-Post"  method="POST" action="/post">
                 <div id="Text-Photo">
-                <div id="User_frame">
                 <img src="{{profile_data[9]}}" alt="image 1" id="User_Photo">
                 </div>
                 
                 <div id="Text_Box">
-                  <input id="Text_Post" class="text" placeholder="Crea un post!">
+                  <textarea name="new_txt_post"id="Text_Post" class="text" placeholder="Crea un post!"></textarea>
                 </div>
-              </div>
+
                 
                 <div id="Community-Selection">
                   
-                    <img src="{{url_for('static',filename='Img/Img_Borrador.avif')}}" alt="image 1" id="Community_Img" >
-                    
-                      <span id="__80" class="text">Comunidad</span></span>
-                      <svg preserveAspectRatio="none" id="Menu-Comunity" class="pointer-events-none" width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.49512 12L12.9903 0H-7.34329e-05L6.49512 12Z" fill="#D9D9D9"></path></svg>
-                </div>
+                  <div id="Community-Photo">
+                    <img src="{{url_for('static',filename='Img/Img_Borrador.avif')}}" alt="Community Photo" id="Community_Img" >
+                  </div>
 
-              </div>
+                  <select id="Community-options" name="Community">
+                      <option   name="selected_community" value="Comunidad1"> Comunidad </option> 
+                  </select>
+                </div>
+                
+                <button id="post_action" type="submit" >Send</button>
+            </form>
 
 
 
@@ -146,8 +149,7 @@
                 <img src="{{profile_data[9]}}" alt="image 1" class="User_pic" >
               </div>
               <form id="Comment-Text" method="POST" action="/comentar">
-                <input name="user_post" id="comment_holder"  value="{{post[0]}}" type="hidden">
-                <input name="comment" id="comment_holder"  type="text" placeholder="Add a Coment" >
+                <textarea name="comment" id="comment_holder"  type="text" placeholder="Add a Coment" ></textarea>
                  <button id="add_comment" type="submit" >Send</button>
               </form>
               </div>

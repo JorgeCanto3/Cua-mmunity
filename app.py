@@ -2,7 +2,7 @@ from flask import Flask, render_template,request,redirect,url_for,flash
 from flask_bcrypt import Bcrypt
 from flask_login import UserMixin,login_user,current_user,login_required,logout_user,LoginManager
 from werkzeug.utils import secure_filename
-import psycopg2 #Esta biblioteca sirve para conectar python se conecte con la BD
+import psycopg2 
 import os
 from datetime import datetime as dt
 
@@ -182,6 +182,30 @@ def comentar():
         
     except Exception as e:
         flash("Error no se pudo agregar tu comentario, intentalo más tarde","error")
+        return redirect(url_for('main'))
+
+@app.route('/post', methods=["GET","POST"])
+def post():
+    user = current_user.id
+    new_post_txt =  request.form['new_txt_post']   
+    post_community = request.form['selected_community']  
+    post_img = request.form['img_upload']  
+    
+    try:
+        cur =psql.cursor
+        comentar = 'INSERT INTO Cuajipost (id_user,text,community,img)'
+        cur.execute(comentar,(user,new_post_txt,post_community,post_img))
+
+        
+        cur.commit()
+        
+        cur.close()
+        
+        flash("Post Creado 🦐🦐","success")
+        return redirect(url_for('main'))
+        
+    except Exception as e:
+        flash("Error no se pudo crear tu cuajipost :(, intentalo más tarde","error")
         return redirect(url_for('main'))
 
 
