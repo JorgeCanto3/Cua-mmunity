@@ -55,7 +55,7 @@
                     <img src="{{url_for('static',filename='Img/Img_Borrador.avif')}}" alt="User background image" id="background_pic" >
                 </div>
                 <div id="Profile-Pic_Frame">
-                      <img src="{{url_for('static',filename='Img/Img_Borrador.avif')}}" alt="User profile image" id="Profile-Pic" >
+                      <img src="{{profile_data[9]}}" alt="User profile image" id="Profile-Pic" >
                 </div>
                 <span id="Amount_Friends">Amigos</span></span>
                 <span id="Amount_Community"></span>Comunidades</span></span>
@@ -83,9 +83,9 @@
               
               <div id="New-Post">
                 <div id="Text-Photo">
-                
-                <img src="{{url_for('static',filename='Img/Img_Borrador.avif')}}" alt="image 1" id="User_Photo">
-                
+                <div id="User_frame">
+                <img src="{{profile_data[9]}}" alt="image 1" id="User_Photo">
+                </div>
                 
                 <div id="Text_Box">
                   <input id="Text_Post" class="text" placeholder="Crea un post!">
@@ -93,6 +93,7 @@
               </div>
                 
                 <div id="Community-Selection">
+                  
                     <img src="{{url_for('static',filename='Img/Img_Borrador.avif')}}" alt="image 1" id="Community_Img" >
                     
                       <span id="__80" class="text">Comunidad</span></span>
@@ -141,9 +142,14 @@
 
 
             <div id="Comment_Section">
-              <img src="{{url_for('static',filename='Img/Img_Borrador.avif')}}" alt="image 1" class="User_pic" >
-              <form id="Coment-Text" method="POST">
-                <input id="comment_holder"  type="text" placeholder="Add a Coment" >
+              <div id="User_frame_comment">
+                <img src="{{profile_data[9]}}" alt="image 1" class="User_pic" >
+              </div>
+              <form id="Comment-Text" method="POST" action="/comentar">
+                <input name="user_post" id="comment_holder"  value="{{post[0]}}" type="hidden">
+                <input name="comment" id="comment_holder"  type="text" placeholder="Add a Coment" >
+                 <button id="add_comment" type="submit" >Send</button>
+              </form>
               </div>
             </section>
 

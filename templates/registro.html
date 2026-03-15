@@ -142791,7 +142791,7 @@
               <div id="Form"> 
                 
 
-                <form action="/registro"  method = "POST" id="Form-R">
+                <form action="/registro"  method = "POST" id="Form-R" enctype="multipart/form-data">
                 <h2 id="Subtitle" >Registrate</h2>
                   <div id = "column-1">
                    <label  id=user-label class="text">Nombre(s)</label>
@@ -142806,6 +142806,8 @@
                    <label  id=user-label class="text">Email</label>
                    <input name = "email"  type="email" id="user-input-holder" placeholder="juan.c.lopez@cua.uam.com" required>
                   
+                   <label  id=user-label class="text">Nombre de Usuario</label>
+                   <input name = "user_name"  type="text" id="user-input-holder" placeholder="JuaOncahui" required>
 
                    </div>
                    <div id="column-2">
@@ -142815,7 +142817,10 @@
                   
                     <label  id=user-label class="text">Fecha de Nacimiento</label>
                    <input name = "birth"  type="date" id="user-input-holder" placeholder="01/01/1999" required>
-                  
+                 
+                    <label  id=user-label class="text">Foto de Perfil</label>
+                    <input name = "profile_p"  type="file" id="user-input-holder" value="Foto de perfil" required>
+
                     <label name = "password" id=pswd-label>Password</label>
                     <input name = "pswd"  type="password" id="pswd-input-holder" placeholder="Password" oninput="passwordCheck()" required>
                     
@@ -142832,7 +142837,7 @@
                     
                     </div>
                   <div id="columna_btn">
-                   <button id="Sign_Up" disabled>Registrarse</button>
+                   <button id="Sign_Up" type="submit" disabled>Registrarse</button>
                   </div>
 
                 </form>
