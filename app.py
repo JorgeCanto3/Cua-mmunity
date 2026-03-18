@@ -13,13 +13,17 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-psql = psycopg2.connect(
-    database ="cuammunity", # Coloca el nombre de tu BD 
-    user ="postgres",
-    password="123", # Coloca tu contraseña
-    host="localhost",
-    port="5432"
-)
+try:
+    psql= psycopg2.connect(
+        database ="cuammunity", # Coloca el nombre de tu BD 
+        user ="postgres",
+        password="123", # Coloca tu contraseña
+        host="localhost",
+        port="5432"
+    )
+except Exception as e:
+    flash(e,"error")
+
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 COMUMUNITY_UPLOAD = os.path.join(BASE_DIR, 'static', 'Upload','Community')
