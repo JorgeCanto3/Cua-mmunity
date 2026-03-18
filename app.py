@@ -169,8 +169,8 @@ def comentar():
     
     try:
         cur =psql.cursor
-        comentar = 'INSERT INTO Comentarios(id_post,id_usuario,comentario)'
-        cur.execute(comentar,(user_post,user,text))
+        comentar = 'INSERT INTO Comentarios(id_post,id_usuario,comentario,date)'
+        cur.execute(comentar,(user_post,user,text,now))
 
         
         cur.commit()
@@ -193,8 +193,8 @@ def post():
     
     try:
         cur =psql.cursor
-        comentar = 'INSERT INTO Cuajipost (id_user,text,community,img)'
-        cur.execute(comentar,(user,new_post_txt,post_community,post_img))
+        comentar = 'INSERT INTO Cuajipost (id_user,text,community,img,date)'
+        cur.execute(comentar,(user,new_post_txt,post_community,post_img,now))
 
         
         cur.commit()
