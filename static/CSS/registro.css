@@ -222,12 +222,24 @@ a{
 
 }
 
-#pswd-input-holder,#pswd-input-holder-verification, #user-input-holder {
+#pswd-input-holder,
+#pswd-input-holder-verification,
+#user-input-holder,
+#first_lastname-input-holder,
+#second_lastname-input-holder,
+#email-input-holder,
+#user_name-input-holder,
+#carreer-input-holder,
+#birth-input-holder,
+#profile_p-input-holder
+ {
   color: #bcbec0;
   font-size: 15px;
   font-weight: 700;
   width: 110%;
 }
+
+
 #security_Section{
   margin-left: 13px;
   display: none;

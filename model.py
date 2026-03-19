@@ -1,6 +1,6 @@
 from app import psql, User
 from flask_bcrypt import bcrypt
-from flask import flash
+from flask import flash,request,redirect,jsonify
 
 def Usuarios(psql_db):
         con = psql.cursor()
@@ -43,5 +43,20 @@ def Log_in(psql_bd, user_mail,password):
         flash( "Usuario o contraseña incorrectos")
         return redirect(url_for('index'))
     
-def Sign_up():
+def Sign_up(name,f_last_name,s_last_name,birth,email,hashed_password,career,user_name,path_pic):
+
+    try:
+       
+        cur = psql.cursor() 
+        acceso = cur.execute("INSERT INTO usuarios(nombre,apellido_p,apellido_M,birth,correo,password,carrera,user_name,foto_d_perfil) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)",(name,f_last_name,s_last_name,birth,email,hashed_password,career,user_name,path_pic))
+            
+        psql.commit()
+        cur.close()
+        print("se logro")
+        return 1
+    
+    except Exception as e:
+        psql.rollback() 
+        print(e)
+        return jsonify({"status": "error", "mensaje": str(e)}), 500
     

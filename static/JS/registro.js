@@ -102,6 +102,7 @@ const pop_text = document.getElementById("msg")
 const pop_btn = document.getElementById("pop_btn")
 
 
+
 function mostrarPopCard(mensaje,type){
 
     if(type === "error"){
@@ -118,4 +119,46 @@ function mostrarPopCard(mensaje,type){
 
 function ClosePop(){
     popcard.style.display ="none"
+}
+const name_user         =  document.getElementById("user-input-holder")
+const first_lastname    =  document.getElementById("first_lastname-input-holder")
+const second_lastname   =  document.getElementById("second_lastname-input-holder")
+const email             =  document.getElementById("email-input-holder")
+const user_name         =  document.getElementById("user_name-input-holder")
+const carrer            =  document.getElementById("carreer-input-holder")
+const birth             =  document.getElementById("birth-input-holder")
+const profile_p         =  document.getElementById("profile_p-input-holder")
+const pswd              =  document.getElementById("pswd-input-holder")
+
+
+async function Registro() {
+    const formData = new FormData();
+    formData.append("correo", email.value);
+    formData.append("contraseña", pswd.value);
+    formData.append("nombre", name_user.value);
+    formData.append("usuario_nombre", user_name.value);
+    formData.append("first_lastname", first_lastname.value);
+    formData.append("second_lastname", second_lastname.value);
+    formData.append("carrer", carrer.value);
+    formData.append("birth", birth.value);
+
+    formData.append('Profile_pic', profile_p.files[0]);
+    
+        const respuesta = await fetch('/registrar', {
+            method: 'POST',
+            body: formData
+        });
+
+        const flask_res = await respuesta.json();
+
+        if (flask_res.status === "success") { 
+            document.getElementById("Form-R").reset();
+            mostrarPopCard("Registro Exitoso", "success");
+            document.getElementById("PopBotton").href = '/';
+        
+        } else {
+            mostrarPopCard("Ocurrió un error: " + flask_res.mensaje, "error");
+        }
+
+
 }

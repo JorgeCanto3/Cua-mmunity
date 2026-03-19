@@ -1,10 +1,11 @@
-from flask import Flask, render_template,request,redirect,url_for,flash 
+from flask import Flask, render_template,request,redirect,url_for,flash, jsonify
 from flask_bcrypt import Bcrypt
 from flask_login import UserMixin,login_user,current_user,login_required,logout_user,LoginManager
 from werkzeug.utils import secure_filename
 import psycopg2 
 import os
 from datetime import datetime as dt
+from model import *
 
 now =dt.now()
 app = Flask(__name__)
@@ -15,15 +16,16 @@ login_manager.init_app(app)
 
 try:
     psql= psycopg2.connect(
-        database ="cuammunity", # Coloca el nombre de tu BD 
+        database ="cuammunity", 
         user ="postgres",
-        password="123", # Coloca tu contraseña
+        password="123", # 
         host="localhost",
         port="5432"
     )
 except Exception as e:
     flash(e,"error")
 
+# Direcciones de las carpetas para almacenar las imagenes
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 COMUMUNITY_UPLOAD = os.path.join(BASE_DIR, 'static', 'Upload','Community')
@@ -31,10 +33,10 @@ POST_UPLOAD = os.path.join(BASE_DIR, 'static', 'Upload','Post')
 USER_UPLOAD = os.path.join(BASE_DIR, 'static', 'Upload','Profile')
 ALLOWED_FILES = {'jpg','png','jpeg'}
 
-app.config['UPLOAD_FOLDER_html'] = '/static/Upload/Profile'
-app.config['UPLOAD_FOLDER_html_Post'] = '/static/Upload/Post'
-app.config['UPLOAD_FOLDER_html_Community'] = '/static/Upload/Community'
 
+app.config['UPLOAD_FOLDER_html'] = '/static/Upload/Profile/'
+app.config['UPLOAD_FOLDER_html_Post'] = '/static/Upload/Post/'
+app.config['UPLOAD_FOLDER_html_Community'] = '/static/Upload/Community/'
 app.config['UPLOAD_FOLDER_PY'] = USER_UPLOAD
 
 
@@ -98,45 +100,30 @@ def index():
 
     return render_template('iniciar-sesion.html')
 
-@app.route('/registro', methods=["GET", "POST"])
-def registro():
-    
-    if request.method == 'POST':
-            
-            name = request.form['name']
-            user_name = request.form['user_name']
-            f_last_name = request.form['first_LastName']
-            s_last_name = request.form['second_LastName']
-            birth = request.form['birth']
-            email = request.form['email']
-            psswrd = request.form['pswd']
-            career = request.form['career']
-            profile_pic = request.files['profile_p']
-            hashed_password = bcrypt.generate_password_hash (psswrd).decode('utf-8')
-            path_pic=profile_accept(profile_pic)
-            
-            
-                 
-
-            try:
-               
-                cur = psql.cursor() 
-                acceso = cur.execute("INSERT INTO usuarios(nombre,apellido_p,apellido_M,birth,correo,password,carrera,user_name,foto_d_perfil) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)",(name,f_last_name,s_last_name,birth,email,hashed_password,career,user_name,path_pic))
-                    
-                psql.commit()
-
-                cur.close()
-
-                flash("Registro Exitoso!","success")
-                return redirect(url_for('index')) 
-        
-            except Exception as e:
-                psql.rollback() 
-                print(f"DEBUG: El error real es: {e}")
-                flash("Correo ya registrado","error")
-                return redirect(url_for('registro'))
-            
+@app.route('/registro', methods=["GET"])
+def registro():    
     return render_template('registro.html')
+
+@app.route('/registrar', methods=["POST"])
+def registrar():
+    name        = request.form.get('nombre')
+    user_name   = request.form.get('usuario_nombre')
+    f_last_name = request.form.get('first_lastname')
+    s_last_name = request.form.get('second_lastname')
+    birth       = request.form.get('birth')
+    email       = request.form.get('correo')
+    psswrd      = request.form.get('contraseña')
+    career      = request.form.get('carrer')
+    profile_pic = request.files.get('Profile_pic')
+
+    hashed_password = bcrypt.generate_password_hash (psswrd).decode('utf-8')
+    path_pic=profile_accept(profile_pic)
+            
+    insert_db = Sign_up(name,f_last_name,s_last_name,birth,email,hashed_password,career,user_name,path_pic)   
+    if (insert_db == 1):
+        return jsonify({"status":"success"})
+    else:
+        return jsonify({"status":"error", "details": str(insert_db)})
 
 
 @app.route('/feed/<int:id>')

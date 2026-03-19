@@ -142791,35 +142791,35 @@
               <div id="Form"> 
                 
 
-                <form action="/registro"  method = "POST" id="Form-R" enctype="multipart/form-data">
+                <form  id="Form-R" enctype="multipart/form-data" onsubmit="event.preventDefault(); Registro();">
                 <h2 id="Subtitle" >Registrate</h2>
                   <div id = "column-1">
                    <label  id=user-label class="text">Nombre(s)</label>
                    <input name = "name"  type="text" id="user-input-holder" placeholder="Juan Carlos" required>
                   
                     <label  id=user-label class="text">Apellido Paterno</label>
-                   <input name = "first_LastName"  type="text" id="user-input-holder" placeholder="Lopez" required>
+                   <input name = "first_LastName"  type="text" id="first_lastname-input-holder" placeholder="Lopez" required>
                   
                    <label  id=user-label class="text">Apellido Materno</label>
-                   <input name = "second_LastName"  type="text" id="user-input-holder" placeholder="Perez" required>
+                   <input name = "second_LastName"  type="text" id="second_lastname-input-holder" placeholder="Perez" required>
                   
                    <label  id=user-label class="text">Email</label>
-                   <input name = "email"  type="email" id="user-input-holder" placeholder="juan.c.lopez@cua.uam.com" required>
+                   <input name = "email"  type="email" id="email-input-holder" placeholder="juan.c.lopez@cua.uam.com" required>
                   
                    <label  id=user-label class="text">Nombre de Usuario</label>
-                   <input name = "user_name"  type="text" id="user-input-holder" placeholder="JuaOncahui" required>
+                   <input name = "user_name"  type="text" id="user_name-input-holder" placeholder="JuaOncahui" required>
 
                    </div>
                    <div id="column-2">
 
                     <label  id=user-label class="text">Licenciatura/Ingenieria</label>
-                   <input name = "career"  type="text" id="user-input-holder" placeholder="Licenciatura en Computación" required>
+                   <input name = "career"  type="text" id="carreer-input-holder" placeholder="Licenciatura en Computación" required>
                   
                     <label  id=user-label class="text">Fecha de Nacimiento</label>
-                   <input name = "birth"  type="date" id="user-input-holder" placeholder="01/01/1999" required>
+                   <input name = "birth"  type="date" id="birth-input-holder" placeholder="01/01/1999" required>
                  
                     <label  id=user-label class="text">Foto de Perfil</label>
-                    <input name = "profile_p"  type="file" id="user-input-holder" value="Foto de perfil" required>
+                    <input name = "profile_p"  type="file" id="profile_p-input-holder" value="Foto de perfil" required>
 
                     <label name = "password" id=pswd-label>Password</label>
                     <input name = "pswd"  type="password" id="pswd-input-holder" placeholder="Password" oninput="passwordCheck()" required>
@@ -142859,7 +142859,9 @@
       <div id="PopCard">
       <div id= "PopCard_Content"> 
         <span id="msg"></span>
+        <a id= PopBotton href="#">
         <button id= "pop_btn" onclick="ClosePop()">Entendido</button>
+        </a>
       </div>
     </div>
   </body>
