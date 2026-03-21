@@ -2,10 +2,9 @@ from flask import Flask, render_template,request,redirect,url_for,flash, jsonify
 from flask_bcrypt import Bcrypt
 from flask_login import UserMixin,login_user,current_user,login_required,logout_user,LoginManager
 from werkzeug.utils import secure_filename
-import psycopg2 
 import os
 from datetime import datetime as dt
-from model import *
+import model as m
 
 now =dt.now()
 app = Flask(__name__)
@@ -14,16 +13,6 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-try:
-    psql= psycopg2.connect(
-        database ="cuammunity", 
-        user ="postgres",
-        password="123", # 
-        host="localhost",
-        port="5432"
-    )
-except Exception as e:
-    flash(e,"error")
 
 # Direcciones de las carpetas para almacenar las imagenes
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
@@ -39,11 +28,8 @@ app.config['UPLOAD_FOLDER_html_Post'] = '/static/Upload/Post/'
 app.config['UPLOAD_FOLDER_html_Community'] = '/static/Upload/Community/'
 app.config['UPLOAD_FOLDER_PY'] = USER_UPLOAD
 
-
-class User(UserMixin):
-    def __init__(self, id, email):
-        self.id = id
-        self.email = email
+  
+        
 def allow_file(file):
         return '.' in file and \
            file.rsplit('.', 1)[1].lower() in ALLOWED_FILES
@@ -59,44 +45,22 @@ def profile_accept(file):
 
 @login_manager.user_loader
 def load_user(user_id):
-
-    cur = psql.cursor()
-  
-    cur.execute("SELECT id, nombre, correo FROM usuarios WHERE id = %s", (user_id,))
-    data = cur.fetchone()
-    cur.close()
-
-    if data:
-        return User(id=data[0], email=data[2])
+    data = m.Usuario(user_id)
     
-    return flash("El usuario no exisite en la base de datos","Error")
+    if data:
+        return m.User(id=data[0], email=data[2])
+    
+    return None 
 
-@app.route('/', methods=["GET", "POST"])
+@app.route('/', methods=["POST"])
 def index():
     if request.method == 'POST':
-            user_mail = request.form['user']
-            psswrd = request.form['pswd']
-            
-            cur = psql.cursor() # <--- sirve para hacer acciones dentro de la bd
-            
-            acceso = cur.execute("SELECT * FROM usuarios WHERE correo = %s ",(user_mail,))
-            
-            usuario = cur.fetchone()
+        data = request.get_json()
+        email = data.get('correo')
+        psswrd = data.get('password')
 
-            hash_db = usuario[7]
-            sec_contraseña = bcrypt.check_password_hash(hash_db,psswrd)
+        return m.Log_in(email,psswrd)
 
-            cur.close()
-
-            if sec_contraseña:
-                user = User(usuario[0],usuario[5])
-                login_user(user)
-                
-                return redirect(url_for('main', id=usuario[0])) 
-            else:
-
-                flash( "Usuario o contraseña incorrectos")
-                return redirect(url_for('index'))
 
     return render_template('iniciar-sesion.html')
 
@@ -119,7 +83,7 @@ def registrar():
     hashed_password = bcrypt.generate_password_hash (psswrd).decode('utf-8')
     path_pic=profile_accept(profile_pic)
             
-    insert_db = Sign_up(name,f_last_name,s_last_name,birth,email,hashed_password,career,user_name,path_pic)   
+    insert_db = m.Sign_up(name,f_last_name,s_last_name,birth,email,hashed_password,career,user_name,path_pic)   
     if (insert_db == 1):
         return jsonify({"status":"success"})
     else:
@@ -134,16 +98,10 @@ def main(id):
         flash("Error no puedes cambiar de usuario","Error")
         return redirect(url_for('index'))
     else:
-        cur = psql.cursor()
-        usuario = cur.execute("select * from usuarios where id = %s",(current_user.id,))
+        
+        data_user = m.Usuario(id)
         #amigos = cur.execute("select * from amigos where id = %s",(current_user.id,))
         #feed = cur.execute("SELECT * From Cuajiposts Where id =%s join on id from cuammunitys ")
-        
-        
-
-        data_user = cur.fetchone()
-
-        cur.close()
          
     return render_template('index.html',profile_data = data_user)
     
@@ -158,23 +116,13 @@ def comentar():
 
     text = request.form['comment']
     
-    try:
-        cur =psql.cursor
-        comentar = 'INSERT INTO Comentarios(id_post,id_usuario,comentario,date)'
-        cur.execute(comentar,(user_post,user,text,now))
-
-        
-        cur.commit()
-        
-        cur.close()
-        
-        flash("Comentario Agregado","success")
-        return redirect(url_for('main'))
-        
-    except Exception as e:
-        flash("Error no se pudo agregar tu comentario, intentalo más tarde","error")
-        return redirect(url_for('main'))
-
+    comentario = m.add_comment(user,user_post,text)
+    
+    if comentario:
+        return jsonify({"status":"success"})
+    else:
+        return jsonify({"status":"fail"})
+    
 @app.route('/post', methods=["GET","POST"])
 def post():
     user = current_user.id
@@ -182,22 +130,12 @@ def post():
     post_community = request.form['selected_community']  
     post_img = request.form['img_upload']  
     
-    try:
-        cur =psql.cursor
-        comentar = 'INSERT INTO Cuajipost (id_user,text,community,img,date)'
-        cur.execute(comentar,(user,new_post_txt,post_community,post_img,now))
+    posted = m.create_post(user,new_post_txt,post_community,post_img)
 
-        
-        cur.commit()
-        
-        cur.close()
-        
-        flash("Post Creado 🦐🦐","success")
-        return redirect(url_for('main'))
-        
-    except Exception as e:
-        flash("Error no se pudo crear tu cuajipost :(, intentalo más tarde","error")
-        return redirect(url_for('main'))
+    if posted:
+            return jsonify({"status":"success", "mensaje":"Post Creado 🦐🦐"})
+    else:
+          return jsonify({"status":"fail", "mensaje":"No se pudo crear el post 😭😭"})
 
 
 if __name__ == '__main__':
