@@ -4,6 +4,8 @@ const popcard = document.getElementById("PopCard")
 const pop_text = document.getElementById("msg")
 const pop_btn = document.getElementById("pop_btn")
 
+const mail = document.getElementById("user-input-holder")
+const password = document.getElementById("pswd-input-holder")
 
 
 
@@ -28,15 +30,28 @@ function ClosePop(){
 
 async function log_in(){
 
-    const respuesta = await  fetch('/index',{
+    const respuesta = await  fetch('/',{
         method:'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
-            "Correo" : mail,
-            "pswd": password
-
+            "Correo" : mail.value,
+            "pswd": password.value
 
         })
     })
 
+    const flask_res = await respuesta.json();
+    console.log(flask_res.details);
+    if (flask_res.status === "success") { 
+        document.getElementById("Form-R").reset();
+        mostrarPopCard("Bienvenido", "success");
+
+
+        document.getElementById("PopBotton").href = `/feed/${flask_res.details}`;
+    
+    } else {
+        mostrarPopCard("Ocurrió un error: " + flask_res.mensaje, "error");
+    }
 }
+
+

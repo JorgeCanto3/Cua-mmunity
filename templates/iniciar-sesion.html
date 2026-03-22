@@ -112659,16 +112659,16 @@
                 
                 <h2 id="Subtitle" >Iniciar Sesion</h2>
 
-                <form action="/"  method = "POST" id="Form-R">
-                   <label  id=user-label class="text">Email</label>
-                   <input name = "user"  type="email" id="user-input-holder" placeholder="username@gmail.com">
+                <form  method = "POST" id="Form-R" onsubmit="event.preventDefault(); log_in();">
+                    <label  id=user-label class="text">Email</label>
+                    <input name = "user"  type="email" id="user-input-holder" placeholder="username@gmail.com">
                   
                     <label name = "password" id=pswd-label>Password</label>
-                   <input name = "pswd"  type="password" id="pswd-input-holder" placeholder="Password">
+                    <input name = "pswd"  type="password" id="pswd-input-holder" placeholder="Password">
 
                    <span id="Missing" class="text">¿Olvidaste tu constraseña?</span>
                    
-                   <button id="Log_In">Acceder</button>
+                   <button id="Log_In" >Acceder</button>
 
                    <span id="Not-Account">Todavia no tienes cuenta? <b><a href="{{url_for('registro')}}">Registrate Gratis!</b></a></b> </span>
                 </form>
@@ -142819,7 +142819,9 @@
       <div id="PopCard">
       <div id= "PopCard_Content"> 
         <span id="msg"></span>
+        <a id= PopBotton href="#">
         <button id= "pop_btn" onclick="ClosePop()">Entendido</button>
+        </a>
       </div>
     </div>
   </body>

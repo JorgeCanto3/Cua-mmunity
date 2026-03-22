@@ -1,4 +1,4 @@
-from flask_bcrypt import bcrypt
+from flask_bcrypt import Bcrypt
 from flask import flash,request,redirect,jsonify, url_for
 from flask_login import UserMixin,login_user,current_user,login_required,logout_user,LoginManager
 from datetime import datetime as dt
@@ -39,7 +39,7 @@ def Usuario(id):
     
     User_info = "SELECT * FROM Usuarios where id =%s"
     
-    cur.execute(User_info,id)
+    cur.execute(User_info,(id,))
     
     user = cur.fetchone()
     
@@ -47,24 +47,20 @@ def Usuario(id):
     
     return user;
 
-def Log_in(user_mail,password):
-    cur = psql.cursor()
-    mail_query = "SELECT * FROM Usuarios Where correo = %s"
-    cur.execture(mail_query,user_mail)
-    password_hash = cur.fetchone()
-    hash_db = password_hash[7]
-    ver_contraseña = bcrypt.check_password_hash(hash_db,password)
+def Log_in(user_mail):
+    try:
+        
+        cur = psql.cursor()
+        mail_query = "SELECT * FROM Usuarios Where correo = %s"
+        cur.execute(mail_query,(user_mail,))
+        
+        password_hash = cur.fetchone()
+        
+        cur.close()
 
-    cur.close()
-
-    if ver_contraseña:
-        user = User(password_hash[0],password_hash[5])
-        login_user(user)
-             
-        return redirect(url_for('main', id=password_hash[0])) 
-    else:
-        flash( "Usuario o contraseña incorrectos")
-        return redirect(url_for('index'))
+        return password_hash 
+    except Exception as e:
+        return e
     
 def Sign_up(name,f_last_name,s_last_name,birth,email,hashed_password,career,user_name,path_pic):
 
@@ -154,7 +150,7 @@ def create_post(user,new_post_txt,post_community,post_img):
     
 def user_into_communitys(id):
     cur = psql.cursor()
-    query = "SELECT c.nombre c.usuarios_comunidad c.logo FROM cuammunitys c JOIN cuammunity_users cu ON c.id_comunidad = cu.id AND c.id_usuario = %s"
+    query = "SELECT c.id, c.nombre, c.usuarios_comunidad, c.logo_comunidad FROM cuammunitys c JOIN cuammunity_users cu ON cu.id_comunidad = c.id AND cu.id_usuario = %s"
     cur.execute(query,(id,))
     
     if cur.rowcount > 1:
@@ -190,3 +186,13 @@ def community_search(text):
         else:
             cur.close()
             return 0
+        
+def cuammunity_join(id):
+    try:
+        cur = psql.cursor()
+        query = "INSERT INTO cuammunity_users VALUES (%s,0)"
+        cur.execute(query,(id,))
+        cur.commit()
+        cur.close()
+    except Exception as e:
+        return e

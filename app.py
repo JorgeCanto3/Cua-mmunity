@@ -8,8 +8,13 @@ import model as m
 
 now =dt.now()
 app = Flask(__name__)
+
 app.secret_key = 'coloca_contra'
+
+# pa encriptar la contraseña
 bcrypt = Bcrypt(app) 
+
+# pa manejar el log
 login_manager = LoginManager()
 login_manager.init_app(app)
 
@@ -28,6 +33,16 @@ app.config['UPLOAD_FOLDER_html_Post'] = '/static/Upload/Post/'
 app.config['UPLOAD_FOLDER_html_Community'] = '/static/Upload/Community/'
 app.config['UPLOAD_FOLDER_PY'] = USER_UPLOAD
 
+
+@login_manager.user_loader
+def load_user(user_id):
+    data = m.Usuario(user_id)
+    
+    if data is not None :
+        usuario = m.User(id = data[0],email=data[1])
+        return usuario
+    return None 
+
   
         
 def allow_file(file):
@@ -42,27 +57,36 @@ def profile_accept(file):
     else:
         return '/static/Upload/Img_Borrador.avif'
         
-
-@login_manager.user_loader
-def load_user(user_id):
-    data = m.Usuario(user_id)
-    
-    if data:
-        return m.User(id=data[0], email=data[2])
-    
-    return None 
-
-@app.route('/', methods=["POST"])
+@app.route('/', methods=["GET","POST"])
 def index():
     if request.method == 'POST':
         data = request.get_json()
-        email = data.get('correo')
-        psswrd = data.get('password')
-
-        return m.Log_in(email,psswrd)
-
-
+        email = data.get('Correo')
+        psswrd = data.get('pswd')
+        user_conf = Log(email,psswrd)
+            
+        if  user_conf != 0:
+            return jsonify({"status":"success","details":user_conf})
+        else:
+            return jsonify({"status":"error", "details": user_conf})     
+        
+        
+      
+        
     return render_template('iniciar-sesion.html')
+
+@app.route('/iniciar', methods=["POST"])
+def Log (email,psswrd):
+    user_data = m.Log_in(email)
+    
+    hash_db =user_data[7]
+    ver_contraseña = bcrypt.check_password_hash(hash_db,psswrd)
+    
+    if  ver_contraseña is True:
+        login_user(m.User(user_data[0],user_data[1]))
+        return user_data[0]
+    else:
+        return 0
 
 @app.route('/registro', methods=["GET"])
 def registro():    
@@ -94,7 +118,9 @@ def registrar():
 @login_required
 def main(id):
     if(current_user.id!=id):
-         
+        print(current_user.id)
+        print(current_user.email)
+        
         flash("Error no puedes cambiar de usuario","Error")
         return redirect(url_for('index'))
     else:
@@ -137,6 +163,38 @@ def post():
     else:
           return jsonify({"status":"fail", "mensaje":"No se pudo crear el post 😭😭"})
 
+@login_manager.unauthorized_handler
+def unauthorized():
+    flash("No puedes acceder","error")
+    return  redirect(url_for('index'))
+
+
+@app.route('/search_cuammunity',methods=["GET"])
+def search_cuammunity():
+    data = request.get_json()
+    text_query = data.get('search')
+    query = m.community_search(text_query) 
+    
+    cuammunitys = []
+    
+    for cua in query:
+        cuammunitys.append({"id":cua[0],"cuammunity":cua[1]})
+    
+    return cuammunitys
+
+@app.route('/cuammunity_tpost',methods=["GET"])
+def cuamminitys_to_post():
+
+    query = m.user_into_communitys() 
+    
+    cuammunitys = []
+    
+    for cua in query:
+        cuammunitys.append({"id":cua[0],"cuammunity":cua[1]})
+    
+    return cuammunitys
+
 
 if __name__ == '__main__':
     app.run(debug=True,port=8000)
+    
