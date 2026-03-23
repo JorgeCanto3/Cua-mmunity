@@ -11,7 +11,7 @@ looking.addEventListener('input',() =>{
 
 
 
-async function communitys(){
+async function cuammunitys(){
 
     const respuesta = await  fetch('/cuammunity_tpost',{
         method:'GET',
@@ -38,6 +38,27 @@ async function communitys(){
 }
 
 async function posts(params) {
+        
+    const res = await  fetch('/posts',{
+        method:'POST',
+        headers:{'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            'search': looking.value
+        })
+
+    })
+
+
+    const res_db = await res.json()
+
+    if (res_db.status == 'success')
+        res_db.forEach(comunidad => {
+                const option = document.createElement('option');
+                option.value = comunidad.id;
+                option.textContent = comunidad.nombre;
+                selectComunidades.appendChild(option);
+            });
+
     
 }
 
