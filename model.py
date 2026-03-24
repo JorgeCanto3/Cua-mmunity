@@ -82,16 +82,19 @@ def Sign_up(name,f_last_name,s_last_name,birth,email,hashed_password,career,user
 
 def posts(id):
     con = psql.cursor()
-    query_cuammunity = " SELECT * FROM cuammunity_users c join cuaji_posts on c.id_comunidad = cuaji_posts.id_cuammunity and cuaji_posts.id_usuario = %s"
+    query_cuammunity = "SELECT u.user_name,u.foto_d_perfil,cu.nombre,cuaji_posts.id, cuaji_posts.fecha, cuaji_posts.titulo, cuaji_posts.contenido_post,cuaji_posts.likes,cuaji_posts.img_post FROM cuammunity_users c join cuaji_posts on c.id_comunidad = cuaji_posts.id_cuammunity and cuaji_posts.id_usuario =%s JOIN Usuarios u on u.id = c.id_usuario  JOIN cuammunitys cu ON c.id_comunidad = cu.id "
     con.execute(query_cuammunity,(id,))
     
-    if (con.rowcount() > 1 ):
+    
+    if (con.rowcount >= 1 ):
         posts = con.fetchall()
         return posts
     else: 
         return 0
     
-    
+
+
+
 def add_comment(user,user_post,text,route):
 
     if route:
@@ -131,21 +134,22 @@ def add_comment(user,user_post,text,route):
         
 def create_post(user,new_post_txt,post_community,post_img):
     try:
-        cur =psql.cursor
+        cur =psql.cursor()
         if post_img is not None:
-            comentar = 'INSERT INTO Cuajipost (id_user,text,community,img,date)'
+            comentar = 'INSERT INTO Cuaji_posts (id_usuario,contenido_post,id_cuammunity,img_post   ,fecha) VALUES (%s,%s,%s,%s)'
             cur.execute(comentar,(user,new_post_txt,post_community,post_img,now))
         else:
-            comentar = 'INSERT INTO Cuajipost (id_user,text,community,date)'
+            comentar = 'INSERT INTO Cuaji_posts (id_usuario,contenido_post,id_cuammunity,fecha) VALUES (%s,%s,%s,%s)'
             cur.execute(comentar,(user,new_post_txt,post_community,now))
 
-        cur.commit()
+        psql.commit()
         
         cur.close()
         
         return 1
         
     except Exception as e:
+        print(e)
         return 0
     
 def user_into_communitys(id):
@@ -153,7 +157,7 @@ def user_into_communitys(id):
     query = "SELECT c.id, c.nombre, c.usuarios_comunidad, c.logo_comunidad FROM cuammunitys c JOIN cuammunity_users cu ON cu.id_comunidad = c.id AND cu.id_usuario = %s"
     cur.execute(query,(id,))
     
-    if cur.rowcount > 1:
+    if cur.rowcount == 1:
         communidades = cur.fetchall()
         cur.close()
         return communidades
@@ -196,3 +200,4 @@ def cuammunity_join(id):
         cur.close()
     except Exception as e:
         return e
+    

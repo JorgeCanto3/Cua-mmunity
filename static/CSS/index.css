@@ -16,7 +16,8 @@ body {
   align-content: center;
 }
 
-input,textarea {
+input,
+textarea {
   border: none;
   outline: none;
   border-radius: 5px;
@@ -37,7 +38,8 @@ textarea::-webkit-scrollbar-thumb {
   border-radius: 10px;
 }
 
-input::placeholder,textarea::placeholder {
+input::placeholder,
+textarea::placeholder {
   color: rgba(255, 255, 255, 0.7);
 }
 a {
@@ -45,7 +47,7 @@ a {
   font-weight: bolder;
 }
 
-button{
+button {
   border: none;
   border-radius: 28.5px;
 }
@@ -210,7 +212,7 @@ header {
   align-items: center;
   border-radius: 28.5px;
   flex-direction: column;
-  padding: 16.9px 15.9px 15px;
+  padding: 16.9px 10.9px 15px;
   justify-content: flex-start;
   height: 100%;
   -webkit-backdrop-filter: blur(8.9px);
@@ -232,6 +234,7 @@ header {
   height: auto;
   min-height: 100px;
   padding: 2em;
+  padding-top: 1em;
   flex-wrap: wrap;
   box-sizing: border-box;
 }
@@ -241,11 +244,21 @@ header {
   flex-direction: row;
   border-radius: 28px;
   height: auto;
-  width: 13%;
   justify-content: center;
   align-items: center;
   gap: 5%;
-  padding-top: 1%;
+  border-radius: 80px;
+  width: 12%;
+  height: 60%;
+  align-items: center;
+  overflow: hidden;
+}
+
+#User_Photo {
+  object-fit: cover;
+  border-radius: 80px;
+  width: 100%;
+  height: 100%;
 }
 
 #Text_Box {
@@ -274,28 +287,21 @@ header {
   word-break: break-all;
 }
 
-
-
-#post_action{
-
-  border-radius:28px ;
+#post_action {
+  border-radius: 28px;
   width: 30%;
   height: auto;
   min-height: 50px;
   background-color: #5882c147;
-
-
 }
 
- #User_frame {
+#User_frame {
   border-radius: 80px;
   width: 13%;
   height: 100%;
   align-items: center;
   overflow: hidden;
-  }
-
- 
+}
 
 #User_Photo {
   object-fit: cover;
@@ -311,12 +317,12 @@ header {
 
   border-radius: 28.5px;
   flex-flow: row;
-  justify-content: space-around;
   align-items: center;
-  padding: .8em;
-  gap:10%;
+  padding: 0.4em;
+  gap: 4.5%;
   min-width: fit-content;
-  width: 29%;
+  width: 50%;
+  max-width: max-content;
   height: auto;
   display: flex;
 }
@@ -326,12 +332,83 @@ header {
   align-items: center;
   align-content: center;
   border-radius: 80px;
-  width: 40px;
-  height: 33px;
+  width: 61px;
+  max-width: 65px;
+  height: 43px;
+  max-height: 43px;
   overflow: hidden;
 }
 
 
+#Cuammunity-btn {
+  background: none;
+  border: none;
+
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+#Cuammunity-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  min-width: 200px;
+  border-radius: 28.5px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+#Cuammunity-menu.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+#Cuammunity-menu.hide {
+  opacity: 0;
+  visibility:hidden;
+}
+
+
+.Cuammunity-option {
+  display: block;
+  padding: 12px 20px;
+  color: #333;
+  width: max-content;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.Cuammunity-option:last-child {
+  border-bottom: none;
+}
+
+.Cuammunity-option:hover {
+  border-radius: 28.5px;
+  background-color: #f5f5f5;
+  padding-left: 25px;
+  color: #ff7e5f;
+}
+
+.Community-options #Cuammunity-btn {
+  background: linear-gradient(90deg, #ff7e5f, #feb47b);
+  box-shadow: 0 4px 15px rgba(255, 126, 95, 0.3);
+}
+
+#Community-options {
+  border-top: 3px solid #ff7e5f;
+}
 
 #Community_Img {
   object-fit: cover;
@@ -339,36 +416,73 @@ header {
   height: 100%;
 }
 
-#Community-options{
-  width: 90%;
-  font-size: 1em;
+
+
+#Community-options {
+  width: 100%;
+  font-size: 1rem;
   border: none;
   background-color: transparent;
-
 }
 
-#Posts::-webkit-scrollbar {
+#Users_Posts::-webkit-scrollbar {
   width: 6px;
 }
-#Posts::-webkit-scrollbar-thumb {
+#Users_Posts::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.2);
   border-radius: 10px;
 }
 
+
+#Users_Posts{
+  display: flex;
+  flex-direction: column;
+   flex-wrap: nowrap;
+  background-color: transparent;
+  border: none;
+  width: 70%;
+  height: 55vh ;
+  align-items: center;
+  justify-content: flex-start;
+  gap:20px;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+
+}
+
+
 #Post {
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
   align-items: center;
   background-color: #5882c147;
   border-radius: 28.5px;
-  width: 70%;
-  height: 70%;
+  width: 100%;
+  height: auto ;
+  min-height: 200px;
   padding: 2.1px;
-  gap: 1rem;
+  gap: .5rem;
   justify-content: space-around;
-  overflow-y: auto;
-  overflow-x: hidden;
+}
+
+#Info_post{
+  display: flex;
+  flex-direction: column;
+  align-items:start;
+  width: 100%;
+  justify-content: center;  
+  padding-left: 1rem;
+  padding-top: 1rem;
+
+}
+
+
+#Community_Name{
+  display: flex;
+  align-items: start;
+  text-align: start;
+  color: lightgray;
 }
 
 #Post_Name {
@@ -381,23 +495,53 @@ header {
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  width: 100%;
+  width: 90%;
   height: auto;
-  padding-left: 1rem;
-  padding-top: 1rem;
 
   gap: 1rem;
 }
 
-#Post_Img_User {
-  border-radius: 50px;
-  align-self: center;
 
-  width: 6%;
-  height: auto;
-  max-height: 80px;
+ #First_Line{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+ }
+
+ #Options{
+  justify-content: flex-end;
+  display: flex;
+  width: 70%;
+  height: 50%;
+  background-color: transparent;
+ }
+
+ #Edit ,#Delete {
+  background-color: transparent;
+  width: 10%;
+  height: 100%;
+ }
+
+
+  #Post_img_user_frame {
+  border-radius: 80px;
+  width: 54px;
+  height: 52px;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  }
+
+  #Post_Img_User {
   object-fit: cover;
+  border-radius: 80px;
+  width: 100%;
+  height: 100%;
+  inset: 0;
 }
+
 
 #Post_Img_Content {
   align-self: center;
@@ -416,16 +560,15 @@ header {
   align-content: center;
   flex-direction: column;
   width: 90%;
-  min-height: 50%;
+  min-height: max-content;
 }
 
 #Content-Text {
-  text-align: left;
-  justify-content: flex-start;
+  justify-content: center;
   text-align: justify;
   align-items: center;
   background-clip: text;
-  font-size: 0.8em;
+  font-size: 1.5em;
   font-weight: 600;
 }
 
@@ -435,7 +578,7 @@ header {
   height: 100%;
   align-items: center;
   overflow: hidden;
-  }
+}
 
 .User_pic {
   object-fit: cover;
@@ -452,8 +595,8 @@ header {
   width: 70%;
   height: 10%;
   padding-left: 1em;
-  padding-top: .5em;
-  padding-bottom:.5em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
   gap: 3%;
 }
 
@@ -464,7 +607,7 @@ header {
   align-content: center;
 
   border-radius: 28.5px;
-  width:80%;
+  width: 80%;
   height: 38px;
   overflow: hidden;
 }
@@ -479,7 +622,6 @@ header {
 
   min-inline-size: 20ch;
   max-inline-size: 50ch;
-  
 }
 
 #add_comment {
@@ -487,19 +629,16 @@ header {
   justify-content: center;
   align-self: center;
   border: none;
-  width: 15%;
-  padding-top: .5em;
-  padding-bottom: .5em;
+  width: 19%;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
   font-size: 1em;
   height: 100%;
- -webkit-backdrop-filter: blur(8.9px);
+  -webkit-backdrop-filter: blur(8.9px);
   backdrop-filter: blur(10px);
   background-color: #5882c123;
   overflow: hidden;
 }
-
-
-
 
 #Icons {
   display: flex;
@@ -567,7 +706,6 @@ header {
   margin: 0;
   font-size: 1.3rem;
   font-weight: 600;
-
 }
 
 #Trend {
@@ -770,14 +908,17 @@ header {
 
 #Profile {
   background-color: #5882c10a;
+  display: flex;
+  flex-direction: column;
   border-radius: 28.5px;
   flex-shrink: 0;
   width: 290px;
   height: 312px;
   margin: 0;
   padding: 2.1px;
-  position: relative;
+  gap:4% ;
   overflow: hidden;
+  align-items: center;
 }
 
 #User_Info {
@@ -789,13 +930,10 @@ header {
   justify-content: center;
   align-items: center;
   row-gap: 1px;
-  width: 159px;
-  height: 44px;
-  padding: 13.9px 6.9px;
+  width: 15em;
+  height: 4em;
+  padding: 0px 0px 10px 0px;
   display: flex;
-  position: absolute;
-  top: calc(50% - 40px);
-  left: calc(50% - 74px);
   overflow: hidden;
 }
 
@@ -805,7 +943,7 @@ header {
   width: max-content;
   margin: 0;
   font-family: Poppins;
-  font-size: 15px;
+  font-size: 20px;
   font-weight: 600;
   display: inline;
   position: relative;
@@ -821,7 +959,7 @@ header {
   width: 67px;
   height: 10px;
   margin: 0;
-  font-size: 10px;
+  font-size: 15px;
   font-weight: 600;
 }
 
@@ -835,19 +973,12 @@ header {
   justify-content: center;
   align-items: center;
   width: 182px;
-  height: 34px;
-  padding: 37.9px 0;
+  height: 54px;
   display: flex;
-  position: absolute;
-  top: calc(99px + 50%);
-  left: calc(50% - 91px);
   overflow: hidden;
 }
 
 #See_more_text {
-  text-align: left;
-  color: #fff;
-  --f2w-order: 1;
   -webkit-background-clip: text;
   background-clip: text;
   flex-shrink: 0;
@@ -858,27 +989,35 @@ header {
   display: inline;
   position: relative;
 }
+
+#User_imgs{
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr;
+  justify-items: center; 
+}
 #background_pic_frame {
-  --f2w-order: 2;
+  grid-area: 1 / 1; 
   border-radius: 25px;
-  width: calc(4.2px + 100%);
+  width:  100%  ;
   height: 96px;
-  position: absolute;
-  top: -2.1px;
-  left: -2.1px;
-  right: -2.1px;
   overflow: hidden;
 }
+
 #background_pic {
   filter: saturate(0);
   object-fit: cover;
   border-radius: 25px;
   width: 100%;
   height: 100%;
-  position: absolute;
   inset: 0;
 }
+
+
 #Profile-Pic_Frame {
+  grid-area: 1 / 1; /* ¡Se encima en la misma celda que el banner! */
+  margin-top: 60px; /* Lo bajas un poco para que quede a la mitad */
+  z-index: 2;
   -webkit-backdrop-filter: blur(8.9px);
   backdrop-filter: blur(8.9px);
   background-color: #5882c147;
@@ -886,9 +1025,6 @@ header {
   width: 85px;
   height: 76px;
   padding: 2.1px;
-  position: absolute;
-  top: 29.9px;
-  left: calc(50% - 37px);
   overflow: hidden;
 }
 
@@ -900,50 +1036,40 @@ header {
   position: absolute;
   inset: 0;
 }
-#Amount_Friends {
-  text-align: left;
-  color: #fff;
-  --f2w-order: 4;
-  -webkit-background-clip: text;
-  background-clip: text;
-  width: max-content;
-  font-family: Poppins;
-  font-size: 15px;
-  font-weight: 600;
-  display: inline;
-  position: absolute;
-  top: 165.9px;
-  left: 34.9px;
 
-  color: #fff;
-  -webkit-background-clip: text;
-  background-clip: text;
-  font-family: Poppins;
+#Data_user{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap:5%;
+  align-items: center;
+}
+
+#Friends_Section,#Community_Section{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 50%;
+  justify-content: start;
+  align-items: center;
+}
+
+
+#Amount_Friends {
+  width: max-content;
   font-size: 15px;
   font-weight: 600;
+  -webkit-background-clip: text;
+  background-clip: text;
 }
 
 #Amount_Community {
-  text-align: left;
-  color: #fff;
-  --f2w-order: 5;
   -webkit-background-clip: text;
   background-clip: text;
   width: max-content;
-  font-family: Poppins;
   font-size: 15px;
   font-weight: 600;
-  display: inline;
-  position: absolute;
-  top: 165.9px;
-  right: 6.9px;
 
-  color: #fff;
-  -webkit-background-clip: text;
-  background-clip: text;
-  font-family: Poppins;
-  font-size: 15px;
-  font-weight: 600;
 }
 
 #Communitys {
@@ -954,11 +1080,11 @@ header {
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start ;
+  justify-content: flex-start;
   align-items: center;
   width: 100%;
   height: auto;
-  min-height:40%;
+  min-height: 40%;
   margin: 0;
   padding: 2.1px;
   padding-top: 5%;
@@ -973,20 +1099,20 @@ header {
   flex-flow: row;
   justify-content: flex-start;
   align-items: center;
-  width: 91%;
+  width: 98%;
   height: auto;
   min-height: 20%;
   padding: 2px 1px 1px 8.9px;
   display: flex;
   overflow: hidden;
-  gap: 10%;
+  gap: 3%;
 }
 
 #Community_pic_frame {
-  border-radius: 25px;
+  border-radius: 50px;
   flex-shrink: 0;
-  width: 50px;
-  height: 50px;
+  width: 65px;
+  height: 65px;
   margin: 0;
   overflow: hidden;
 }
@@ -1003,20 +1129,20 @@ header {
   background-color: #5882c147;
   border-radius: 28.5px;
   flex-flow: column;
-  flex-shrink: 0;
   justify-content: center;
+  flex-wrap: wrap;
   align-items: center;
   row-gap: 1px;
-  width: 159px;
-  height: 44px;
+  width: 100%;
+  height: 20%;
+  min-height: 50px;
   margin: 0;
-  padding: 13.9px 6.9px;
   display: flex;
-  overflow: hidden;
+  padding-left:  .7em;
+  padding-right:  .7em;
 }
 
 #Community_Name {
-  text-align: left;
   -webkit-background-clip: text;
   background-clip: text;
   flex-shrink: 0;
@@ -1025,22 +1151,13 @@ header {
   font-size: 15px;
   font-weight: 600;
   display: inline;
-  position: relative;
+  text-wrap: wrap;
 }
 #Community_Users {
   text-align: center;
-  -webkit-background-clip: text;
-  background-clip: text;
-  flex-shrink: 0;
-  justify-content: center;
   align-items: center;
-  width: 77px;
-  height: 10px;
-  margin: 0;
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 600;
-  display: inline-flex;
-  position: relative;
 }
 
 #Menu {
@@ -1086,4 +1203,45 @@ header {
   width: max-content;
   font-size: 20px;
   font-weight: 500;
+}
+
+#PopCard {
+  display: none; 
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10000; 
+  justify-content: center; 
+  align-items: center;     
+  backdrop-filter: blur(5px);
+  background-color: rgba(0, 0, 0, 0.3); 
+}
+  
+#PopCard_Content{
+  display: flex;
+  gap: 30%;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center;    
+  width: 70%;
+  height: 50%; 
+}
+
+#msg{
+  font-size: 4rem;
+  font-weight: bolder;
+}
+
+#pop_btn{
+  font-size: 2rem;
+  border-radius: 25px;
+  width: 40%;
+  height: 10%;
+}
+
+#PopBotton{
+  width: 100%;
+  height: 100%;
 }

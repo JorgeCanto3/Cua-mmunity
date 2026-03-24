@@ -149,12 +149,14 @@ def comentar():
     else:
         return jsonify({"status":"fail"})
     
-@app.route('/post', methods=["GET","POST"])
+@app.route('/post', methods=["POST"])
 def post():
     user = current_user.id
-    new_post_txt =  request.form['new_txt_post']   
-    post_community = request.form['selected_community']  
-    post_img = request.form['img_upload']  
+
+    
+    new_post_txt =      request.form.get('text')   
+    post_community =    request.form.get('community')  
+    post_img =          request.files.get('img')  
     
     posted = m.create_post(user,new_post_txt,post_community,post_img)
 
@@ -182,18 +184,47 @@ def search_cuammunity():
     
     return cuammunitys
 
-@app.route('/cuammunity_tpost',methods=["GET"])
+@app.route('/cuammunity_tpost',methods=["POST"])
 def cuamminitys_to_post():
+    data = request.get_json()
+    id_4_post = data.get('id')
+    query = m.user_into_communitys(id_4_post) 
 
-    query = m.user_into_communitys() 
-    
     cuammunitys = []
     
     for cua in query:
-        cuammunitys.append({"id":cua[0],"cuammunity":cua[1]})
+        cuammunitys.append({"id":cua[0],"nombre":cua[1],"logo":cua[3]})
     
-    return cuammunitys
+    
+    return jsonify({"status":"success","comunidades":cuammunitys})
 
+@app.route('/posts',methods = ["GET"])
+def post_4_user():
+    
+    query = m.posts(current_user.id)
+    
+    print(query)
+    if(query != 0):
+        posts = []
+        for c in query:
+            posts.append({"usuario":c[0],"imgPerfil":c[1],"comunidad":c[2],"idPost":c[3],"fecha":[4],"titulo":c[5],"texto":c[6],"likes":c[7],"imgPost":c[8]})
+        
+        return jsonify({"status":"success" ,"post":posts})
+    else:
+        return jsonify({"status":"error"})
+
+@app.route('/Communitys')
+def Community_card():
+    id_4_post =current_user.id
+    query = m.user_into_communitys(id_4_post) 
+
+    cuammunity = []
+    
+    for cua in query:
+        cuammunity.append({"id":cua[0],"nombre":cua[1],"usuarios":cua[2],"logo":cua[3]})
+    
+    
+    return jsonify({"status":"success","comunidad":cuammunity})
 
 if __name__ == '__main__':
     app.run(debug=True,port=8000)
