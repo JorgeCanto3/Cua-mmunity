@@ -60,6 +60,92 @@ async function usuarios_agregar(){
     
 }
 
+function EditContent(){
+    const id_post = document.querySelector("#Id_post")
+    const old_text = document.querySelector("#Content-Text")
+    mostrarPopCard("Ingresa el nuevo texto!","edit",old_text.textContent)
+
+    const confirm = document.querySelector("#pop_btn")
+    
+    confirm.addEventListener("click",()=>{
+        const new_text = document.getElementById("Pop_Text_Area").value
+        console.log(new_text)
+        
+        Edit(id_post, new_text)
+
+    },{ once: true })
+
+    
+
+}
+
+async function Edit(id_post,new_text){
+
+    console.log(id_post,new_text)
+
+    const query = await fetch('/edit',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({
+           'id' : id_post.value ,
+            "text":new_text
+        })
+    })
+
+    const ans = await query.json()
+
+    if (ans.status === "success"){
+        mostrarPopCard("Se actualizo la publicación con Exito!","success")
+        const confirm = document.querySelector("#pop_btn")
+        confirm.addEventListener("click",()=>{
+        
+        ClosePop()
+        Posts()
+        },{ once: true })
+
+    }else{
+        mostrarPopCard("No se pudo actualizar la publicación, intentalo más tarde","error")
+    }
+}
+
+
+function Preventive (){
+    
+    const id_post = document.querySelector("#Id_post")
+    mostrarPopCard("Estas seguro de eliminar la publicación?","options",)
+    
+    const confirm = document.querySelector("#pop_btn_2")
+
+
+    confirm.addEventListener("click",()=>{
+        ClosePop();
+        erase(id_post.value);
+    },{ once: true })
+}
+
+async function erase(id_post){
+
+
+
+    const query = await fetch('/delete',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({
+           'id' : id_post }
+        )
+    })
+
+    const ans = await query.json()
+
+    if (ans.status === "success"){
+        mostrarPopCard("Se elimino la publicación con Exito!","success")
+        Posts()
+    }else{
+        mostrarPopCard("No se pudo eliminar la publicación, intentalo más tarde","error")
+    }
+}
+
+
 async function Add_Post() {
     const data_post = new FormData();
     const Cuammunity = document.querySelector('#Cuammunity-btn');
@@ -110,6 +196,8 @@ async function Search_community(lp) {
 
 }
 
+
+
 async function Posts() {
         
     const res = await  fetch('/posts')
@@ -124,6 +212,7 @@ async function Posts() {
             const postTemplate = template.content.cloneNode(true);
             
             postTemplate.querySelector('#Post_Name').textContent = datos.usuario;
+            postTemplate.querySelector('#Id_post').value = datos.idPost;
             postTemplate.querySelector('#Content-Text').textContent = datos.texto;
             postTemplate.querySelector('#Community_Name').textContent = datos.comunidad
             const imgUser = postTemplate.querySelector('#Post_Img_User');
@@ -215,19 +304,61 @@ async function Cuammunitys(options){
 const popcard = document.getElementById("PopCard")
 const pop_text = document.getElementById("msg")
 const pop_btn = document.getElementById("pop_btn")
+const pop_btn_2 = document.getElementById("pop_btn_2")
+const pop_Area = document.getElementById("Pop_Text")
+const pop_nText = document.getElementById("Pop_Text_Area")
 
 
 
-function mostrarPopCard(mensaje,type){
+
+
+function mostrarPopCard(mensaje,type,text){
 
     if(type === "error"){
         pop_text.innerHTML = mensaje;
         popcard.style.display = "flex";
+        pop_btn_2.style.display = "none"
+        pop_Area.style.display = "none"
+
+        pop_btn.textContent = "Entendido"
         pop_btn.style.backgroundColor = "red";
 
-    }else{
+    }else if (type ==="success" ){
         pop_text.innerHTML = mensaje;
         popcard.style.display = "flex";
+        pop_btn_2.style.display = "none"
+        pop_Area.style.display = "none"
+
+        pop_btn.textContent = "Entendido"
+        pop_btn.style.backgroundColor = "lightgreen";
+    }else if( type === "options"){
+        console.log("entre")
+        pop_text.innerHTML = mensaje;
+        popcard.style.display = "flex";
+        pop_btn.style.backgroundColor = "red";
+        pop_btn.textContent ="No";
+        pop_btn.onclick =ClosePop;
+        pop_btn_2.style.display = "flex"
+        pop_btn_2.style.backgroundColor = "lightgreen";
+        pop_btn_2.textContent ="Si";
+        pop_btn.style.borderRadius = "50px";
+        pop_btn_2.style.borderRadius = "50px";
+        pop_btn_2.style.width = "6%";
+        pop_Area.style.display = "none"
+
+
+
+
+    }else if(type ==="edit"){
+        pop_text.innerHTML = mensaje;
+        pop_Area.style.display = "flex"
+        pop_nText.placeholder = text
+        popcard.style.display = "flex";
+        pop_btn.textContent = "Aceptar"
+        pop_btn_2.textContent = "Cancelar"
+        pop_btn_2.style.display ="flex"
+        pop_btn_2.onclick = ClosePop;
+        pop_btn_2.style.backgroundColor = "red";
         pop_btn.style.backgroundColor = "lightgreen";
     }
 }
@@ -235,6 +366,10 @@ function mostrarPopCard(mensaje,type){
 function ClosePop(){
     popcard.style.display ="none"
 }
+
+
+
+
 
 
 document.addEventListener('DOMContentLoaded',() =>{
@@ -281,3 +416,4 @@ document.addEventListener('DOMContentLoaded',() =>{
 
 
 })
+

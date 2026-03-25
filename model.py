@@ -76,7 +76,6 @@ def Sign_up(name,f_last_name,s_last_name,birth,email,hashed_password,career,user
     
     except Exception as e:
         psql.rollback() 
-        print(e)
         return jsonify({"status": "error", "mensaje": str(e)}), 500
 
 
@@ -149,7 +148,6 @@ def create_post(user,new_post_txt,post_community,post_img):
         return 1
         
     except Exception as e:
-        print(e)
         return 0
     
 def user_into_communitys(id):
@@ -200,4 +198,32 @@ def cuammunity_join(id):
         cur.close()
     except Exception as e:
         return e
+
+
+def erase_post(id):
+    try:
+        cur = psql.cursor()
+        query = "DELETE FROM cuaji_posts where id = %s"
+        cur.execute(query,(id,))
+        psql.commit()
+        cur.close()
+        print("jalo")
+        return "success"
+    except Exception as e:
+        psql.rollback()
+        print(e)
+        return e
     
+def edit_post(id,text):
+    try:
+        cur = psql.cursor()
+        query = "Update cuaji_posts SET contenido_post = %s where id = %s"
+        cur.execute(query,(text,id,))
+        psql.commit()
+        cur.close()
+        print("jalo")
+        return "success"
+    except Exception as e:
+        psql.rollback()
+        print(e)
+        return e

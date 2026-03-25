@@ -203,7 +203,6 @@ def post_4_user():
     
     query = m.posts(current_user.id)
     
-    print(query)
     if(query != 0):
         posts = []
         for c in query:
@@ -225,6 +224,38 @@ def Community_card():
     
     
     return jsonify({"status":"success","comunidad":cuammunity})
+
+@app.route('/delete', methods=["POST"])
+def Delete_post():
+    data = request.get_json()
+    id_post = data.get('id')
+    
+    print(id_post)
+    query = m.erase_post(id_post) 
+    if query:
+        return jsonify({"status":"success"})
+    else:
+        print(query)
+        return jsonify({"status":"error", "details": query})
+
+
+@app.route('/edit', methods=["POST"])
+def Update_post():
+    data = request.get_json()
+    id_post = data.get('id')
+    text = data.get('text')
+    
+    
+    print(id_post)
+    print(text)
+    query = m.edit_post(id_post,text) 
+    if query:
+        return jsonify({"status":"success"})
+    else:
+        print(query)
+        return jsonify({"status":"error", "details": query})
+
+
 
 if __name__ == '__main__':
     app.run(debug=True,port=8000)

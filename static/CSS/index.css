@@ -473,7 +473,7 @@ header {
   width: 100%;
   justify-content: center;  
   padding-left: 1rem;
-  padding-top: 1rem;
+  padding-top: .5rem;
 
 }
 
@@ -511,6 +511,8 @@ header {
  }
 
  #Options{
+  align-items: start;
+  padding-right: 1em;
   justify-content: flex-end;
   display: flex;
   width: 70%;
@@ -1234,14 +1236,70 @@ header {
   font-weight: bolder;
 }
 
+#Pop_Text {
+  display: none;
+  background-color: #5882c147;
+  border-radius: 28.5px;
+  flex-flow: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 80%;
+  height: auto;
+  padding: 1em;
+  display: flex;
+}
+
+#Pop_Text_Area {
+  width: 100%;
+  field-sizing: content;
+  min-block-size: 1rlh;
+  max-block-size: 3rlh;
+
+  min-inline-size: 20ch;
+  max-inline-size: 50ch;
+  height: auto;
+  font-size: 15px;
+  font-weight: 600;
+  word-break: break-all;
+}
+
+
+#Btns{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: auto;
+}
+
 #pop_btn{
   font-size: 2rem;
   border-radius: 25px;
-  width: 40%;
-  height: 10%;
+  width: max-content;
+  height: 100%;
+  padding: .5em;
+
 }
 
+#pop_btn_2{
+  display: none;
+  font-size: 2rem;
+  border-radius: 25px;
+  width: max-content;
+  height: max-content;
+  padding: .5em;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+
 #PopBotton{
-  width: 100%;
-  height: 100%;
+  width: max-content;
+  height: 100%; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
