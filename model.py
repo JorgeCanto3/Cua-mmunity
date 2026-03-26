@@ -10,7 +10,7 @@ try:
     psql= psycopg2.connect(
         database ="cuammunity", 
         user ="postgres",
-        password="123", # 
+        password="123", 
         host="localhost",
         port="5432"
     )
@@ -62,21 +62,36 @@ def Log_in(user_mail):
     except Exception as e:
         return e
     
-def Sign_up(name,f_last_name,s_last_name,birth,email,hashed_password,career,user_name,path_pic):
+def Sign_up(name,f_last_name,s_last_name,birth,email,hashed_password,career,user_name,path_pic,code):
 
     try:
        
         cur = psql.cursor() 
-        acceso = cur.execute("INSERT INTO usuarios(nombre,apellido_p,apellido_M,birth,correo,password,carrera,user_name,foto_d_perfil) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)",(name,f_last_name,s_last_name,birth,email,hashed_password,career,user_name,path_pic))
-            
+        acceso = cur.execute("INSERT INTO usuarios(nombre,apellido_p,apellido_M,birth,correo,password,carrera,user_name,foto_d_perfil,correo_verificado,code_verification) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,false,%s) RETURNING id",(name,f_last_name,s_last_name,birth,email,hashed_password,career,user_name,path_pic,code))
+        
         psql.commit()
+
+        res = cur.fetchone()[0]  
+        
+        
+        general_community = "INSERT INTO cuammunity_users(id_usuario,id_comunidad) VALUES (%s,1) RETURNING id"
+        cur.execute(general_community,(res,))
+        psql.commit()
+        res_cua_user = cur.fetchone()[0]
+        
+        print(f'El id del insert a la comunidad general es: {res_cua_user}')
         cur.close()
-        print("se logro")
-        return 1
+        return res
     
     except Exception as e:
         psql.rollback() 
-        return jsonify({"status": "error", "mensaje": str(e)}), 500
+        ei = str(e)
+        print(ei)
+        err =""
+        if "«correo_unico»" in ei:
+            err = "El correo ya existe"
+        
+        return err
 
 
 def posts(id):
@@ -148,7 +163,7 @@ def create_post(user,new_post_txt,post_community,post_img):
         return 1
         
     except Exception as e:
-        return 0
+        return e
     
 def user_into_communitys(id):
     cur = psql.cursor()
@@ -207,7 +222,6 @@ def erase_post(id):
         cur.execute(query,(id,))
         psql.commit()
         cur.close()
-        print("jalo")
         return "success"
     except Exception as e:
         psql.rollback()
@@ -221,7 +235,19 @@ def edit_post(id,text):
         cur.execute(query,(text,id,))
         psql.commit()
         cur.close()
-        print("jalo")
+        return "success"
+    except Exception as e:
+        psql.rollback()
+        print(e)
+        return e
+
+def update_confirm(id):
+    try:
+        cur = psql.cursor()
+        query = "Update usuarios SET correo_verificado = TRUE where id = %s"
+        cur.execute(query,(id,))
+        psql.commit()
+        cur.close()
         return "success"
     except Exception as e:
         psql.rollback()

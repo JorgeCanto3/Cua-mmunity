@@ -1,10 +1,12 @@
 from flask import Flask, render_template,request,redirect,url_for,flash, jsonify
-from flask_bcrypt import Bcrypt
 from flask_login import UserMixin,login_user,current_user,login_required,logout_user,LoginManager
+from flask_bcrypt import Bcrypt
+from flask_mail import Mail,Message
 from werkzeug.utils import secure_filename
 import os
 from datetime import datetime as dt
 import model as m
+import random as rand
 
 now =dt.now()
 app = Flask(__name__)
@@ -17,6 +19,19 @@ bcrypt = Bcrypt(app)
 # pa manejar el log
 login_manager = LoginManager()
 login_manager.init_app(app)
+
+#pa enviar correos
+
+
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USERNAME'] = 'jorge.l.santiago@cua.uam.mx'
+app.config['MAIL_PASSWORD'] = 'mzku crbg sjgb iuzu'
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_DEFAULT_SENDER'] = ('Cua-Verificator','jorge.l.santiago@cua.uam.mx')
+
+mail = Mail(app)
 
 
 # Direcciones de las carpetas para almacenar las imagenes
@@ -63,8 +78,9 @@ def index():
         data = request.get_json()
         email = data.get('Correo')
         psswrd = data.get('pswd')
+        
         user_conf = Log(email,psswrd)
-            
+        
         if  user_conf != 0:
             return jsonify({"status":"success","details":user_conf})
         else:
@@ -80,9 +96,10 @@ def Log (email,psswrd):
     user_data = m.Log_in(email)
     
     hash_db =user_data[7]
+    email_verif = user_data[11]
     ver_contraseña = bcrypt.check_password_hash(hash_db,psswrd)
     
-    if  ver_contraseña is True:
+    if  (ver_contraseña and email_verif) is True:
         login_user(m.User(user_data[0],user_data[1]))
         return user_data[0]
     else:
@@ -104,30 +121,33 @@ def registrar():
     career      = request.form.get('carrer')
     profile_pic = request.files.get('Profile_pic')
 
+
+    code = "".join([str(rand.randint(0, 9)) for _ in range(6)])
+
+    
+
     hashed_password = bcrypt.generate_password_hash (psswrd).decode('utf-8')
     path_pic=profile_accept(profile_pic)
-            
-    insert_db = m.Sign_up(name,f_last_name,s_last_name,birth,email,hashed_password,career,user_name,path_pic)   
-    if (insert_db == 1):
-        return jsonify({"status":"success"})
-    else:
-        return jsonify({"status":"error", "details": str(insert_db)})
+    insert_db = m.Sign_up(name,f_last_name,s_last_name,birth,email,hashed_password,career,user_name,path_pic,code)   
+    id_sign = insert_db
+    if (type(insert_db) == int):    
+        verify_mail(email,code)
+        return jsonify({"status":"success","id":id_sign})
+    else: 
+        print(f'Se envia el erro:{insert_db}')
+        return jsonify({"status":"error", "details": insert_db})
 
 
 @app.route('/feed/<int:id>')
 @login_required
 def main(id):
     if(current_user.id!=id):
-        print(current_user.id)
-        print(current_user.email)
         
         flash("Error no puedes cambiar de usuario","Error")
         return redirect(url_for('index'))
     else:
         
         data_user = m.Usuario(id)
-        #amigos = cur.execute("select * from amigos where id = %s",(current_user.id,))
-        #feed = cur.execute("SELECT * From Cuajiposts Where id =%s join on id from cuammunitys ")
          
     return render_template('index.html',profile_data = data_user)
     
@@ -230,7 +250,6 @@ def Delete_post():
     data = request.get_json()
     id_post = data.get('id')
     
-    print(id_post)
     query = m.erase_post(id_post) 
     if query:
         return jsonify({"status":"success"})
@@ -246,8 +265,6 @@ def Update_post():
     text = data.get('text')
     
     
-    print(id_post)
-    print(text)
     query = m.edit_post(id_post,text) 
     if query:
         return jsonify({"status":"success"})
@@ -255,6 +272,44 @@ def Update_post():
         print(query)
         return jsonify({"status":"error", "details": query})
 
+
+def verify_mail(email,code):
+    subject = "Verifica tu Correo!"
+    
+    try:
+        msg = Message(
+            subject = subject,
+            recipients = [email],
+            body = "Tu codigo de verificación es: " + code
+        )
+        
+        mail.send(msg)  
+        
+        return 
+        
+    except Exception as e:
+        print(e)
+        return None
+
+@app.route('/confirm',methods=['POST'])
+def confirm():
+    data= request.get_json()
+    list_code = data.get('code_inputs',[])
+    input_code = "".join(list_code)
+    id_to_verify =data.get('id')
+    
+    
+    data_user = m.Usuario(id_to_verify)
+    
+    ver_code = data_user[12]
+    
+    if(input_code == ver_code):
+        m.update_confirm(id_to_verify)
+        return jsonify({"status":"success"})
+    else:
+        return jsonify({"status":"error", "details":"The code doesn't match"})
+        
+    
 
 
 if __name__ == '__main__':

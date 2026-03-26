@@ -35,11 +35,26 @@ function passwordCheck() {
 }
 
 const passwordSec = document.getElementById("pswd-input-holder");
+const emailSec = document.getElementById("email-input-holder");
+var validEmail = true;
 const progressBar = document.getElementById("progress_bar");
 const progresstext = document.getElementById("security_text");
 const securityFrame = document.getElementById("security_Section");
 
+
+
 console.log(passwordSec);
+
+emailSec.addEventListener('input', () => {
+    
+    const mail= emailSec.value;
+    let cua = 'cua.uam.mx';
+    validEmail = mail.includes(cua);
+
+    emailSec.style.borderColor = validEmail ? "#219644" : "#a71606";
+
+
+});
 
 passwordSec.addEventListener('input', () => {
     securityFrame.style.display = "flex";
@@ -67,30 +82,34 @@ passwordSec.addEventListener('input', () => {
 function updateBar(percent) {
     progressBar.style.width = `${percent}%`;
     let text ="";
-    let btn = false;
+    let btn = true;
     const hue = percent * 1.2; 
     progressBar.style.backgroundColor = `hsl(${hue-30}, 100%, 40%)`;
    
   if (percent === 0) {
         text = "";
         securityFrame.style.display = "none";
-    } else if (percent <= 30) {
+    } else if (percent <= 30 ) {
         text = "Debil";
-        btn = false;
+        btn = true;
+        
     } else if (percent <= 60) {
         text = "Aceptable";
-        btn = true;
+        btn = false;
     } else if (percent <= 90) {
         text = "Fuerte";
-        btn = true;
+        btn = false;
 
     } else {
         text = "Muy Fuerte";
-        btn = true;
+        btn = false;
 
     }
 
-    button.disabled = btn;
+
+
+    btncheck =  btn || !validEmail ? true: false;
+    button.disabled = btncheck;
     progresstext.innerHTML = text;
     progresstext.style.borderRadius =`${25}px`; 
     progresstext.style.color = `hsl(${hue-30}, 100%, 30%)`;
@@ -98,8 +117,13 @@ function updateBar(percent) {
 }
 
 const popcard = document.getElementById("PopCard")
+const PopCard_Content = document.getElementById("PopCard_Content")
 const pop_text = document.getElementById("msg")
 const pop_btn = document.getElementById("pop_btn")
+const code_form = document.getElementById("code")
+const code_btn = document.getElementById("code_btn")
+
+
 
 
 
@@ -108,12 +132,27 @@ function mostrarPopCard(mensaje,type){
     if(type === "error"){
         pop_text.innerHTML = mensaje;
         popcard.style.display = "flex";
+        code_form.style.display = "none"
         pop_btn.style.backgroundColor = "red";
 
-    }else{
+    }else if(type === "success"){
         pop_text.innerHTML = mensaje;
         popcard.style.display = "flex";
+        pop_btn.style.display ="flex"
+        code_form.style.display = "none"
         pop_btn.style.backgroundColor = "lightgreen";
+    }else if(type === "code"){
+        pop_text.innerHTML = mensaje;
+        pop_btn.style.display ="none"
+        PopCard_Content.style.width ="100%"
+        PopCard_Content.style.height ="100%"
+        PopCard_Content.style.gap ="10%"
+        pop_btn.style.width= "20%";
+        pop_btn.style.height= "30%";
+        popcard.style.display = "flex";
+        code_form.style.display = "flex"
+        code_btn.style.backgroundColor = "lightgreen";
+
     }
 }
 
@@ -132,6 +171,11 @@ const pswd              =  document.getElementById("pswd-input-holder")
 
 
 async function Registro() {
+    if (button.disabled || !validEmail) {
+        console.log("Intento de envío bloqueado");
+        return; 
+    }
+
     const formData = new FormData();
     formData.append("correo", email.value);
     formData.append("contraseña", pswd.value);
@@ -153,12 +197,62 @@ async function Registro() {
 
         if (flask_res.status === "success") { 
             document.getElementById("Form-R").reset();
-            mostrarPopCard("Registro Exitoso", "success");
-            document.getElementById("PopBotton").href = '/';
+            document.getElementById("Form-R").style.display = "none";
+            document.querySelector('#Id_new_user').value = flask_res.id
+            mostrarPopCard("Ingresa el Codigo recibido","code");
+        
         
         } else {
-            mostrarPopCard("Ocurrió un error: " + flask_res.mensaje, "error");
+            mostrarPopCard("Ocurrió un error: " + flask_res.details, "error");
         }
 
 
 }
+
+async function ConfirmaCorreo() 
+{
+    digs = [];
+    id = document.querySelector('#Id_new_user')
+    dig = document.querySelectorAll('.code_input')
+    
+    dig.forEach(e => {
+        console.log(e.value)
+        digs.push(e.value);
+    });
+
+   const query = await fetch('/confirm',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({"code_inputs":digs,"id": id.value})
+    })
+
+    const answer = await query.json()
+
+    if(answer.status === "success"){
+        document.getElementById("PopBotton").href = '/'
+        mostrarPopCard("Confirmación Exitosa, puedes pasar", "success");
+    }else{
+        mostrarPopCard("Intentalo de Nuevo", "code");
+
+    }
+
+console.log(datos);
+}
+
+
+const inputsCodigo = document.querySelectorAll('.code_input');
+
+inputsCodigo.forEach((input, index) => {
+    
+    input.addEventListener('input', () => {
+        if (input.value.length === 1 && index < inputsCodigo.length - 1) {
+            inputsCodigo[index + 1].focus();
+        }
+    });
+
+    input.addEventListener('keydown', (e) => {
+        if (e.key === "Backspace" && input.value === "" && index > 0) {
+            inputsCodigo[index - 1].focus();
+        }
+    });
+});
