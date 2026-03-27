@@ -12,7 +12,7 @@ const password = document.getElementById("pswd-input-holder")
 
 function mostrarPopCard(mensaje,type){
 
-    if(type === "Error"){
+    if(type === "error"){
         pop_text.innerHTML = mensaje;
         popcard.style.display = "flex";
         pop_btn.style.backgroundColor = "red";
@@ -41,7 +41,6 @@ async function log_in(){
     })
 
     const flask_res = await respuesta.json();
-    console.log(flask_res.details);
     if (flask_res.status === "success") { 
         document.getElementById("Form-R").reset();
         mostrarPopCard("Bienvenido", "success");
@@ -50,7 +49,7 @@ async function log_in(){
         document.getElementById("PopBotton").href = `/feed/${flask_res.details}`;
     
     } else {
-        mostrarPopCard("Ocurrió un error: " + flask_res.mensaje, "error");
+        mostrarPopCard("Ocurrió un error: " + flask_res.details, "error");
     }
 }
 

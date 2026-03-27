@@ -6,6 +6,8 @@
   color: #ffff;
 }
 
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Roboto:wght@400;500;700&display=swap");
+
 html,
 body {
   width: 100%;
@@ -78,7 +80,7 @@ button {
   );
 
   border-radius: 24px;
-
+  padding-top: .5em;
   width: 90%;
   min-height: 90%;
   gap: 0;
@@ -86,6 +88,7 @@ button {
   flex-direction: column;
   flex-wrap: wrap;
   box-shadow: 89px 139px 165px #00000017;
+  align-items: center;
 }
 
 header {
@@ -318,7 +321,7 @@ header {
   border-radius: 28.5px;
   flex-flow: row;
   align-items: center;
-  padding: 0.4em;
+  padding: 0.6em;
   gap: 4.5%;
   min-width: fit-content;
   width: 50%;
@@ -681,22 +684,101 @@ header {
 }
 
 /*Aside derecho*/
-#Trends {
-  -webkit-backdrop-filter: blur(8.9px);
-  backdrop-filter: blur(8.9px);
-  background-color: #5882c121;
-  border-radius: 28.5px;
-  flex-flow: column;
-  flex-shrink: 0;
+
+.container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+.container .btn {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 50px;
+  margin: 0;
+  display: flex;
   justify-content: center;
   align-items: center;
-  row-gap: 29px;
-  margin: 0;
-  padding: 14.9px 24.9px;
+}
+.container .btn button {
+  position: absolute;
+  font-size: 1em;
+  top: 0;
+  font-weight: 600;
+  left: 0;
+  width: 100%;
+  height: 100%;
   display: flex;
-  position: relative;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 15px 15px rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  padding: 10px;
+  text-decoration: none;
   overflow: hidden;
-  width: 90%;
+  z-index: 1;
+  transition: 0.5s;
+  backdrop-filter: blur(15px);
+}
+
+.container .btn button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(to left, rgba(255, 255, 255, 0.15), transparent);
+  transform: skewX(45deg) translate(0);
+  transition: 0.5s;
+  filter: blur(0px);
+}
+.container .btn:hover button::before {
+  transform: skewX(45deg) translate(300px);
+}
+.container .btn::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translatex(-50%);
+  bottom: -5px;
+  width: 30px;
+  height: 10px;
+  background: rgb(226, 136, 18);
+  border-radius: 10px;
+  transition: 0.5s;
+  transition-delay: 0.5;
+}
+.container .btn:hover::before /*lightup button*/ {
+  bottom: 0;
+  height: 50%;
+  width: 80%;
+  border-radius: 30px;
+}
+
+.container .btn::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translatex(-50%);
+  top: -5px;
+  width: 30px;
+  height: 10px;
+  background: rgb(226, 136, 18);
+  border-radius: 10px;
+  transition: 0.5s;
+  transition-delay: 0.5;
+}
+.container .btn:hover::after /*lightup button*/ {
+  top: 0;
+  height: 100%;
+  width: 100%;
+  border-radius: 30px;
 }
 
 #Title_Trends {
@@ -1223,15 +1305,21 @@ header {
   
 #PopCard_Content{
   display: flex;
-  gap: 30%;
+  gap: 10%;
   flex-direction: column;
   justify-content: center; 
   align-items: center;    
-  width: 70%;
-  height: 50%; 
+  width: 100%;
+  height: 100%; 
+}
+
+#community_logo_input,#community_background_input{
+  display: none;
 }
 
 #msg{
+  text-align: center;
+  width: 100%;
   font-size: 4rem;
   font-weight: bolder;
 }
@@ -1243,7 +1331,7 @@ header {
   flex-flow: row;
   justify-content: flex-start;
   align-items: center;
-  width: 80%;
+  width: max-content;
   height: auto;
   padding: 1em;
   display: flex;
@@ -1254,7 +1342,8 @@ header {
   field-sizing: content;
   min-block-size: 1rlh;
   max-block-size: 3rlh;
-
+  background-color: #5882c147;
+  border-radius: 28.5px;
   min-inline-size: 20ch;
   max-inline-size: 50ch;
   height: auto;
@@ -1263,6 +1352,68 @@ header {
   word-break: break-all;
 }
 
+.upload-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  gap: 7%;
+  font-size: 1em;
+  height: max-content;
+}
+
+#user-label{
+  font-size: 1.5em;
+}
+
+#CommunityN_Title{
+  font-size: 1.5em;
+}
+
+#btnfake {
+  width: 70%;
+  display: inline-block;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  cursor: pointer;
+  background-color: #9d4e00;
+  color: white;
+  border-radius: 7.1px;
+  font-size: 14px;
+  font-weight: 400;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+#btnfake_bg {
+  width: 70%;
+  display: inline-block;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  cursor: pointer;
+  background-color: #9d4e00;
+  color: white;
+  border-radius: 7.1px;
+  font-size: 14px;
+  font-weight: 400;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+#btnfake:hover {
+  background-color: #7a3d00;
+  transform: translateY(-2px);
+}
+
+#fakefile {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+#fakefile_background {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.8);
+}
 
 #Btns{
   display: flex;
@@ -1277,7 +1428,7 @@ header {
   font-size: 2rem;
   border-radius: 25px;
   width: max-content;
-  height: 100%;
+  height: auto;
   padding: .5em;
 
 }
@@ -1302,4 +1453,125 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+
+@media (max-width: 768px) {
+
+  *{
+    overflow-y: auto; 
+    overflow-x: hidden;
+  }
+
+  header{
+    padding-left:1em ;
+    grid-column-gap: 0;
+    width: 90%;
+
+  }
+  
+
+  #Logo_Name{
+    width: max-content;
+    max-width: 50%;
+  }
+
+  #Logo_frame{
+    height: 50px;
+    width: 50px;
+  }
+
+  #Title{
+    display: none;
+    font-size: 1em;
+  }
+
+  #Look-up{
+    padding: 1em;
+    width: max-content;
+
+  }
+
+  #Left-Panel,#Right-Panel{
+    display: none !important;
+  }
+
+  #main-layout{
+    grid-template-columns: 1fr;
+  }
+
+  #Posts{
+    width: 100%;
+  }
+
+  #New-Post{
+    height: auto;
+    width: 100%;
+    padding: .5em;
+    padding-top: 1em;
+  }
+
+  #Text-Photo{
+    justify-content: center;
+    align-items: center;
+    width: 15%;
+    height: 45%;
+  }
+
+  #Text_Box{
+    padding: .7em;
+  }
+
+  #Community-Photo{
+    width: 40px;
+    height: 30px;
+  }
+
+  #post_action{
+
+    min-height: 39px;
+    max-height: 41px;
+  }
+
+  #New-Post,
+  #Community-Selection,
+  #Community-options {
+    overflow-x: visible !important;
+    overflow-y: visible !important;
+
+  #Home, #Perfil, #Salir {
+    grid-column-gap:.5em ;
+  }
+  
+  #menu_Text{
+    font-size: .6em;
+  }
+
+
+
+  #Vector_2,
+  #Vector_3,
+  #Vector_4 {
+  width: 25px;
+  height: 25px;
+  }
+
+  .Cuammunity-option{
+    font-size: .7rem;
+  }
+
+  #Cuammunity-menu{
+    width: max-content;
+    min-width: 50px;
+  }
+
+  #Cuammunity-btn{
+    width: max-content;
+    font-size: .7rem;
+  }
+
+}
+
+
+
 }

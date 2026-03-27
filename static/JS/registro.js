@@ -49,7 +49,17 @@ emailSec.addEventListener('input', () => {
     
     const mail= emailSec.value;
     let cua = 'cua.uam.mx';
-    validEmail = mail.includes(cua);
+    let gmail = 'gmail.com';
+
+    const tempo1 = true
+    const tempo = true
+
+    tempo1 = mail.includes(cua) ;
+    tempo = mail.includes(gmail) ;
+
+    if(tempo || tempo1){
+        validEmail = false
+    }
 
     emailSec.style.borderColor = validEmail ? "#219644" : "#a71606";
 
@@ -238,6 +248,24 @@ async function ConfirmaCorreo()
 
 console.log(datos);
 }
+
+const btnreal = document.getElementById('profile_p-input-holder')
+const btnfake = document.getElementById('btnfake')
+const btntxt = document.getElementById('fakefile')
+
+
+
+btnfake.addEventListener("click", function() {
+  btnreal.click();
+});
+
+btnreal.addEventListener("change", function() {
+  if (btnreal.value) {
+    btntxt.innerHTML = btnreal.value.match(/[\/\\]([\w\d\s\.\-\(\)]+)$/)[1];
+  } else {
+    btntxt.innerHTML = "No file chosen, yet.";
+  }
+});
 
 
 const inputsCodigo = document.querySelectorAll('.code_input');

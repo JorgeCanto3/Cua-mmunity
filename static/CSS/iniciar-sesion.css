@@ -23,7 +23,7 @@ input {
   outline: none;
   border-radius:5px ;
   height: 2rem;
-  padding-left: 10%;
+  padding-left: 5%;
 }
 
 button {
@@ -83,14 +83,16 @@ a{
     justify-content: flex-start;
     align-items: center;
     row-gap: 40px;
-    height: 572px;
+    height: auto;
     display: flex;
     padding: 2% 2% 2% 2%;
     position: absolute;
-    top: calc(50% - 313.8px);
-    left: calc(50% - 250.5px);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     overflow: hidden;
     width: 25%;
+    z-index: 2;
   }
   
   #Title-Logo {
@@ -146,8 +148,8 @@ a{
 #Form {
   flex-flow: column;
   row-gap: 24px;
-  width: 250px;
-  height: 100%;
+  width: 68%;
+  height: auto;
   display: flex;
   position: relative;
 }
@@ -157,7 +159,7 @@ a{
   flex-direction: column;
   gap: 5%;
   width: 100%;
-  height: 100%;
+  height: auto;
 }
 
 #user-label{
@@ -204,12 +206,12 @@ a{
   justify-content: center;
   align-items: center;
   height: 10%;
-  padding: .5rem 5.7rem;
+  padding: .5rem ;
   font-size: 16px;
   font-weight: 400;
 
   text-align: left;
-  width: max-content;
+  width: 100%;
   margin: 0;
 
 }
@@ -242,7 +244,7 @@ a{
   flex-direction: column;
   justify-content: center; 
   align-items: center;    
-  width: 70%;
+  width: 100%;
   height: 50%; 
 }
 
@@ -267,6 +269,22 @@ a{
   align-items: center;
 }
 
+#escena-fondo {
+    position: absolute; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; 
+    pointer-events: none; 
+}
+
+.figura_fondo {
+    position: absolute;
+    object-fit: contain;
+    pointer-events: none; 
+}
+
 #Group_12 {
   width: 13.1%;
   height: 11.6%;
@@ -282,8 +300,6 @@ a{
 }
 
 #Group_14 {
-    --f2w-order: 7;
-
   width: 14%;
   height: 17.2%;
   position: absolute;
@@ -291,42 +307,30 @@ a{
 }
 
 #Group_15 {
-  --f2w-order: 0;
   width: 11.9%;
   height: 14.1%;
   position: absolute;
   inset: 73.5% 66.4% 12.5% 21.7%;
 }
 #Group_16 {
-  --f2w-order: 1;
   width: 19.3%;
   height: 34.2%;
   position: absolute;
   inset: 59.5% 57.9% 6.3% 22.9%;
 }
 #Group_17 {
-  --f2w-order: 2;
   width: 13.1%;
   height: 11.6%;
   position: absolute;
   inset: -0.5% 59.3% 80.4% 26.7%;
 }
 #Group_18 {
-  --f2w-order: 3;
   width: 34.8%;
   height: 57.7%;
   position: absolute;
   inset: 10.2% 15.3% 32.1% 49.9%;
 }
 
-#Group_2250 {
-  --f2w-order: 1;
-  flex-shrink: 0;
-  width: 250px;
-  height: 167px;
-  margin: 0;
-  position: relative;
-}
 
 #Group_19 {
   --f2w-order: 5;
@@ -336,14 +340,12 @@ a{
   inset: 42.8% 71.8% 49.3% 20%;
 }
 #Group_20 {
-  --f2w-order: 6;
   width: 9.2%;
   height: 5.3%;
   position: absolute;
   inset: 75.1% 20.1% 19.6% 70.6%;
 }
 #Group_21 {
-  --f2w-order: 7;
   width: 10.8%;
   height: 8.1%;
   position: absolute;
@@ -356,7 +358,6 @@ a{
   inset: 60.3% 78.6% 0 0.1%;
 }
 #Group_23 {
-  --f2w-order: 7;
   width: 14%;
   height: 17.2%;
   position: absolute;
@@ -364,9 +365,67 @@ a{
 
 }
 #Group_24 {
-  --f2w-order: 10;
   width: 14.3%;
   height: 15.1%;
   position: absolute;
   inset: 27.2% 64.6% 57.7% 21%;
 }
+
+
+@media (max-width: 768px) {
+  #Background-Front {
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;  
+    }
+
+    #Form-Section {
+        width: 90%; 
+        padding: 30px 15px;
+        min-height: auto; 
+        overflow-y: scroll;
+    }
+
+    #Group_19, #Group_13,#Group_20, #Group_21 {
+        display: none;
+    }
+
+    #Group_14,
+    #Group_16,
+    #Group_24{
+        width: 70% !important; 
+    }
+
+    #Form{
+      gap: 2%;
+    }
+
+    #Group_12 {
+      width: 200% !important;
+      inset: -0.5% 59.3% 80.4% -55.7%;
+    }
+    #Group_14 {
+      inset: 82.8% 3.1% 0 55.9%;
+    }
+    #Group_16 {
+      inset: 65.5% 57.9% 6.3% -10.9%;
+    }
+    #Group_18 {
+      width: 200% !important;
+      inset: 10.2% 15.3% 32.1% 9.9%;
+    }
+    #Group_24 {
+
+      inset: 10.2% 64.6% 57.7% -10%;
+    }
+
+    #PopCard_Content{
+      width: 80%;
+    }
+
+    #pop_btn{
+      height: auto;
+    }
+
+
+  }

@@ -55,7 +55,6 @@ def Log_in(user_mail):
         cur.execute(mail_query,(user_mail,))
         
         password_hash = cur.fetchone()
-        
         cur.close()
 
         return password_hash 
@@ -94,10 +93,10 @@ def Sign_up(name,f_last_name,s_last_name,birth,email,hashed_password,career,user
         return err
 
 
-def posts(id):
+def posts(id_user):
     con = psql.cursor()
-    query_cuammunity = "SELECT u.user_name,u.foto_d_perfil,cu.nombre,cuaji_posts.id, cuaji_posts.fecha, cuaji_posts.titulo, cuaji_posts.contenido_post,cuaji_posts.likes,cuaji_posts.img_post FROM cuammunity_users c join cuaji_posts on c.id_comunidad = cuaji_posts.id_cuammunity and cuaji_posts.id_usuario =%s JOIN Usuarios u on u.id = c.id_usuario  JOIN cuammunitys cu ON c.id_comunidad = cu.id "
-    con.execute(query_cuammunity,(id,))
+    query_cuammunity = "SELECT u.id,u.user_name,u.foto_d_perfil,cu.nombre,cuaji_posts.id, cuaji_posts.fecha, cuaji_posts.titulo, cuaji_posts.contenido_post,cuaji_posts.likes,cuaji_posts.img_post FROM cuammunity_users c join cuaji_posts on c.id_comunidad = cuaji_posts.id_cuammunity JOIN Usuarios u on u.id = cuaji_posts.id_usuario  JOIN cuammunitys cu ON c.id_comunidad = cu.id where c.id_usuario = %s"
+    con.execute(query_cuammunity,(id_user,))
     
     
     if (con.rowcount >= 1 ):
@@ -150,7 +149,7 @@ def create_post(user,new_post_txt,post_community,post_img):
     try:
         cur =psql.cursor()
         if post_img is not None:
-            comentar = 'INSERT INTO Cuaji_posts (id_usuario,contenido_post,id_cuammunity,img_post   ,fecha) VALUES (%s,%s,%s,%s)'
+            comentar = 'INSERT INTO Cuaji_posts (id_usuario,contenido_post,id_cuammunity,img_post,fecha) VALUES (%s,%s,%s,%s)'
             cur.execute(comentar,(user,new_post_txt,post_community,post_img,now))
         else:
             comentar = 'INSERT INTO Cuaji_posts (id_usuario,contenido_post,id_cuammunity,fecha) VALUES (%s,%s,%s,%s)'

@@ -10,6 +10,7 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='Img/Logo-Cuammunity.avif') }}" type="image/x-icon">
     <script src="{{ url_for('static', filename='JS/main.js' ) }}" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
 
   <body>
@@ -118,7 +119,7 @@
 
                   
                   <div id="Community-options">
-                    <button id="Cuammunity-btn" type="button">Comunidad </button>
+                    <button id="Cuammunity-btn" type="button">Selecciona una Comunidad </button>
                     <div id="Cuammunity-menu">
                     </div>
                   </div>
@@ -199,8 +200,12 @@
 
             <aside id="Right-Panel">
 
+                 <div class="container">
+                  <div class="btn"><button onclick="CommunityForm()">Crea una Comunidad</button></div>
+                </div>
+
                 <div id="Trends">
-                <span id="Title_Trends" class="text">Trends en Cua-mmunity</span></span>
+                <span id="Title_Trends" class="text">Notificaciónes</span></span>
                   <div id="Trend">
                     <span id="Trend_No" class="text">1.</span></span>
                     <span id="Trend_Name" class="pointer-events-none" class="text">#Trend1</span></span>
@@ -208,7 +213,7 @@
                 </div>
 
                 <div id="Proximos_Eventos">
-                    <span id="Title_Events" class="text">Proximos Eventos</span></span>
+                    <span id="Title_Events" class="text">Posibles Amigos</span></span>
                   
                     <div id="Evento">
                       <div id="Logo_Evento" class="pointer-events-none">
@@ -254,8 +259,27 @@
       <div id= "PopCard_Content"> 
         <span id="msg"></span>
         <div id="Pop_Text">
-                  <textarea name="new_txt_post"id="Pop_Text_Area" class="text" placeholder="-"></textarea>
-        </div>
+            <label id="CommunityN_Title"></label>
+            <textarea name="new_txt_post"id="Pop_Text_Area" class="text" placeholder="-"></textarea>
+        
+             <div class="upload-container">
+                    <label  id=user-label class="text">Logo de tu Comunidad</label>
+                    <label  id="btnfake">
+                        <i class="fas fa-cloud-upload-alt"></i> Seleccionar Foto
+                      </label>
+                    <input name = "community_logo"  type="file" id="community_logo_input" value="Foto de perfil" required>
+                    <span id="fakefile">Ningún archivo seleccionado</span>
+              </div>
+
+              <div class="upload-container">
+                    <label  id=user-label class="text">Fondo para tu Comunidad</label>
+                    <label  id="btnfake_bg">
+                        <i class="fas fa-cloud-upload-alt"></i> Seleccionar Foto
+                      </label>
+                    <input name = "community_logo"  type="file" id="community_background_input" value="Foto de perfil" required>
+                    <span id="fakefile_background">Ningún archivo seleccionado</span>
+              </div>
+          </div>
         <div id=Btns>
           <a id= PopBotton href="#">
           <button id= "pop_btn" onclick="ClosePop()">Entendido</button>

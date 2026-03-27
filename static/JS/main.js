@@ -206,6 +206,8 @@ async function Posts() {
     const res_db = await res.json()
 
     if (res_db.status === "success"){
+    
+
         
         post_Section.innerHTML= ''
         res_db.post.forEach(datos => {
@@ -225,6 +227,14 @@ async function Posts() {
                 imgPost.remove(); 
             }
 
+            var edit =  postTemplate.querySelector('#Edit') 
+            var erase = postTemplate.querySelector('#Delete') 
+
+            if(datos.id != input_id){
+                edit.style.display = "none"
+                erase.style.display = "none"
+            }
+
             post_Section.appendChild(postTemplate);
         });
         
@@ -241,6 +251,12 @@ async function Posts() {
 
         
     }
+
+    
+}
+
+async function CreaComuninadad() {
+    
 
     
 }
@@ -302,12 +318,15 @@ async function Cuammunitys(options){
 }
 
 const popcard = document.getElementById("PopCard")
+
 const pop_text = document.getElementById("msg")
 const pop_btn = document.getElementById("pop_btn")
 const pop_btn_2 = document.getElementById("pop_btn_2")
 const pop_Area = document.getElementById("Pop_Text")
 const pop_nText = document.getElementById("Pop_Text_Area")
-
+const file_area_logo =       document.querySelector(".upload-container" )
+const file_area_background = document.querySelector(".upload-container" )
+const title_community = document.querySelector("#CommunityN_Title")
 
 
 
@@ -319,6 +338,8 @@ function mostrarPopCard(mensaje,type,text){
         popcard.style.display = "flex";
         pop_btn_2.style.display = "none"
         pop_Area.style.display = "none"
+        file_area_background.style.display ="none"
+        file_area_logo.style.display ="none"
 
         pop_btn.textContent = "Entendido"
         pop_btn.style.backgroundColor = "red";
@@ -346,9 +367,6 @@ function mostrarPopCard(mensaje,type,text){
         pop_btn_2.style.width = "6%";
         pop_Area.style.display = "none"
 
-
-
-
     }else if(type ==="edit"){
         pop_text.innerHTML = mensaje;
         pop_Area.style.display = "flex"
@@ -360,6 +378,29 @@ function mostrarPopCard(mensaje,type,text){
         pop_btn_2.onclick = ClosePop;
         pop_btn_2.style.backgroundColor = "red";
         pop_btn.style.backgroundColor = "lightgreen";
+        pop_Area.style.height="auto"
+        pop_Area.style.gap="none"
+
+
+    }else if(type === "Crear-Comunidad"){
+        title_community.textContent = "Nombre de tu comunidad"
+        pop_text.innerHTML = mensaje;
+        pop_Area.style.width="max-content"
+        popcard.style.display = "flex"
+        pop_Area.style.flexDirection = "column"
+        pop_Area.style.alignItems ="center"
+        pop_Area.style.justifyContent ="center"
+        pop_nText.placeholder = "Cuammunity!"
+        pop_Area.style.gap="6%"
+        pop_Area.style.height="40%"
+        pop_btn.style.fontSize = "1.5em"
+        pop_Area.style.display = "flex";
+        file_area_logo.style.display ="flex"
+        file_area_background.style.display ="flex"
+        pop_btn.textContent = text;
+        pop_btn_2.style.display = "none";
+        pop_btn.style.backgroundColor = "orange"
+
     }
 }
 
@@ -367,6 +408,10 @@ function ClosePop(){
     popcard.style.display ="none"
 }
 
+function CommunityForm(){
+    console.log("Prueba")
+    mostrarPopCard("Ingresa los datos para crear tu comunidad!", "Crear-Comunidad","Crear!")
+}
 
 
 
@@ -416,4 +461,39 @@ document.addEventListener('DOMContentLoaded',() =>{
 
 
 })
+
+const btnreal = document.getElementById('community_logo_input')
+const btnrealbg = document.getElementById('community_background_input')
+const btnfake = document.getElementById('btnfake')
+const btnfake_bg = document.getElementById('btnfake_bg')
+
+const btntxt = document.getElementById('fakefile')
+const btntxt_bg = document.getElementById('fakefile_background')
+
+
+
+btnfake.addEventListener("click", function() {
+  btnreal.click();
+});
+
+btnreal.addEventListener("change", function() {
+  if (btnreal.value) {
+    btntxt.innerHTML = btnreal.value.match(/[\/\\]([\w\d\s\.\-\(\)]+)$/)[1];
+  } else {
+    btntxt.innerHTML = "No file chosen, yet.";
+  }
+});
+
+btnfake_bg.addEventListener("click", function() {
+  btnrealbg.click();
+});
+
+btnrealbg.addEventListener("change", function() {
+  if (btnrealbg.value) {
+    btntxt_bg.innerHTML = btnreal.value.match(/[\/\\]([\w\d\s\.\-\(\)]+)$/)[1];
+  } else {
+    btntxt_bg.innerHTML = "No file chosen, yet.";
+  }
+});
+
 

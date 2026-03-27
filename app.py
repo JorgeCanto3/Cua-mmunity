@@ -81,19 +81,22 @@ def index():
         
         user_conf = Log(email,psswrd)
         
-        if  user_conf != 0:
+        if  type(user_conf) == int:
             return jsonify({"status":"success","details":user_conf})
         else:
-            return jsonify({"status":"error", "details": user_conf})     
+            return user_conf     
         
         
       
         
     return render_template('iniciar-sesion.html')
 
-@app.route('/iniciar', methods=["POST"])
 def Log (email,psswrd):
     user_data = m.Log_in(email)
+    if( user_data == None):
+        return jsonify({"status": "error", "details":"El correo no existe, registrate! "})
+    
+   
     
     hash_db =user_data[7]
     email_verif = user_data[11]
@@ -101,9 +104,13 @@ def Log (email,psswrd):
     
     if  (ver_contraseña and email_verif) is True:
         login_user(m.User(user_data[0],user_data[1]))
+        print(f'El id del usuario es {user_data[0]}')
         return user_data[0]
+    elif(not ver_contraseña):
+        return jsonify({"status":"error","details":"Contraseña erronea"})
     else:
-        return 0
+        return jsonify({"status":"error","details":"El correo no ha sido verificado"})
+        
 
 @app.route('/registro', methods=["GET"])
 def registro():    
@@ -168,12 +175,13 @@ def comentar():
         return jsonify({"status":"success"})
     else:
         return jsonify({"status":"fail"})
-    
+
 @app.route('/post', methods=["POST"])
+@login_required
 def post():
     user = current_user.id
 
-    
+    print(f'El usuario{current_user.id} va a postiar')
     new_post_txt =      request.form.get('text')   
     post_community =    request.form.get('community')  
     post_img =          request.files.get('img')  
@@ -205,6 +213,7 @@ def search_cuammunity():
     return cuammunitys
 
 @app.route('/cuammunity_tpost',methods=["POST"])
+@login_required
 def cuamminitys_to_post():
     data = request.get_json()
     id_4_post = data.get('id')
@@ -219,20 +228,23 @@ def cuamminitys_to_post():
     return jsonify({"status":"success","comunidades":cuammunitys})
 
 @app.route('/posts',methods = ["GET"])
+@login_required
 def post_4_user():
     
     query = m.posts(current_user.id)
-    
+    print(f'El usuario{current_user.id} recibe los posts')
+    print(query)
     if(query != 0):
         posts = []
         for c in query:
-            posts.append({"usuario":c[0],"imgPerfil":c[1],"comunidad":c[2],"idPost":c[3],"fecha":[4],"titulo":c[5],"texto":c[6],"likes":c[7],"imgPost":c[8]})
+            posts.append({"id":c[0],"usuario":c[1],"imgPerfil":c[2],"comunidad":c[3],"idPost":c[4],"fecha":[5],"titulo":c[6],"texto":c[7],"likes":c[8],"imgPost":c[9]})
         
         return jsonify({"status":"success" ,"post":posts})
     else:
         return jsonify({"status":"error"})
 
 @app.route('/Communitys')
+@login_required
 def Community_card():
     id_4_post =current_user.id
     query = m.user_into_communitys(id_4_post) 
@@ -246,6 +258,7 @@ def Community_card():
     return jsonify({"status":"success","comunidad":cuammunity})
 
 @app.route('/delete', methods=["POST"])
+@login_required
 def Delete_post():
     data = request.get_json()
     id_post = data.get('id')
@@ -259,6 +272,7 @@ def Delete_post():
 
 
 @app.route('/edit', methods=["POST"])
+@login_required
 def Update_post():
     data = request.get_json()
     id_post = data.get('id')
