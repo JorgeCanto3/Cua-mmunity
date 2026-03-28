@@ -159,8 +159,10 @@ def main(id):
     return render_template('index.html',profile_data = data_user)
     
 @app.route('/Community')
+@login_required
 def community():
-    return render_template('community.html')
+    data_user = m.Usuario(current_user.id)
+    return render_template('community.html',profile_data = data_user)
 
 @app.route('/comentar', methods=["GET", "POST"])
 def comentar():
