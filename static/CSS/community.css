@@ -4,6 +4,7 @@
   padding: 0;
   box-sizing: border-box;
   color: #ffff;
+
 }
 
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Roboto:wght@400;500;700&display=swap");
@@ -102,6 +103,46 @@ button {
   align-items: center;
 }
 
+
+
+.glass-panel {
+    background: rgba(255, 255, 255, 0.03) !important; 
+    -webkit-backdrop-filter: blur(15px) saturate(150%);
+    backdrop-filter: blur(15px) saturate(150%);
+    border-radius: 28.5px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid rgba(255, 255, 255, 0.15); 
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+}
+
+.glass-card {
+    background: rgba(255, 255, 255, 0.08) !important; 
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(180%);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.3); 
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.15);
+}
+
+.glass-btn {
+    background: rgba(255, 255, 255, 0.12) !important; 
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border-radius: 90px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    color: white;
+}
+
+.glass-btn:hover {
+    background: rgba(255, 255, 255, 0.2) !important;
+    transform: translateY(-2px);
+}
+
 header {
   grid-column-gap: 68px;
   backdrop-filter: blur(8.9px);
@@ -118,6 +159,8 @@ header {
   align-items: center;
   overflow: hidden;
 }
+
+
 
 #Logo_Name {
   flex-shrink: 0;
@@ -164,7 +207,7 @@ header {
   width: 466px;
   height: 46px;
   margin: 0;
-  padding: 37.9px 0 37.9px 23.9px;
+  padding: .6em;
   display: flex;
   position: relative;
   overflow: hidden;
@@ -231,8 +274,8 @@ header {
   justify-content: flex-start;
   height: 100%;
   -webkit-backdrop-filter: blur(8.9px);
-  backdrop-filter: blur(10px);
-  background-color: #5882c123;
+  backdrop-filter: blur(8.9px);
+  background-color: #bac1cc09;
   border-radius: 28.5px;
 }
 
@@ -264,7 +307,7 @@ header {
   gap: 5%;
   border-radius: 80px;
   width: 12%;
-  height: 60%;
+  height: auto;
   align-items: center;
   overflow: hidden;
 }
@@ -665,6 +708,7 @@ header {
   flex-direction: row;
   width: 100%;
   height: auto;
+  gap: 2%;
   padding: 10px 0;
 }
 
@@ -677,7 +721,8 @@ header {
   background-clip: text;
   align-items: center;
   width: 30%;
-  height: 35px;
+  height: auto;
+  padding: .5em;
   margin: 0;
   gap: 10%;
 }
@@ -1019,9 +1064,6 @@ header {
 }
 
 #User_Info {
-  -webkit-backdrop-filter: blur(8.9px);
-  backdrop-filter: blur(8.9px);
-  background-color: #5882c147;
   border-radius: 28.5px;
   flex-flow: column;
   justify-content: center;
@@ -1156,7 +1198,7 @@ header {
 #ProfileName-Frame {
   -webkit-backdrop-filter: blur(8.9px);
   backdrop-filter: blur(8.9px);
-  background-color: #5882c147;
+  background-color: #bac1cc09;
   border-radius: 28.5px;
   display: flex;
   flex-direction: column;
@@ -1311,8 +1353,8 @@ header {
 #Home,
 #Perfil,
 #Salir {
+  padding: .5em;
   grid-column-gap: 22px;
-  border-radius: 0;
   width: max-content;
   flex-flow: row;
   flex-shrink: 0;

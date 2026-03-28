@@ -64,15 +64,16 @@ button {
 
   width: 100vw;
   height: 100vh;
+  gap: 2%;
 
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
+  align-items: start;
 }
 
 #Background_Front {
-  margin-top: 10px;
+  margin-top: .5%;
   background-image: radial-gradient(
     58.4% 103.9% at 56.7%,
     #ff6a00 0%,
@@ -91,13 +92,54 @@ button {
   align-items: center;
 }
 
+.glass-panel {
+    background: rgba(255, 255, 255, 0.03) !important; /* Casi invisible */
+    -webkit-backdrop-filter: blur(15px) saturate(150%);
+    backdrop-filter: blur(15px) saturate(150%);
+    border-radius: 28.5px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid rgba(255, 255, 255, 0.15); /* Reflejo muy sutil */
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* 2. CRISTAL MEDIO (Para los Posts, el formulario de Nuevo Post y el Perfil) */
+.glass-card {
+    background: rgba(255, 255, 255, 0.08) !important; /* Un poquito más blanco */
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(180%);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.3); /* Reflejo más fuerte */
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.15);
+}
+
+/* 3. CRISTAL INTERACTIVO (Para inputs, botones, barra de búsqueda) */
+.glass-btn {
+    background: rgba(255, 255, 255, 0.12) !important; /* Más visible para que sepan que se puede hacer clic */
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border-radius: 90px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    color: white;
+}
+
+.glass-btn:hover {
+    background: rgba(255, 255, 255, 0.2) !important;
+    transform: translateY(-2px);
+}
+
+
 header {
   grid-column-gap: 68px;
   backdrop-filter: blur(8.9px);
   background-color: #5882c115;
   border-radius: 28.5px;
 
-  width: 100%;
+  width: 98%;
   height: 85px;
   padding: 37.9px 0 37.9px 41.9px;
 
@@ -152,7 +194,7 @@ header {
   width: 466px;
   height: 46px;
   margin: 0;
-  padding: 37.9px 0 37.9px 23.9px;
+  padding: .6em;
   display: flex;
   position: relative;
   overflow: hidden;
@@ -200,6 +242,7 @@ header {
 }
 
 #main-layout {
+  width: 100%;
   display: grid;
   grid-template-columns: 0.7fr 2fr 0.7fr; /* Tres columnas: lateral, centro (más ancha), lateral */
   gap: 20px;
@@ -227,7 +270,7 @@ header {
 #New-Post {
   display: flex;
   flex-wrap: wrap;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
   gap: 0.8em;
@@ -236,23 +279,37 @@ header {
   width: 70%;
   height: auto;
   min-height: 100px;
-  padding: 2em;
+  padding: 1em;
   padding-top: 1em;
   flex-wrap: wrap;
   box-sizing: border-box;
 }
 
+#Text-A-Photo{
+  display: flex;
+  width: 100%;
+  max-width: 100%;
+  gap:2%;
+  align-items: center;
+}
+#Select-Action {
+  flex-wrap: wrap;
+  display: flex;
+  width: 100%;
+  height: auto;
+  gap: 7%; 
+  align-items:center ; 
+  justify-content: space-around;
+}
+
+
 #Text-Photo {
   display: flex;
-  flex-direction: row;
   border-radius: 28px;
   height: auto;
-  justify-content: center;
-  align-items: center;
-  gap: 5%;
   border-radius: 80px;
-  width: 12%;
-  height: 60%;
+  width: 10%;
+  height: 100%;
   align-items: center;
   overflow: hidden;
 }
@@ -270,7 +327,7 @@ header {
   flex-flow: row;
   justify-content: flex-start;
   align-items: center;
-  width: 80%;
+  width: 90%;
   height: auto;
   padding: 1em;
   display: flex;
@@ -290,12 +347,64 @@ header {
   word-break: break-all;
 }
 
-#post_action {
-  border-radius: 28px;
-  width: 30%;
+#input-pic{
+  display: none;
+}
+
+.upload-container_post {
   height: auto;
-  min-height: 50px;
-  background-color: #5882c147;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  gap: 7%;
+}
+
+#btnfake_post {
+  width: max-content;
+  display: inline;
+  padding: 1em;
+
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  cursor: pointer;
+  background-color: #9d4e00;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+#btnfake_post:hover {
+  background-color: #7a3d00;
+  transform: translateY(-2px);
+}
+
+
+
+#post_action {
+  width: max-content;
+  font-size: 1.3em;
+  height: auto;
+  padding: .5em;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  
+  background: rgba(0, 0, 0, 0.24) !important;
+  -webkit-backdrop-filter: blur(10px); 
+  backdrop-filter: blur(10px); 
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: #ffffff; 
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
+  font-weight: 600; 
+  transition: all 0.3s ease; 
+  cursor: pointer;
+}
+
+#post_action:hover {
+ background: rgba(255, 255, 255, 0.3); /* Se vuelve más blanquito/luminoso */
+  transform: translateY(-2px); /* Se levanta ligeramente hacia arriba */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); /* La sombra crece para dar efecto 3D */
+  border: 1px solid rgba(255, 255, 255, 0.8);
 }
 
 #User_frame {
@@ -322,10 +431,8 @@ header {
   flex-flow: row;
   align-items: center;
   padding: 0.6em;
-  gap: 4.5%;
-  min-width: fit-content;
-  width: 50%;
-  max-width: max-content;
+  gap: 2.5%;
+  width: max-content;
   height: auto;
   display: flex;
 }
@@ -335,9 +442,9 @@ header {
   align-items: center;
   align-content: center;
   border-radius: 80px;
-  width: 61px;
+  width: 55px;
   max-width: 65px;
-  height: 43px;
+  height:75px;
   max-height: 43px;
   overflow: hidden;
 }
@@ -348,11 +455,11 @@ header {
   border: none;
 
   cursor: pointer;
-  font-size: 1rem;
+  font-size: .8rem;
   font-weight: 600;
-  display: flex;
+  display: inline;
   align-items: center;
-  width: 100%;
+  width: max-content;
   transition: all 0.3s ease;
 }
 
@@ -427,6 +534,7 @@ header {
   border: none;
   background-color: transparent;
 }
+
 
 #Users_Posts::-webkit-scrollbar {
   width: 6px;
@@ -647,6 +755,7 @@ header {
 
 #Icons {
   display: flex;
+  gap: 2%;
   justify-content: center;
   align-items: center;
   flex-direction: row;
@@ -658,6 +767,7 @@ header {
 #Compartir,
 #Comentar,
 #Like {
+  padding: .5em;
   display: flex;
   text-align: center;
   justify-content: center;
@@ -781,7 +891,12 @@ header {
   border-radius: 30px;
 }
 
-#Title_Trends {
+#Notificaciones{
+  width: 90%;
+  padding: 20px;
+}
+
+#Notificaciones_Title {
   text-align: left;
   -webkit-background-clip: text;
   background-clip: text;
@@ -792,7 +907,7 @@ header {
   font-weight: 600;
 }
 
-#Trend {
+#Notificacion {
   grid-column-gap: 16px;
   -webkit-backdrop-filter: blur(8.9px);
   backdrop-filter: blur(8.9px);
@@ -1013,10 +1128,9 @@ header {
   flex-flow: column;
   justify-content: center;
   align-items: center;
-  row-gap: 1px;
   width: 15em;
-  height: 4em;
-  padding: 0px 0px 10px 0px;
+  height: auto;
+  padding: .5em;
   display: flex;
   overflow: hidden;
 }
@@ -1025,6 +1139,7 @@ header {
   text-align: left;
   flex-shrink: 0;
   width: max-content;
+  height: auto;
   margin: 0;
   font-family: Poppins;
   font-size: 20px;
@@ -1040,8 +1155,8 @@ header {
   flex-shrink: 0;
   justify-content: center;
   align-items: center;
-  width: 67px;
-  height: 10px;
+  width: max-content;
+  height: auto;
   margin: 0;
   font-size: 15px;
   font-weight: 600;
@@ -1166,7 +1281,7 @@ header {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  width: 100%;
+  width: max-content;
   height: auto;
   min-height: 40%;
   margin: 0;
@@ -1186,7 +1301,8 @@ header {
   width: 98%;
   height: auto;
   min-height: 20%;
-  padding: 2px 1px 1px 8.9px;
+  padding: .5em;
+  padding-right: 1em;
   display: flex;
   overflow: hidden;
   gap: 3%;
@@ -1217,34 +1333,40 @@ header {
   flex-wrap: wrap;
   align-items: center;
   row-gap: 1px;
-  width: 100%;
-  height: 20%;
+  width: 100%; 
+  flex: 1;
+  height: auto;
   min-height: 50px;
   margin: 0;
   display: flex;
-  padding-left:  .7em;
-  padding-right:  .7em;
 }
 
 #Community_Name {
   -webkit-background-clip: text;
   background-clip: text;
   flex-shrink: 0;
-  width: max-content;
+  width: 100%;      
+  display: block;   
+  text-align: center;
   margin: 0;
   font-size: 15px;
+  height: auto;
   font-weight: 600;
-  display: inline;
+  display: block;
   text-wrap: wrap;
 }
 #Community_Users {
   text-align: center;
   align-items: center;
   font-size: 13px;
+  width: max-content;
+  height: auto  ;
   font-weight: 600;
 }
 
 #Menu {
+  position: fixed;
+  align-self: flex-end;
   -webkit-backdrop-filter: blur(8.9px);
   backdrop-filter: blur(8.9px);
   background-color: #5882c147;
@@ -1263,8 +1385,8 @@ header {
 #Home,
 #Perfil,
 #Salir {
+  padding: .5em;
   grid-column-gap: 22px;
-  border-radius: 0;
   width: max-content;
   flex-flow: row;
   flex-shrink: 0;
