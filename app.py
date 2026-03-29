@@ -37,7 +37,7 @@ mail = Mail(app)
 # Direcciones de las carpetas para almacenar las imagenes
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
-COMUMUNITY_UPLOAD = os.path.join(BASE_DIR, 'static', 'Upload','Community')
+COMUMUNITY_UPLOAD = os.path.join(BASE_DIR, 'static', 'Upload','Communitys')
 POST_UPLOAD = os.path.join(BASE_DIR, 'static', 'Upload','Post') 
 USER_UPLOAD = os.path.join(BASE_DIR, 'static', 'Upload','Profile')
 ALLOWED_FILES = {'jpg','png','jpeg'}
@@ -45,8 +45,11 @@ ALLOWED_FILES = {'jpg','png','jpeg'}
 
 app.config['UPLOAD_FOLDER_html'] = '/static/Upload/Profile/'
 app.config['UPLOAD_FOLDER_html_Post'] = '/static/Upload/Post/'
-app.config['UPLOAD_FOLDER_html_Community'] = '/static/Upload/Community/'
+app.config['UPLOAD_FOLDER_html_Community'] = '/static/Upload/Communitys/'
 app.config['UPLOAD_FOLDER_PY'] = USER_UPLOAD
+app.config['UPLOAD_FOLDER_PY_POST'] = POST_UPLOAD
+app.config['UPLOAD_FOLDER_PY_COMMUNITY'] = COMUMUNITY_UPLOAD
+
 
 
 @login_manager.user_loader
@@ -71,7 +74,23 @@ def profile_accept(file):
         return app.config['UPLOAD_FOLDER_html']+filename
     else:
         return '/static/Upload/Img_Borrador.avif'
-        
+    
+def post_accept(file):
+    if file and allow_file(file.filename):
+        filename= secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER_PY_POST'],filename))
+        return app.config['UPLOAD_FOLDER_html_Post']+filename
+    else:
+        return 0
+
+def Community_accept(file):
+    if file and allow_file(file.filename):
+        filename= secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER_PY_COMMUNITY'],filename))
+        return app.config['UPLOAD_FOLDER_html_Community']+filename
+    else:
+        return 0
+    
 @app.route('/', methods=["GET","POST"])
 def index():
     if request.method == 'POST':
@@ -158,11 +177,12 @@ def main(id):
          
     return render_template('index.html',profile_data = data_user)
     
-@app.route('/Community')
+@app.route('/Cuammunity/<int:id_com>')
 @login_required
-def community():
+def community(id_com):
+    community_data = m.Community(id_com)
     data_user = m.Usuario(current_user.id)
-    return render_template('community.html',profile_data = data_user)
+    return render_template('community.html',community_data =community_data,profile_data = data_user)
 
 @app.route('/comentar', methods=["GET", "POST"])
 def comentar():
@@ -178,7 +198,7 @@ def comentar():
     else:
         return jsonify({"status":"fail"})
 
-@app.route('/post', methods=["POST"])
+@app.route('/post', methods=["POST","GET"])
 @login_required
 def post():
     user = current_user.id
@@ -187,13 +207,22 @@ def post():
     new_post_txt =      request.form.get('text')   
     post_community =    request.form.get('community')  
     post_img =          request.files.get('img')  
+    print(f'Verficando imagen: {post_img}')
+    post_url = post_accept(post_img)
     
-    posted = m.create_post(user,new_post_txt,post_community,post_img)
+    print(f'La imagen es: {post_url}')
+    
+    if(type(post_url) != int):
+    
+        posted = m.create_post(user,new_post_txt,post_community,post_url)
+    
 
-    if posted:
-            return jsonify({"status":"success", "mensaje":"Post Creado 🦐🦐"})
+        if posted:
+                return jsonify({"status":"success", "mensaje":"Post Creado 🦐🦐"})
+        else:
+            return jsonify({"status":"fail", "mensaje":"No se pudo crear el post 😭😭"})
     else:
-          return jsonify({"status":"fail", "mensaje":"No se pudo crear el post 😭😭"})
+        return jsonify({"status":"error","details":"Formato de Imagen no aceptado"})
 
 @login_manager.unauthorized_handler
 def unauthorized():
@@ -234,13 +263,11 @@ def cuamminitys_to_post():
 def post_4_user():
     
     query = m.posts(current_user.id)
-    print(f'El usuario{current_user.id} recibe los posts')
-    print(query)
     if(query != 0):
         posts = []
         for c in query:
-            posts.append({"id":c[0],"usuario":c[1],"imgPerfil":c[2],"comunidad":c[3],"idPost":c[4],"fecha":[5],"titulo":c[6],"texto":c[7],"likes":c[8],"imgPost":c[9]})
-        
+            like_user = m.DoUserlikes(current_user.id,c[4])
+            posts.append({"id":c[0],"usuario":c[1],"imgPerfil":c[2],"comunidad":c[3],"idPost":c[4],"fecha":[5],"titulo":c[6],"texto":c[7],"likes":c[8],"imgPost":c[9],"like":like_user})
         return jsonify({"status":"success" ,"post":posts})
     else:
         return jsonify({"status":"error"})
@@ -325,9 +352,78 @@ def confirm():
     else:
         return jsonify({"status":"error", "details":"The code doesn't match"})
         
+@app.route('/Like', methods=['POST'])
+@login_required
+def like():
+    data = request.get_json()
+    id_post = data.get('id')
+    status = data.get('status')
     
+    if(status):
+        likes = m.UpdateLikes(status,id_post,current_user.id)
+        if(type(likes) == int):
+            return jsonify({"status":"add","amount":likes} )
+        else:
+            return jsonify({"status":"error","details":likes} )
 
+    else:
+        likes = m.UpdateLikes(status,id_post,current_user.id)
+        if(type(likes) == int):
+            return jsonify({"status":"delete","amount":likes} )
+        else:
+            str(likes)
+            return jsonify({"status":"error","details":likes} )
+
+@app.route('/NewCuammunity', methods=['POST'])
+@login_required
+def NewCuammunity():
+    newLogo=request.files.get('Logo')
+    newBG=request.files.get('BackGround')
+    newName=request.form.get('Name')
+    
+    print(f'The data colected is {newLogo},{newBG},{newName}')
+    imgCommunty_URL =Community_accept(newLogo)
+    imgBGCommunty_URL =Community_accept(newBG)
+    
+    print(f'The url for the imgs gotten are {imgBGCommunty_URL},{imgCommunty_URL}')
+    if((imgCommunty_URL and imgBGCommunty_URL) != int):
+    
+        cuammunity = m.CreateCuammunity(newName,imgCommunty_URL,imgBGCommunty_URL)
+        if(type(cuammunity) == int):
+            m.join_a_cuammunity(current_user.id,cuammunity,'Admin')
+            return jsonify({"status":"success","id": cuammunity})
+        else:
+            return jsonify({"status":"error","details": cuammunity})
+    else:
+            return jsonify({"status":"error","details": "El formato de las imagenes no es valido, intenta nuevamente"})
+        
+@app.route('/amount_user', methods=['POST','GET'])
+@login_required
+def amount_into():
+    communitys = m.amount_communitys(current_user.id)
+    friends = m.amount_friends(current_user.id)
+    
+    print(communitys,friends)
+    
+    return jsonify({"status":"success","friends":friends,"community":communitys})
+
+@app.route('/profile/<int:id_p>', methods=['POST','GET'])
+@login_required
+def profile_user(id_p):
+    data_user = m.Usuario(current_user.id)
+    return render_template('perfil.html',profile_data = data_user)
+
+@app.route('/suggestions',methods=['POST','GET'])
+@login_required
+def friends_suggestions():
+    data = m.not_friends()
+    newfriends =[]
+    
+    for f in data:
+        newfriends.append({"id":f[0],"usuario":f[1],"imgPerfil":f[2]})
+
+    return jsonify({"status":"success","friends": newfriends})
 
 if __name__ == '__main__':
     app.run(debug=True,port=8000)
-    
+

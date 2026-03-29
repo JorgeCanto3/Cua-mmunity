@@ -34,12 +34,12 @@ def Users():
         return users_data
     
 
-def Usuario(id):
+def Usuario(id_usr):
     cur = psql.cursor()
     
     User_info = "SELECT * FROM Usuarios where id =%s"
     
-    cur.execute(User_info,(id,))
+    cur.execute(User_info,(id_usr,))
     
     user = cur.fetchone()
     
@@ -59,6 +59,7 @@ def Log_in(user_mail):
 
         return password_hash 
     except Exception as e:
+        psql.rollback()
         return e
     
 def Sign_up(name,f_last_name,s_last_name,birth,email,hashed_password,career,user_name,path_pic,code):
@@ -95,7 +96,7 @@ def Sign_up(name,f_last_name,s_last_name,birth,email,hashed_password,career,user
 
 def posts(id_user):
     con = psql.cursor()
-    query_cuammunity = "SELECT u.id,u.user_name,u.foto_d_perfil,cu.nombre,cuaji_posts.id, cuaji_posts.fecha, cuaji_posts.titulo, cuaji_posts.contenido_post,cuaji_posts.likes,cuaji_posts.img_post FROM cuammunity_users c join cuaji_posts on c.id_comunidad = cuaji_posts.id_cuammunity JOIN Usuarios u on u.id = cuaji_posts.id_usuario  JOIN cuammunitys cu ON c.id_comunidad = cu.id where c.id_usuario = %s"
+    query_cuammunity = "SELECT u.id,u.user_name,u.foto_d_perfil,cu.nombre,cuaji_posts.id, cuaji_posts.fecha, cuaji_posts.titulo, cuaji_posts.contenido_post,cuaji_posts.likes,cuaji_posts.img_post FROM cuammunity_users c join cuaji_posts on c.id_comunidad = cuaji_posts.id_cuammunity JOIN Usuarios u on u.id = cuaji_posts.id_usuario  JOIN cuammunitys cu ON c.id_comunidad = cu.id where c.id_usuario = %s ORDER BY  cuaji_posts.id DESC"
     con.execute(query_cuammunity,(id_user,))
     
     
@@ -126,6 +127,7 @@ def add_comment(user,user_post,text,route):
             return redirect(url_for('main'))
             
         except Exception as e:
+            psql.rollback()
             flash("Error no se pudo agregar tu comentario, intentalo más tarde","error")
             return redirect(url_for('main'))  
     else: 
@@ -148,9 +150,14 @@ def add_comment(user,user_post,text,route):
 def create_post(user,new_post_txt,post_community,post_img):
     try:
         cur =psql.cursor()
+        print(f'La imagen recibida es {post_img}')
+        print(f'La comunidad recibida es {post_community}')
+        
         if post_img is not None:
-            comentar = 'INSERT INTO Cuaji_posts (id_usuario,contenido_post,id_cuammunity,img_post,fecha) VALUES (%s,%s,%s,%s)'
+            print('Insertando Poooost')
+            comentar = 'INSERT INTO Cuaji_posts (id_usuario,contenido_post,id_cuammunity,img_post,fecha) VALUES (%s,%s,%s,%s,%s)'
             cur.execute(comentar,(user,new_post_txt,post_community,post_img,now))
+            print(f'Se postio')
         else:
             comentar = 'INSERT INTO Cuaji_posts (id_usuario,contenido_post,id_cuammunity,fecha) VALUES (%s,%s,%s,%s)'
             cur.execute(comentar,(user,new_post_txt,post_community,now))
@@ -162,33 +169,68 @@ def create_post(user,new_post_txt,post_community,post_img):
         return 1
         
     except Exception as e:
+        psql.rollback()
+        
+        print(e)
         return e
     
-def user_into_communitys(id):
-    cur = psql.cursor()
-    query = "SELECT c.id, c.nombre, c.usuarios_comunidad, c.logo_comunidad FROM cuammunitys c JOIN cuammunity_users cu ON cu.id_comunidad = c.id AND cu.id_usuario = %s"
-    cur.execute(query,(id,))
-    
-    if cur.rowcount == 1:
-        communidades = cur.fetchall()
-        cur.close()
-        return communidades
-    else: 
-        cur.close()
-        return 0
+def user_into_communitys(id_user):
+    try:
+        cur = psql.cursor()
+        query = "SELECT c.id, c.nombre, c.usuarios_comunidad, c.logo_comunidad FROM cuammunitys c JOIN cuammunity_users cu ON cu.id_comunidad = c.id AND cu.id_usuario = %s"
+        cur.execute(query,(id_user,))
+        
+        if cur.rowcount >= 1:
+            communidades = cur.fetchall()
+            print(communidades)
+            cur.close()
+            return communidades
+        else: 
+            cur.close()
+            return 0
+    except Exception as e:
+        print(e)
+        err = str(e)
+        psql.rollback()
+        return err
     
 def amount_friends(id):
-    cur = psql.cursor()
-    query = "SELECT COUNT(id_usuario) FROM amigos WHERE id_usuario = %s"
-    cur.execute(query,(id,))
+    try:
+        cur = psql.cursor()
+        query = "SELECT COUNT(*) FROM amigos WHERE id_usuario = %s"
+        cur.execute(query,(id,))
+        
+        if cur.rowcount >= 1:
+            friends_count = cur.fetchone()[0]
+            cur.close()
+            return friends_count
+        else:
+            cur.close()
+            return 0
+    except Exception as e:
+        err = str(e)
+        print(e)
+        psql.rollback()
+        return err
     
-    if cur.rowcount():
-        friends_count = cur.fetchone()
-        cur.close()
-        return friends_count
-    else:
-        cur.close()
-        return 0
+def amount_communitys(id):
+    try:
+        cur = psql.cursor()
+        query = "SELECT COUNT(*) FROM cuammunity_users WHERE id_usuario = %s"
+        cur.execute(query,(id,))
+        
+        if cur.rowcount >= 1:
+            friends_count = cur.fetchone()[0]
+            cur.close()
+            return friends_count
+        else:
+            cur.close()
+            return 0
+    except Exception as e:
+        err = str(e)
+        print(e)
+        psql.rollback()
+        return err
     
 def community_search(text):
         cur = psql.cursor()
@@ -211,7 +253,10 @@ def cuammunity_join(id):
         cur.commit()
         cur.close()
     except Exception as e:
-        return e
+        print(e)
+        err = str(e)
+        psql.rollback()
+        return err
 
 
 def erase_post(id):
@@ -252,3 +297,98 @@ def update_confirm(id):
         psql.rollback()
         print(e)
         return e
+    
+def UpdateLikes(status,id_post,id_user):
+    try:
+        cur = psql.cursor()
+        if status :
+            
+            query = "INSERT INTO PostUsers_likes (id_usuarios,id_post) values (%s,%s)"
+            cur.execute(query,(id_user,id_post,))
+        else:
+            query = "DELETE FROM PostUsers_likes WHERE id_usuarios = %s RETURNING (SELECT likes FROM cuaji_posts WHERE id = %s)"     
+            cur.execute(query,(id_user,id_post))
+        
+        query_count = "SELECT likes FROM cuaji_posts WHERE id = %s"
+        cur.execute(query_count,(id_post,))
+        likes = cur.fetchone()[0]
+        psql.commit()
+        cur.close()
+        return likes
+    except Exception as e:
+        psql.rollback()
+        print(e)
+        return e
+    
+def DoUserlikes(id_user,id_post):
+    try:
+        cur = psql.cursor()
+        query = "Select * FROM PostUsers_likes where id_usuarios = %s and id_post = %s"
+        cur.execute(query,(id_user,id_post,))
+        user_like = cur.rowcount
+        cur.close()
+        if user_like:  
+            return True
+        else:
+            return False
+                
+    except Exception as e:
+        psql.rollback()
+        print(e)
+        return e
+
+def CreateCuammunity(nombre,logo,background):
+    try:
+        cur = psql.cursor()
+        query = "INSERT INTO cuammunitys(nombre,logo_comunidad,fondo_comunidad) values (%s,%s,%s) RETURNING id"
+        cur.execute(query,(nombre,logo,background))
+        newcua = cur.fetchone()[0]
+        cur.close()
+        return newcua        
+    except Exception as e:
+        psql.rollback()
+        err = str(e)
+        print(err)
+        return err
+    
+def Community(id_com):
+    try:
+        cur = psql.cursor()
+        query = "SELECT * FROM cuammunitys WHERE id = %s"
+        cur.execute(query,(id_com,))
+        cuaData = cur.fetchone()
+        cur.close()
+        return cuaData        
+    except Exception as e:
+        psql.rollback()
+        err = str(e)
+        print(err)
+        return err
+    
+def join_a_cuammunity(id_user,id_cuammunity,roll):
+    
+    if roll is not None:
+        try:
+            cur = psql.cursor()
+            query = "INSERT INTO cuammunity_users(id_usuario,id_comunidad,roll) VALUES (%s,%s,%s)"
+            cur.execute(query,(id_user,id_cuammunity,roll))
+            psql.commit()
+            cur.close()
+        except Exception as e:
+            print(e)
+            err = str(e)
+            psql.rollback()
+            return err
+    else:
+        try:
+            cur = psql.cursor()
+            query = "INSERT INTO cuammunity_users(id_usuario,id_comunidad,roll) VALUES (%s,%s)"
+            cur.execute(query,(id_user,id_cuammunity))
+            psql.commit()
+            cur.close()
+        except Exception as e:
+            print(e)
+            err = str(e)
+            psql.rollback()
+            return err
+    

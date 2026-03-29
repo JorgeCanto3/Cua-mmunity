@@ -33,6 +33,7 @@ async function Communitys_cards() {
         data_community.comunidad.forEach(community =>{
             const community_template = templateCommunity.content.cloneNode(true);
             community_template.querySelector('#Community_Name').textContent = community.nombre;
+            community_template.querySelector('#linkCommunity').href = '/Cuammunity/'+community.id;
             if(community.usuarios == "1"){
                 community_template.querySelector('#Community_Users').textContent = community.usuarios + ' Usuario';
             }else{
@@ -149,11 +150,13 @@ async function erase(id_post){
 async function Add_Post() {
     const data_post = new FormData();
     const Cuammunity = document.querySelector('#Cuammunity-btn');
-    const img = null;
+    const img = document.querySelector("#input-pic");
 
     data_post.append("text", new_post_text.value);
     data_post.append("community", Cuammunity.getAttribute('community-id'));
-    data_post.append("img",img);
+    data_post.append('img',img.files[0]);
+
+    console.log(img)
 
     const new_post = await fetch('/post',{
         method:'POST',
@@ -164,6 +167,8 @@ async function Add_Post() {
 
     if (response.status === "success"){
         mostrarPopCard(response.mensaje, response.status)
+        Posts()
+
     }else{
         mostrarPopCard(response.mensaje, response.status)
     }
@@ -213,6 +218,13 @@ async function Posts() {
         res_db.post.forEach(datos => {
             const postTemplate = template.content.cloneNode(true);
             
+            const uniqueId = "toggle-heart-" + datos.idPost;
+            const checkbox = postTemplate.querySelector('#toggle-heart');
+            const label = postTemplate.querySelector('label[for="toggle-heart"]');
+            
+            checkbox.id = uniqueId;
+            label.setAttribute('for', uniqueId);
+            
             postTemplate.querySelector('#Post_Name').textContent = datos.usuario;
             postTemplate.querySelector('#Id_post').value = datos.idPost;
             postTemplate.querySelector('#Content-Text').textContent = datos.texto;
@@ -227,13 +239,28 @@ async function Posts() {
                 imgPost.remove(); 
             }
 
+
             var edit =  postTemplate.querySelector('#Edit') 
             var erase = postTemplate.querySelector('#Delete') 
 
-            if(datos.id != input_id){
+            if(datos.id != input_id.value){
                 edit.style.display = "none"
                 erase.style.display = "none"
             }
+
+            if(datos.likes > 0){
+                postTemplate.querySelector('#amount-likes').textContent = "Me gusta: " + datos.likes
+            }else{
+                postTemplate.querySelector('#amount-likes').style.display = "none";
+
+            }
+            console.log(datos.like)
+
+            if(datos.like){
+                checkbox.checked = true
+            }
+
+            
 
             post_Section.appendChild(postTemplate);
         });
@@ -255,9 +282,39 @@ async function Posts() {
     
 }
 
-async function CreaComuninadad() {
+async function CreaComunidad() {
+    const imgCommunity = document.querySelector("#community_logo_input")
+    const imgCommunityBG = document.querySelector("#community_background_input")
+    const Name = document.querySelector("#Pop_Text_Area")
+
+    const request = new FormData();
+
+    console.log(Name.value,imgCommunityBG.files[0],imgCommunity.files[0])
+    request.append('Logo',imgCommunity.files[0])
+    request.append('BackGround',imgCommunityBG.files[0])
+    request.append("Name",Name.value)
+
+    const create = await fetch('/NewCuammunity',{
+        method:'POST',
+        body: request
+    })
     
 
+    const newcom = await create.json()
+
+    if(newcom.status === "success"){
+        mostrarPopCard("Comunidad Creada!","success")
+        const pop_btn = document.getElementById("pop_btn")
+        pop_btn.addEventListener("click",()=>{
+
+            pop_btn.href = '/Cuammunity/'+newcom.id
+
+         },{ once: true })
+        
+
+    }else if(newcom.status === "error"){
+        mostrarPopCard("Ocurrio un error","error")
+    }
     
 }
 
@@ -401,6 +458,10 @@ function mostrarPopCard(mensaje,type,text){
         pop_btn_2.style.display = "none";
         pop_btn.style.backgroundColor = "orange"
 
+        pop_btn.addEventListener('click',()=>{
+            CreaComunidad()
+        },{ once: true })
+
     }
 }
 
@@ -414,13 +475,27 @@ function CommunityForm(){
 }
 
 
+async function Amount_CF(){
+    const friends_u   = document.querySelector('#Amount_Friends')
+    const community_u = document.querySelector('#Amount_Community')
+
+    
+    const data = await fetch('/amount_user')
+
+    const res = await data.json()
+
+    if(res.status === "success"){
+        friends_u.textContent = res.friends;
+        community_u.textContent = res.community;
+    }
+}
 
 
 
 document.addEventListener('DOMContentLoaded',() =>{
 
     Posts()
-
+    Amount_CF()
     Communitys_cards()
 
     const dropdown = document.querySelector('#Community-options');
@@ -470,6 +545,8 @@ const btnfake_bg = document.getElementById('btnfake_bg')
 const btntxt = document.getElementById('fakefile')
 const btntxt_bg = document.getElementById('fakefile_background')
 
+const imgPost_fake = document.querySelector('#btnfake_post')
+const imgPost_Real = document.querySelector('#input-pic')
 
 
 btnfake.addEventListener("click", function() {
@@ -490,11 +567,78 @@ btnfake_bg.addEventListener("click", function() {
 
 btnrealbg.addEventListener("change", function() {
   if (btnrealbg.value) {
-    btntxt_bg.innerHTML = btnreal.value.match(/[\/\\]([\w\d\s\.\-\(\)]+)$/)[1];
+    btntxt_bg.innerHTML = btnrealbg.value.match(/[\/\\]([\w\d\s\.\-\(\)]+)$/)[1];
   } else {
     btntxt_bg.innerHTML = "No file chosen, yet.";
   }
 });
 
+imgPost_fake.addEventListener("click", function() {
+  imgPost_Real.click();
+});
+
+imgPost_Real.addEventListener("change", function() {
+  if (imgPost_Real.value) {
+    imgPost_fake.innerHTML = " <i class='fas fa-cloud-upload-alt'></i> Foto Seleccionada";
+  } else {
+    imgPost_fake.innerHTML = " <i class='fas fa-cloud-upload-alt'></i> Seleccionar Foto";
+  }
+});
+
+
+
+document.addEventListener('change', (e) => {
+    if (e.target.id && e.target.id.startsWith('toggle-heart')) {
+        const isLiked = e.target.checked;
+        const postPrincipal = e.target.closest('.glass-card'); 
+        const idPost = postPrincipal.querySelector('#Id_post').value;
+        const ammount = postPrincipal.querySelector('#amount-likes');
+        LikeUpdate(isLiked,idPost,ammount)
+    }
+});
+
+
+
+async function LikeUpdate(isLiked,idPost,amount) {
+    if(isLiked){
+        const like = await fetch('/Like',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({
+            'id': idPost,
+            'status': isLiked
+        })
+        })
+
+        const update = await like.json()
+        if(update.status === "add"){
+            amount.style.display = "flex"
+            amount.textContent = "Me gusta: "+ update.amount;
+        }
+
+    }else{
+        const unlike = await fetch('/Like',{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({
+                'id': idPost,
+                'status': isLiked
+            })
+        })
+
+        
+        const update = await unlike.json()
+        if(update.status === "delete"){
+            if(update.amount == "0"){
+                amount.textContent = "";
+                amount.style.display="none";
+            }
+        }
+
+    }
+    
+}
+
+ 
 
 

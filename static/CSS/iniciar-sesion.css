@@ -22,8 +22,11 @@ input {
   border: none;
   outline: none;
   border-radius:5px ;
-  height: 2rem;
-  padding-left: 5%;
+  padding-left: 2%;
+  height: 2.5rem;     
+  font-size: 1.1rem;
+  margin-top: 8px;
+  width: 100%;
 }
 
 button {
@@ -83,15 +86,16 @@ a{
     justify-content: flex-start;
     align-items: center;
     row-gap: 40px;
-    height: auto;
+    height: 75%;
     display: flex;
-    padding: 2% 2% 2% 2%;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     overflow: hidden;
-    width: 25%;
+    max-width: 100%;
+    width: 450px;       /* Un ancho estándar para logins modernos */
+    padding: 3rem;      /* Más espacio interno (sustituye tu 2%) */
     z-index: 2;
   }
   
@@ -116,7 +120,7 @@ a{
   width: max-content;
   margin: 0;
   font-family: Poppins;
-  font-size: 29px;
+  font-size: 2em;
   font-weight: 600;
 
 }
@@ -141,33 +145,35 @@ a{
 
 #Subtitle {
   text-align: left;
-  font-size: 24px;
   font-weight: 600;
+  font-size: 2.2em;   
+  margin-bottom: 10px;
 }
 
 #Form {
   flex-flow: column;
   row-gap: 24px;
   width: 68%;
-  height: auto;
+  height: 100%;
   display: flex;
   position: relative;
 }
 
 #Form-R{
   display: flex;
+  justify-content: flex-start;
   flex-direction: column;
-  gap: 5%;
+  gap: 2%;
   width: 100%;
-  height: auto;
+  height: 100%;
 }
 
 #user-label{
   text-align: left;
   width: max-content;
   margin: 0;
-  font-size: 18px;
-  font-weight: 400;
+  font-size: 1.6em;
+  font-weight: 500;
   display: inline;
   position: relative; 
 }
@@ -176,14 +182,14 @@ a{
   width: max-content;
   margin: 0;
   font-family: Poppins;
-  font-size: 18px;
+  font-size: 1.6em;
   font-weight: 400;
 
 }
 
 #pswd-input-holder, #user-input-holder {
   color: #bcbec0;
-  font-size: 13px;
+  font-size: .9em;
   font-weight: 700;
 }
 
@@ -192,7 +198,7 @@ a{
   text-align: left;
   background-clip: text;
   width: max-content;
-  font-size: 13px;
+  font-size: 1em;
   font-weight: 400;
   display: inline;
   color: #fff;
@@ -205,11 +211,12 @@ a{
   border-radius: 7.1px;
   justify-content: center;
   align-items: center;
-  height: 10%;
   padding: .5rem ;
-  font-size: 16px;
-  font-weight: 400;
-
+  height: 2.7rem; 
+  font-size: 1.2rem;
+  font-weight: 600;   /* Que resalte el texto */
+  cursor: pointer;
+  transition: background 0.3s;
   text-align: left;
   width: 100%;
   margin: 0;
@@ -220,7 +227,7 @@ a{
   text-align: center;
   width: 100%;
   margin: 0;
-  font-size: 11px;
+  font-size: 1em;
   font-weight: 400;
 }
 

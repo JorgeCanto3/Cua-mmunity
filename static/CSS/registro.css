@@ -146,7 +146,8 @@ a {
   justify-content: start;
   align-items: center;
   row-gap: 20px;
-  height: 90%;
+  height: auto;        
+  max-height: 95%;
   display: flex;
   padding: 2% 2% 2% 2%;
   position: absolute;
@@ -220,7 +221,7 @@ a {
 
 #Form-R {
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -235,6 +236,7 @@ a {
 #column-2 {
   flex: none;
   height: auto;
+  max-height: 650px;
   display: flex;
   flex-direction: column;
   gap: 1em;
