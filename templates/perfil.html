@@ -6,29 +6,30 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Source+Code+Pro:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/community.css' ) }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css' ) }}">
     <link rel="shortcut icon" href="{{ url_for('static', filename='Img/Logo-Cuammunity.avif') }}" type="image/x-icon">
-    <script src="{{ url_for('static', filename='JS/main.js' ) }}" defer></script>
+    <script src="{{ url_for('static', filename='JS/perfil.js' ) }}" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
   </head>
 
   <body>
     
     <div id="Background_Back">
-      <div id="Background_Front">
+      <div id="Background_Front" cals>
 
-        <header>
+        <header class="glass-panel">
           <div id="Logo_Name">
             <div id="Logo_frame">
-              <img src="{{url_for('static',filename='Img/Logo-Cuammunity.avif')}}" alt="Logo" id="Logo">
+              <img src="{{url_for('static',filename='Img/Logo-Cuammunity.avif')}}"alt="Logo" id="Logo">
             </div>
             <span id="Title">Cua-mmunity</span></span>
           </div>
               <!--Quitar la lupa por una imagen-->
               
               <!--Barra de Navegación-->
-              <div id="Look-up">
+              <div id="Look-up" class="glass-btn">
                 <input id="Text-Lp" type="text"  placeholder="Busca una Comunidad" </input>
 
                 <div id="Look-Icon">
@@ -41,8 +42,9 @@
               </div>
               
           </header>
-            <div id="Profile">
-              <div id = "User_imgs">
+
+           <div id="Profile" >
+              <div id = "User_imgs" class="glass-panel">
                 <div id="background_pic_frame" class="pointer-events-none">
                   <img src="{{url_for('static',filename='Img/Img_Borrador.avif')}}" alt="User background image" id="background_pic" >
                 </div>
@@ -51,76 +53,106 @@
                   <div id="Profile-Pic_Frame">
                     <img src="{{profile_data[9]}}" alt="User profile image" id="Profile-Pic" >
                   </div>
+                  <input type="hidden" id="user-id" value="{{profile_data[0]}}">
 
-                  <div id="ProfileName-Frame" >
-                    <span id="Name_User" >{{ profile_data[1] }}</span></span>
-                    <span id="User_Name" >@{{profile_data[8]}}</span></span>
+                  <div id="ProfileName-Frame" class="glass-card" >
+                    <span id="Name_User" >@{{profile_data[8]}}</span></span>
+                    <span id="User_Name" >{{profile_data[1]}}</span></span>
                   </div>
                 </div>
               </div>
             </div>
-
-
-          <section id="main-layout">
-          <aside id="Left-Panel">
-
-
-              
             
-        
+          <section id="main-layout">
+          <aside id="Left-Panel" class="glass-card">
+            
+            <h2>Comunidades</h2>
+            
+              <div id="Communitys" class="glass-card">
+                <template id = "template-4-communitys">
+                <a id="linkCommunity" href="#">
+                  <div id="Comunity" class="glass-btn">
+                    <div id="Community_pic_frame" class="pointer-events-none">
+                        <img src="{{url_for('static',filename='Img/Img_Borrador.avif')}}" loading="lazy" alt="Logo_Comunity" id="Community_pic"  >
+                    </div>
+                    <div id="Community_text_frame" class="glass-card">
+                      <span id="Community_Name" >Community Name</span></span>
+                      <span id="Community_Users">#### People</span></span>
+                    </div>
+                  </div>
+                </a>
+                </template>
+            
+                
+              </div>
+              <h2>Amigos</h2>
           </aside>
             
             
-            <section id="Posts" >
+            <section id="Posts" class="glass-panel">
               
-              <form id="New-Post"  method="POST" onsubmit="event.preventDefault();Add_Post()">
+              <form id="New-Post"  method="POST" onsubmit="event.preventDefault();Add_Post()" class="glass-card">
+                <div id="Text-A-Photo">
+                
                 <div id="Text-Photo">
-                <img src="{{profile_data[9]}}" alt="image 1" id="User_Photo">
+                <img src="{{profile_data[9]}}" loading="lazy" alt="image 1" id="User_Photo">
                 </div>
                 
-                <div id="Text_Box">
+                <div id="Text_Box" class="glass-btn">
                   <textarea name="new_txt_post"id="Text_Post" class="text" placeholder="Crea un post!"></textarea>
                 </div>
 
                 
-                <div id="Community-Selection">
+              </div>
+              <div id="Select-Action">
+                <div id="Community-Selection" class="glass-btn">
                   
                   <div id="Community-Photo">
-                    <img src="{{url_for('static',filename='Img/Logo-Cuammunity.avif')}}" alt="Community Photo" id="Community_Img" >
+                    <img src="{{url_for('static',filename='Img/Logo-Cuammunity.avif')}}" loading="lazy" alt="Community Photo" id="Community_Img" >
                   </div>
 
-                  <input id="id_user" type="hidden" value={{profile_data[0]}}>
-
-                  
-                  <div id="Community-options">
-                    <button id="Cuammunity-btn" type="button">Selecciona una Comunidad </button>
-                    <div id="Cuammunity-menu">
+                    <input id="id_user" type="hidden" value={{profile_data[0]}}>
+                    
+                    
+                    <div id="Community-options" >
+                      <button id="Cuammunity-btn" type="button">Selecciona una Comunidad </button>
+                      <div id="Cuammunity-menu">
+                      </div>
                     </div>
                   </div>
+
+                <div class="upload-container_post">
+                    <label  id="btnfake_post" class="glass-btn">
+                      <i class="fas fa-cloud-upload-alt"></i> Seleccionar Foto
+                   </label>
+                 <input name = "post_pic"  type="file" id="input-pic" value="Img" required>
                 </div>
                 
-                <button id="post_action" type="submit" >Send</button>
+                <button id="post_action"   class="glass-btn">Send</button>
+              </div>
             </form>
+
+            
 
 
             <div id="Users_Posts">
             <template id="template-4-post">
-            <div id="Post">
+            <div id="Post" class="glass-card">
               <div id = "Info_post">
                 <div id="First_Line">
-                  <div id="Post_User">
+                  <div id="Post_User" >
                     <input type="hidden" id="Id_post" >
                     <div id="Post_img_user_frame">
-                      <img src="{{ url_for('static', filename='Img/Logo-Cuammunity.avif') }}" alt="Logo" id="Post_Img_User">
+                      <img src="{{ url_for('static', filename='Img/Logo-Cuammunity.avif') }}"  loading="lazy" alt="Logo" id="Post_Img_User">
                     </div>
                     <span id="Post_Name" class="text">Name</span>
                   </div>
                   <div id="Options">
                    
-                      <button id="Edit" type="button" onclick="EditContent()"><i class="fa-solid fa-pencil" style="color: rgb(255, 255, 255);"></i></button>
+                      <button id="Edit" type="button" onclick="EditContent(this)"><i class="fa-solid fa-pencil" style="color: rgb(255, 255, 255);"></i></button>
                 
 
-                      <button id="Delete"type="button" onclick="Preventive()"><i class="fa-solid fa-trash" style="color: rgb(255, 255, 255);"></i></button>
+                      <button id="Delete"type="button" onclick="Preventive(this)"><i class="fa-solid fa-trash" style="color: rgb(255, 255, 255);"></i></button>
                    
 
 
@@ -135,7 +167,12 @@
                     Lorem Ipsum&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
                   </span>
 
-                  <img src="{{url_for('static',filename='Img/Img_Borrador.avif')}}" alt="image 1" id="Post_Img_Content" >
+                  <img src="{{url_for('static',filename='Img/Img_Borrador.avif')}}" loading="lazy" alt="image 1" id="Post_Img_Content" >
+                </div>
+                <div id="Amount-Interactions">
+                  <span id="amount-likes"></span>
+                  <span id="amount-comments"></span>
+
                 </div>
 
                 <div id="Icons">
@@ -146,58 +183,57 @@
                     <span  class="Icon_text">Compartir</span>
                   </div> -->
                   
-                  <div id="Comentar">
+                  <div id="Comentar" class="glass-btn">
                       <svg preserveAspectRatio="none" id="Vector_0" class="pointer-events-none" width="25" height="22" viewBox="0 0 25 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.125 1.4375C2.7106 1.4375 2.31317 1.58895 2.02015 1.85853C1.72712 2.12812 1.5625 2.49375 1.5625 2.875V14.375C1.5625 14.7562 1.72712 15.1219 2.02015 15.3915C2.31317 15.661 2.7106 15.8125 3.125 15.8125H18.1031C18.9319 15.8127 19.7266 16.1157 20.3125 16.6549L23.4375 19.5299V2.875C23.4375 2.49375 23.2729 2.12812 22.9799 1.85853C22.6868 1.58895 22.2894 1.4375 21.875 1.4375H3.125ZM21.875 0C22.7038 0 23.4987 0.302901 24.0847 0.842068C24.6708 1.38124 25 2.1125 25 2.875V21.2649C25 21.4072 24.9541 21.5462 24.8681 21.6644C24.7822 21.7826 24.6601 21.8747 24.5172 21.929C24.3743 21.9834 24.2172 21.9975 24.0656 21.9696C23.914 21.9417 23.7748 21.8731 23.6656 21.7724L19.2078 17.6712C18.9149 17.4016 18.5175 17.2501 18.1031 17.25H3.125C2.2962 17.25 1.50134 16.9471 0.915291 16.4079C0.32924 15.8688 0 15.1375 0 14.375V2.875C0 2.1125 0.32924 1.38124 0.915291 0.842068C1.50134 0.302901 2.2962 0 3.125 0L21.875 0Z" fill="white"></path></svg>
                     <span class="Icon_text">Comentarios</span>
                   </div>
 
-                  <div id="Like">
-                    <svg preserveAspectRatio="none" id="Vector_1" class="pointer-events-none" width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.50016 3.29765L8.6487 2.41325C6.65008 0.337257 2.98534 1.05366 1.66243 3.66365C1.04134 4.89124 0.901215 6.66364 2.03531 8.92563C3.12785 11.1036 5.40079 13.7124 9.50016 16.554C13.5995 13.7124 15.8713 11.1036 16.965 8.92563C18.0991 6.66244 17.9602 4.89124 17.3379 3.66365C16.015 1.05366 12.3503 0.336057 10.3516 2.41205L9.50016 3.29765ZM9.50016 18C-8.70833 5.84164 3.89381 -3.64793 9.29116 1.37165C9.36241 1.43805 9.43208 1.50645 9.50016 1.57685C9.56706 1.50601 9.63678 1.43795 9.70917 1.37285C15.1053 -3.65033 27.7087 5.84044 9.50016 18Z" fill="white"></path></svg>
+
+                  
+                  <div id="Like" class="glass-btn">
+                    <input id="toggle-heart" type="checkbox"/>
+                    <label for="toggle-heart" aria-label="like">♡</label>
                     <span  class="Icon_text">Me gusta</span>
                   </div>
                 </div>
             </div>
 
 
-            <div id="Comment_Section">
+            <div id="Comment_Section" class="glass-btn">
               <div id="User_frame_comment">
-                <img src="{{profile_data[9]}}" alt="image 1" class="User_pic" >
+                <img src="{{profile_data[9]}}" alt="image 1"  loading="lazy" class="User_pic" >
               </div>
               <form id="Comment-Text" method="POST" action="/comentar">
                 <textarea name="comment" id="comment_holder"  type="text" placeholder="Add a Coment" ></textarea>
-                 <button id="add_comment" type="submit" >Send</button>
+                 <button class="glass-btn" id="add_comment" type="submit" >Send</button>
               </form>
               </div>
               </template>
             </div>
             </section>
 
-            <aside id="Right-Panel">
+            <aside id="Right-Panel" class="glass-card">
 
                  <div class="container">
                   <div class="btn"><button onclick="CommunityForm()">Crea una Comunidad</button></div>
                 </div>
 
-                <div id="Trends">
-                <span id="Title_Trends" class="text">Notificaciónes</span></span>
-                  <div id="Trend">
+                <div id="Notificaciones" class="glass-card">
+                <span id="Notificaciones_Title" class="text">Notificaciónes</span></span>
+                  <div id="Notificacion" class="glass-card">
                     <span id="Trend_No" class="text">1.</span></span>
                     <span id="Trend_Name" class="pointer-events-none" class="text">#Trend1</span></span>
                   </div>  
                 </div>
 
-                <div id="Proximos_Eventos">
-                    <span id="Title_Events" class="text">Posibles Amigos</span></span>
+                <div id="New_Friends" class="glass-card">
+                  <span id="Title_Suggestions" class="text">Posibles Amigos</span></span>
                   
-                    <div id="Evento">
-                      <div id="Logo_Evento" class="pointer-events-none">
-                          <img src="{{url_for('static',filename='Img/Img_Borrador.avif')}}" alt="Logo_Evento" class="Img_Evento" >
-                      </div>
+             
+                  
 
-                      <div id="Nombre_Evento">
-                        <span id="Evento_Name" class="text">Evento 1</span></span>
-                      </div>
-                    </div>
+
+                </div>
                 
                   </div>
             </aside>
@@ -205,21 +241,21 @@
       </div>
 
           
-      <menu id="Menu">
+      <menu id="Menu" class="glass-panel">
             
-        <a href="home" id="Home">
+        <a href="{{url_for('main', id=profile_data[0])}}" id="Home" class="glass-btn">
           <svg  id="Vector_2"width=40" height="37" viewBox="0 0 40 37" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21.8852 0.785418C21.3851 0.282515 20.707 0 20 0C19.293 0 18.6149 0.282515 18.1148 0.785418L0.390985 18.6137C0.267027 18.7384 0.168699 18.8865 0.101614 19.0494C0.0345284 19.2124 0 19.387 0 19.5633C0 19.7397 0.0345284 19.9143 0.101614 20.0773C0.168699 20.2402 0.267027 20.3883 0.390985 20.513C0.641328 20.7648 0.980866 20.9063 1.33491 20.9063C1.51021 20.9063 1.68379 20.8716 1.84575 20.8041C2.00771 20.7366 2.15487 20.6377 2.27883 20.513L4.00135 18.7774V32.9762C4.00135 34.0433 4.42274 35.0668 5.17282 35.8214C5.9229 36.5761 6.94023 37 8.00101 37H31.999C33.0598 37 34.0771 36.5761 34.8272 35.8214C35.5773 35.0668 35.9987 34.0433 35.9987 32.9762V18.7774L37.7212 20.513C37.9715 20.7648 38.3111 20.9063 38.6651 20.9063C39.0191 20.9063 39.3587 20.7648 39.609 20.513C39.8594 20.2611 40 19.9195 40 19.5633C40 19.2072 39.8594 18.8656 39.609 18.6137L33.3322 12.3017V3.46798C33.3322 3.11225 33.1917 2.77109 32.9417 2.51955C32.6917 2.26801 32.3526 2.1267 31.999 2.1267H29.3325C28.979 2.1267 28.6398 2.26801 28.3898 2.51955C28.1398 2.77109 27.9993 3.11225 27.9993 3.46798V6.93653L21.8852 0.785418ZM33.3322 16.0948V32.9762C33.3322 33.3319 33.1917 33.673 32.9417 33.9246C32.6917 34.1761 32.3526 34.3174 31.999 34.3174H8.00101C7.64742 34.3174 7.30831 34.1761 7.05828 33.9246C6.80825 33.673 6.66779 33.3319 6.66779 32.9762V16.0948L20 2.68199L33.3322 16.0948Z" fill="white"></path></svg>
           <span id="menu_Text" >Principal</span></span>
         </a>
         
-        <a href= "profile" id="Perfil">
+        <a href= "bai" id="Perfil" class="glass-btn">
         
           <svg  id="Vector_3" width="40" height="37" viewBox="0 0 40 37" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 18.5C20.3869 18.5 22.6761 17.5254 24.364 15.7907C26.0518 14.056 27 11.7033 27 9.25C27 6.79675 26.0518 4.44397 24.364 2.70926C22.6761 0.974551 20.3869 0 18 0C15.6131 0 13.3239 0.974551 11.636 2.70926C9.94821 4.44397 9 6.79675 9 9.25C9 11.7033 9.94821 14.056 11.636 15.7907C13.3239 17.5254 15.6131 18.5 18 18.5ZM24 9.25C24 10.8855 23.3679 12.454 22.2426 13.6105C21.1174 14.767 19.5913 15.4167 18 15.4167C16.4087 15.4167 14.8826 14.767 13.7574 13.6105C12.6321 12.454 12 10.8855 12 9.25C12 7.6145 12.6321 6.04598 13.7574 4.88951C14.8826 3.73303 16.4087 3.08333 18 3.08333C19.5913 3.08333 21.1174 3.73303 22.2426 4.88951C23.3679 6.04598 24 7.6145 24 9.25ZM36 33.9167C36 37 33 37 33 37H3C3 37 0 37 0 33.9167C0 30.8333 3 21.5833 18 21.5833C33 21.5833 36 30.8333 36 33.9167ZM33 33.9043C32.997 33.1458 32.538 30.8642 30.504 28.7737C28.548 26.7633 24.867 24.6667 18 24.6667C11.133 24.6667 7.452 26.7633 5.496 28.7737C3.462 30.8642 3.006 33.1458 3 33.9043H33Z" fill="white"></path></svg>
           <span id="menu_Text" >Perfil</span></span>
         
         </a>
         
-        <a href= "log-out" id="Salir">
+        <a href= "log-out" id="Salir" class="glass-btn">
           <svg  id="Vector_4"width="40" height="37" viewBox="0 0 50 37 " fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M1.53562 0C1.12835 0 0.737755 0.179975 0.449772 0.500333C0.161788 0.820691 0 1.25519 0 1.70824V18.1074C0 19.229 0.198599 20.3397 0.584459 21.376C0.970319 22.4122 1.53588 23.3538 2.24886 24.1469C3.68878 25.7487 5.64173 26.6486 7.67808 26.6486H37.7547L27.4752 38.0802C27.1869 38.4009 27.0249 38.836 27.0249 39.2896C27.0249 39.7432 27.1869 40.1783 27.4752 40.499C27.7636 40.8198 28.1547 41 28.5625 41C28.9702 41 29.3613 40.8198 29.6497 40.499L42.5489 26.1498C42.6919 25.9911 42.8053 25.8026 42.8827 25.5951C42.9602 25.3875 43 25.165 43 24.9404C43 24.7157 42.9602 24.4932 42.8827 24.2856C42.8053 24.0781 42.6919 23.8896 42.5489 23.7309L30.2639 10.065C29.9756 9.74421 29.5845 9.56401 29.1767 9.56401C28.7689 9.56401 28.3778 9.74421 28.0895 10.065C27.8011 10.3857 27.6392 10.8208 27.6392 11.2744C27.6392 11.728 27.8011 12.1631 28.0895 12.4838L37.7547 23.2321H7.67808C6.45627 23.2321 5.2845 22.6922 4.42055 21.7311C3.5566 20.77 3.07123 19.4665 3.07123 18.1074V1.70824C3.07123 1.25519 2.90945 0.820691 2.62146 0.500333C2.33348 0.179975 1.94289 0 1.53562 0Z" fill="#FFF4F4"></path></svg>
           <span id="menu_Text" >Cerrar Sesión</span></span>
         

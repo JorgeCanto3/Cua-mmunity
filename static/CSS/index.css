@@ -6,6 +6,9 @@
   color: #ffff;
 }
 
+
+
+
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Roboto:wght@400;500;700&display=swap");
 
 html,
@@ -93,32 +96,26 @@ button {
 }
 
 .glass-panel {
-    background: rgba(255, 255, 255, 0.03) !important; /* Casi invisible */
-    -webkit-backdrop-filter: blur(15px) saturate(150%);
-    backdrop-filter: blur(15px) saturate(150%);
+    background: rgba(255, 255, 255, 0.03) !important; 
     border-radius: 28.5px;
     border: 1px solid rgba(255, 255, 255, 0.05);
-    border-top: 1px solid rgba(255, 255, 255, 0.15); /* Reflejo muy sutil */
+    border-top: 1px solid rgba(255, 255, 255, 0.15); 
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
 }
 
-/* 2. CRISTAL MEDIO (Para los Posts, el formulario de Nuevo Post y el Perfil) */
+
 .glass-card {
-    background: rgba(255, 255, 255, 0.08) !important; /* Un poquito más blanco */
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    backdrop-filter: blur(20px) saturate(180%);
+    background: rgba(255, 255, 255, 0.08) !important;
     border-radius: 24px;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-top: 1px solid rgba(255, 255, 255, 0.3); /* Reflejo más fuerte */
+    border-top: 1px solid rgba(255, 255, 255, 0.3); 
     border-left: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.15);
 }
 
-/* 3. CRISTAL INTERACTIVO (Para inputs, botones, barra de búsqueda) */
+
 .glass-btn {
-    background: rgba(255, 255, 255, 0.12) !important; /* Más visible para que sepan que se puede hacer clic */
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.12) !important; 
     border-radius: 90px;
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-top: 1px solid rgba(255, 255, 255, 0.4);
@@ -135,7 +132,6 @@ button {
 
 header {
   grid-column-gap: 68px;
-  backdrop-filter: blur(8.9px);
   background-color: #5882c115;
   border-radius: 28.5px;
 
@@ -183,8 +179,6 @@ header {
 }
 #Look-up {
   grid-column-gap: 40%;
-  -webkit-backdrop-filter: blur(8.9px);
-  backdrop-filter: blur(8.9px);
   background-color: #5882c11a;
   border-radius: 28.5px;
   flex-flow: row;
@@ -261,8 +255,6 @@ header {
   padding: 16.9px 10.9px 15px;
   justify-content: flex-start;
   height: 100%;
-  -webkit-backdrop-filter: blur(8.9px);
-  backdrop-filter: blur(10px);
   background-color: #5882c123;
   border-radius: 28.5px;
 }
@@ -390,8 +382,6 @@ header {
   box-sizing: border-box;
   
   background: rgba(0, 0, 0, 0.24) !important;
-  -webkit-backdrop-filter: blur(10px); 
-  backdrop-filter: blur(10px); 
   border: 1px solid rgba(255, 255, 255, 0.5);
   color: #ffffff; 
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
@@ -423,8 +413,6 @@ header {
 }
 
 #Community-Selection {
-  -webkit-backdrop-filter: blur(8.9px);
-  backdrop-filter: blur(8.9px);
   background-color: #5882c147;
 
   border-radius: 28.5px;
@@ -708,6 +696,7 @@ header {
   border-radius: 28.5px;
   width: 70%;
   height: 10%;
+  max-height: 56px;
   padding-left: 1em;
   padding-top: 0.5em;
   padding-bottom: 0.5em;
@@ -748,8 +737,6 @@ header {
   padding-bottom: 0.5em;
   font-size: 1em;
   height: 100%;
-  -webkit-backdrop-filter: blur(8.9px);
-  backdrop-filter: blur(10px);
   background-color: #5882c123;
   overflow: hidden;
 }
@@ -991,7 +978,6 @@ header {
   overflow: hidden;
   z-index: 1;
   transition: 0.5s;
-  backdrop-filter: blur(15px);
 }
 
 .container .btn button::before {
@@ -1067,8 +1053,6 @@ header {
 
 #Notificacion {
   grid-column-gap: 16px;
-  -webkit-backdrop-filter: blur(8.9px);
-  backdrop-filter: blur(8.9px);
   background-color: #5882c147;
   border-radius: 28.5px;
   flex-flow: row;
@@ -1108,9 +1092,7 @@ header {
   position: relative;
 }
 
-#Proximos_Eventos {
-  -webkit-backdrop-filter: blur(8.9px);
-  backdrop-filter: blur(8.9px);
+#New_Friends {
   background-color: #5882c129;
   border-radius: 28.5px;
   flex-flow: column;
@@ -1119,14 +1101,15 @@ header {
   align-items: center;
   row-gap: 12px;
   width: 90%;
-  height: 379px;
+  height: auto;
+  padding: 1em;
   margin: 0;
   display: flex;
   position: relative;
   overflow: hidden;
 }
 
-#Title_Events {
+#Title_Suggestions {
   text-align: left;
   -webkit-background-clip: text;
   background-clip: text;
@@ -1140,112 +1123,11 @@ header {
   position: relative;
 }
 
-#Evento {
-  grid-column-gap: 10px;
-  -webkit-backdrop-filter: blur(8.9px);
-  backdrop-filter: blur(8.9px);
-  background-color: #5882c124;
-  border-radius: 28.5px;
-  flex-flow: row;
-  flex-shrink: 0;
-  justify-content: center;
-  align-items: center;
-  width: 90%;
-  height: 62px;
-  margin: 0;
-  padding: 0 0 0 8.9px;
-  display: flex;
-  position: relative;
-  overflow: hidden;
-}
-
-#Logo_Evento {
-  border-radius: 10px;
-  flex-shrink: 0;
-  width: 56px;
-  height: 39px;
-  margin: 0;
-  position: relative;
-  overflow: hidden;
-}
-.Img_Evento {
-  object-fit: cover;
-  border-radius: 10px;
+#Suggestion-User{
+  gap: 3%;
   width: 100%;
-  height: 100%;
-  position: absolute;
-  inset: 0;
-}
-#Nombre_Evento {
-  -webkit-backdrop-filter: blur(8.9px);
-  backdrop-filter: blur(8.9px);
-  background-color: #5882c147;
-  border-radius: 28.5px;
-  flex-flow: column;
-  flex-shrink: 0;
-  justify-content: center;
-  align-items: start;
-  row-gap: 1px;
-  width: 10%;
-  height: 44px;
-  margin: 0;
-  padding: 13.9px 0 13.9px 16.9px;
+  height: auto;
   display: flex;
-  position: relative;
-  overflow: hidden;
-}
-
-#Evento_Name {
-  text-align: left;
-  -webkit-background-clip: text;
-  background-clip: text;
-  flex-shrink: 0;
-  width: max-content;
-  margin: 0;
-  font-family: Poppins;
-  font-size: 15px;
-  font-weight: 600;
-  display: inline;
-  position: relative;
-}
-
-#Logo_Evento {
-  --f2w-order: 0;
-  border-radius: 10px;
-  flex-shrink: 0;
-  width: 56px;
-  height: 39px;
-  margin: 0;
-  position: relative;
-  overflow: hidden;
-}
-#__55 {
-  object-fit: cover;
-  border-radius: 10px;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  inset: 0;
-}
-
-#Nombre_Evento {
-  --f2w-order: 1;
-  -webkit-backdrop-filter: blur(8.9px);
-  backdrop-filter: blur(8.9px);
-  background-color: #5882c147;
-  border-radius: 28.5px;
-  flex-flow: column;
-  flex-shrink: 0;
-  justify-content: center;
-  align-items: start;
-  row-gap: 1px;
-  width: 159px;
-  height: 44px;
-  margin: 0;
-  padding: 13.9px 0 13.9px 16.9px;
-  display: flex;
-  position: relative;
-  overflow: hidden;
 }
 
 #Profile-resume {
@@ -1279,8 +1161,6 @@ header {
 }
 
 #User_Info {
-  -webkit-backdrop-filter: blur(8.9px);
-  backdrop-filter: blur(8.9px);
   background-color: #5882c147;
   border-radius: 28.5px;
   flex-flow: column;
@@ -1322,8 +1202,6 @@ header {
 
 #See_more {
   grid-column-gap: 9px;
-  -webkit-backdrop-filter: blur(8.9px);
-  backdrop-filter: blur(8.9px);
   background-color: #5882c147;
   border-radius: 28.5px;
   flex-flow: row;
@@ -1372,12 +1250,9 @@ header {
 
 
 #Profile-Pic_Frame {
-  grid-area: 1 / 1; /* ¡Se encima en la misma celda que el banner! */
-  margin-top: 60px; /* Lo bajas un poco para que quede a la mitad */
+  grid-area: 1 / 1; 
+  margin-top: 60px; 
   z-index: 2;
-  -webkit-backdrop-filter: blur(8.9px);
-  backdrop-filter: blur(8.9px);
-  background-color: #5882c147;
   border-radius: 28.5px;
   width: 85px;
   height: 76px;
@@ -1390,7 +1265,6 @@ header {
   border-radius: 25px;
   width: 100%;
   height: 100%;
-  position: absolute;
   inset: 0;
 }
 
@@ -1430,8 +1304,6 @@ header {
 }
 
 #Communitys {
-  -webkit-backdrop-filter: blur(8.9px);
-  backdrop-filter: blur(8.9px);
   background-color: #5882c10a;
   border-radius: 28.5px;
   flex-shrink: 0;
@@ -1451,7 +1323,7 @@ header {
   width: 100%;
 }
 
-#Comunity {
+#Comunity,#Suggest {
   grid-column-gap: 10px;
   -webkit-backdrop-filter: blur(8.9px);
   backdrop-filter: blur(8.9px);
@@ -1470,7 +1342,7 @@ header {
   gap: 3%;
 }
 
-#Community_pic_frame {
+#Community_pic_frame,#Frame_suggest {
   border-radius: 50px;
   flex-shrink: 0;
   width: 65px;
@@ -1478,14 +1350,14 @@ header {
   margin: 0;
   overflow: hidden;
 }
-#Community_pic {
+#Community_pic,#suggestion_Img {
   object-fit: cover;
   border-radius: 25px;
   width: 100%;
   height: 100%;
   inset: 0;
 }
-#Community_text_frame {
+#Community_text_frame,#Nombre_Suggest {
   -webkit-backdrop-filter: blur(8.9px);
   backdrop-filter: blur(8.9px);
   background-color: #5882c147;
@@ -1503,7 +1375,7 @@ header {
   display: flex;
 }
 
-#Community_Name {
+#Community_Name,#Suggest_Name {
   -webkit-background-clip: text;
   background-clip: text;
   flex-shrink: 0;
@@ -1542,6 +1414,9 @@ header {
   padding-left: 2%;
   padding-right: 2%;
   padding-top: 0%;
+  bottom: 20px;    /* <--- Esto lo ancla al borde inferior de la pantalla */
+  left: 50%;       /* <--- Centrado horizontal */
+  transform: translateX(-50%);
 }
 
 #Home,
@@ -1753,7 +1628,10 @@ header {
     width: 90%;
 
   }
-  
+  #Background_Back{
+    align-items: flex-start;
+    padding-bottom: 20%;
+  }
 
   #Logo_Name{
     width: max-content;
@@ -1811,19 +1689,49 @@ header {
     height: 30px;
   }
 
+   #Users_Posts{
+    height: auto;
+    width: 100%;
+  }
+
+  #Comment_Section{
+    width: 100%;
+    
+  }
+
+  #add_comment{
+    width: 30%;
+  }
+
+  #User_frame_comment{
+    width: 12%;
+  }
+
+  #Select-Action{
+    overflow-y: none;
+    flex-flow: column;
+    align-items: start;
+  }
+
   #post_action{
 
     min-height: 39px;
     max-height: 41px;
   }
 
+   #Posts{
+    width: 100%;
+  }
+  
+  
   #New-Post,
   #Community-Selection,
   #Community-options {
     overflow-x: visible !important;
     overflow-y: visible !important;
-
-  #Home, #Perfil, #Salir {
+    
+  }
+    #Home, #Perfil, #Salir {
     grid-column-gap:.5em ;
   }
   
@@ -1854,7 +1762,52 @@ header {
     font-size: .7rem;
   }
 
-}
+    #Compartir, #Comentar, #Like{
+    width: 46%;
+  }
+
+  #Icons,#Options,#Comentar,#Like,#btnfake_post,#post_action{
+    overflow-y: hidden;
+  }
+
+  #Options{
+    gap:  10%;
+    width: 43%;
+  }
+
+  #Info_post{
+    padding-left: 0;
+  }
+  #Post_User{
+  }
+
+  #Edit,#Delete{
+    width: 20%;
+  }
+
+  #Post_Name{
+    font-size: 1em;
+    width: 100%;
+  }
+
+  #Post_img_user_frame{
+    width: 80px;
+  }
+
+   #post_action{
+    display: flex;
+    min-height: 39px;
+    max-height: 41px;
+    text-align: center;
+    align-self: self-end;
+  }
+
+  #btnfake_post{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
 
 
 

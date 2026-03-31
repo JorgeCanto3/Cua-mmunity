@@ -48,11 +48,11 @@ console.log(passwordSec);
 emailSec.addEventListener('input', () => {
     
     const mail= emailSec.value;
-    let cua = 'cua.uam.mx';
-    let gmail = 'gmail.com';
+    var cua = 'cua.uam.mx';
+    var gmail = 'gmail.com';
 
-    const tempo1 = true
-    const tempo = true
+    var tempo1 = true
+    var tempo = true
 
     tempo1 = mail.includes(cua) ;
     tempo = mail.includes(gmail) ;
@@ -61,8 +61,13 @@ emailSec.addEventListener('input', () => {
         validEmail = false
     }
 
-    emailSec.style.borderColor = validEmail ? "#219644" : "#a71606";
+    
+    
+    emailSec.style.border = !validEmail ? "none" : "solid";
+    emailSec.style.borderColor = !validEmail ? "#219644" : "#ee210a";
 
+
+    console.log( validEmail)
 
 });
 
@@ -177,11 +182,12 @@ const user_name         =  document.getElementById("user_name-input-holder")
 const carrer            =  document.getElementById("carreer-input-holder")
 const birth             =  document.getElementById("birth-input-holder")
 const profile_p         =  document.getElementById("profile_p-input-holder")
+const profile_bg        =  document.getElementById("profile_bg-input-holder")
 const pswd              =  document.getElementById("pswd-input-holder")
 
 
 async function Registro() {
-    if (button.disabled || !validEmail) {
+    if (button.disabled || validEmail) {
         console.log("Intento de envío bloqueado");
         return; 
     }
@@ -197,6 +203,8 @@ async function Registro() {
     formData.append("birth", birth.value);
 
     formData.append('Profile_pic', profile_p.files[0]);
+    formData.append('Profile_bg', profile_bg.files[0]);
+
     
         const respuesta = await fetch('/registrar', {
             method: 'POST',
@@ -253,6 +261,10 @@ const btnreal = document.getElementById('profile_p-input-holder')
 const btnfake = document.getElementById('btnfake')
 const btntxt = document.getElementById('fakefile')
 
+const bg_btnreal = document.getElementById('profile_bg-input-holder')
+const bg_btnfake = document.getElementById('btnfake-bg')
+const bg_btntxt = document.getElementById('fakefile-bg')
+
 
 
 btnfake.addEventListener("click", function() {
@@ -266,6 +278,20 @@ btnreal.addEventListener("change", function() {
     btntxt.innerHTML = "No file chosen, yet.";
   }
 });
+
+bg_btnfake.addEventListener("click", function() {
+  bg_btnreal.click();
+});
+
+bg_btnreal.addEventListener("change", function() {
+  if (bg_btnreal.value) {
+    bg_btntxt.innerHTML = bg_btnreal.value.match(/[\/\\]([\w\d\s\.\-\(\)]+)$/)[1];
+  } else {
+    bg_btntxt.innerHTML = "No file chosen, yet.";
+  }
+});
+
+
 
 
 const inputsCodigo = document.querySelectorAll('.code_input');

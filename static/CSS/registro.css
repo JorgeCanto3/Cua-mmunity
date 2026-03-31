@@ -267,7 +267,7 @@ a {
   box-sizing: border-box;
 }
 
-#profile_p-input-holder {
+#profile_p-input-holder,#profile_bg-input-holder {
   display: none;
 }
 
@@ -278,7 +278,7 @@ a {
   height: max-content;
 }
 
-#btnfake {
+#btnfake,#btnfake-bg {
   width: 80%;
   display: inline-block;
   padding: 10px 20px;
@@ -293,12 +293,14 @@ a {
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-#btnfake:hover {
+#btnfake:hover,#btnfake-bg:hover {
   background-color: #7a3d00;
   transform: translateY(-2px);
 }
 
-#fakefile {
+
+
+#fakefile,#fakefile-bg {
   font-size: 12px;
   color: rgba(255, 255, 255, 0.8);
 }
@@ -311,7 +313,7 @@ a {
   height: auto;
   align-items: center;
   justify-items: center;
-  gap: 10%;
+  gap: 1em;
 }
 
 #frame_pb {
@@ -392,6 +394,7 @@ a {
   text-align: left;
   width: max-content;
   margin-left: 30px;
+  margin-top: 10px;
 }
 
 #escena-fondo {

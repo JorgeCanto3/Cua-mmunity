@@ -22,7 +22,7 @@
         <header class="glass-panel">
           <div id="Logo_Name">
             <div id="Logo_frame">
-              <img src="{{url_for('static',filename='Img/Logo-Cuammunity.avif')}}" alt="Logo" id="Logo">
+              <img src="{{url_for('static',filename='Img/Logo-Cuammunity.avif')}}"alt="Logo" id="Logo">
             </div>
             <span id="Title">Cua-mmunity</span></span>
           </div>
@@ -48,11 +48,11 @@
               <div id="Profile" class="glass-card">
                 <div id = "User_imgs">
                   <div id="background_pic_frame" class="pointer-events-none">
-                    <img src="{{url_for('static',filename='Img/Img_Borrador.avif')}}" alt="User background image" id="background_pic" >
+                    <img src="{{url_for('static',filename='Img/Img_Borrador.avif')}}"   alt="User background image" id="background_pic" >
                   </div>
 
                   <div id="Profile-Pic_Frame">
-                    <img src="{{profile_data[9]}}" alt="User profile image" id="Profile-Pic" >
+                    <img src="{{profile_data[9]}}" alt="User profile image"  id="Profile-Pic" >
                   </div>
                 </div>
 
@@ -85,7 +85,7 @@
                 <a id="linkCommunity" href="#">
                   <div id="Comunity" class="glass-btn">
                     <div id="Community_pic_frame" class="pointer-events-none">
-                        <img src="{{url_for('static',filename='Img/Img_Borrador.avif')}}" alt="Logo_Comunity" id="Community_pic"  >
+                        <img src="{{url_for('static',filename='Img/Img_Borrador.avif')}}" loading="lazy" alt="Logo_Comunity" id="Community_pic"  >
                     </div>
                     <div id="Community_text_frame" class="glass-card">
                       <span id="Community_Name" >Community Name</span></span>
@@ -106,7 +106,7 @@
                 <div id="Text-A-Photo">
 
                 <div id="Text-Photo">
-                <img src="{{profile_data[9]}}" alt="image 1" id="User_Photo">
+                <img src="{{profile_data[9]}}" loading="lazy" alt="image 1" id="User_Photo">
                 </div>
                 
                 <div id="Text_Box" class="glass-btn">
@@ -119,7 +119,7 @@
                 <div id="Community-Selection" class="glass-btn">
                   
                   <div id="Community-Photo">
-                    <img src="{{url_for('static',filename='Img/Logo-Cuammunity.avif')}}" alt="Community Photo" id="Community_Img" >
+                    <img src="{{url_for('static',filename='Img/Logo-Cuammunity.avif')}}" loading="lazy" alt="Community Photo" id="Community_Img" >
                   </div>
 
                     <input id="id_user" type="hidden" value={{profile_data[0]}}>
@@ -152,16 +152,16 @@
                   <div id="Post_User" >
                     <input type="hidden" id="Id_post" >
                     <div id="Post_img_user_frame">
-                      <img src="{{ url_for('static', filename='Img/Logo-Cuammunity.avif') }}" alt="Logo" id="Post_Img_User">
+                      <img src="{{ url_for('static', filename='Img/Logo-Cuammunity.avif') }}"  loading="lazy" alt="Logo" id="Post_Img_User">
                     </div>
                     <span id="Post_Name" class="text">Name</span>
                   </div>
                   <div id="Options">
                    
-                      <button id="Edit" type="button" onclick="EditContent()"><i class="fa-solid fa-pencil" style="color: rgb(255, 255, 255);"></i></button>
+                      <button id="Edit" type="button" onclick="EditContent(this)"><i class="fa-solid fa-pencil" style="color: rgb(255, 255, 255);"></i></button>
                 
 
-                      <button id="Delete"type="button" onclick="Preventive()"><i class="fa-solid fa-trash" style="color: rgb(255, 255, 255);"></i></button>
+                      <button id="Delete"type="button" onclick="Preventive(this)"><i class="fa-solid fa-trash" style="color: rgb(255, 255, 255);"></i></button>
                    
 
 
@@ -176,7 +176,7 @@
                     Lorem Ipsum&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
                   </span>
 
-                  <img src="{{url_for('static',filename='Img/Img_Borrador.avif')}}" alt="image 1" id="Post_Img_Content" >
+                  <img src="{{url_for('static',filename='Img/Img_Borrador.avif')}}" loading="lazy" alt="image 1" id="Post_Img_Content" >
                 </div>
                 <div id="Amount-Interactions">
                   <span id="amount-likes"></span>
@@ -210,7 +210,7 @@
 
             <div id="Comment_Section" class="glass-btn">
               <div id="User_frame_comment">
-                <img src="{{profile_data[9]}}" alt="image 1" class="User_pic" >
+                <img src="{{profile_data[9]}}" alt="image 1"  loading="lazy" class="User_pic" >
               </div>
               <form id="Comment-Text" method="POST" action="/comentar">
                 <textarea name="comment" id="comment_holder"  type="text" placeholder="Add a Coment" ></textarea>
@@ -235,18 +235,26 @@
                   </div>  
                 </div>
 
-                <div id="Proximos_Eventos" class="glass-card">
-                    <span id="Title_Events" class="text">Posibles Amigos</span></span>
+                <div id="New_Friends" class="glass-card">
+                  <span id="Title_Suggestions" class="text">Posibles Amigos</span></span>
                   
-                    <div id="Evento" class="glass-btn">
-                      <div id="Logo_Evento" class="pointer-events-none">
-                          <img src="{{url_for('static',filename='Img/Img_Borrador.avif')}}" alt="Logo_Evento" class="Img_Evento" >
+                  <template id="Suggestions">
+                    <a id="Suggestion-User" href="#">
+                    <div id="Suggest" class="glass-btn">
+                      <div id="Frame_suggest" class="pointer-events-none">
+                          <img src="{{url_for('static',filename='Img/Img_Borrador.avif')}}" loading="lazy" id="suggestion_Img" alt="Logo_Evento" class="Img_Evento" >
                       </div>
 
-                      <div id="Nombre_Evento" class="glass-card">
-                        <span id="Evento_Name" class="text">Evento 1</span></span>
+                      <div id="Nombre_Suggest" class="glass-card">
+                        <span id="Suggest_Name" class="text">Evento 1</span></span>
                       </div>
                     </div>
+                    </a>
+                  </template>
+                  
+
+
+                </div>
                 
                   </div>
             </aside>

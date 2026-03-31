@@ -62,12 +62,12 @@ def Log_in(user_mail):
         psql.rollback()
         return e
     
-def Sign_up(name,f_last_name,s_last_name,birth,email,hashed_password,career,user_name,path_pic,code):
+def Sign_up(name,f_last_name,s_last_name,birth,email,hashed_password,career,user_name,path_pic,path_bg,code):
 
     try:
        
         cur = psql.cursor() 
-        acceso = cur.execute("INSERT INTO usuarios(nombre,apellido_p,apellido_M,birth,correo,password,carrera,user_name,foto_d_perfil,correo_verificado,code_verification) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,false,%s) RETURNING id",(name,f_last_name,s_last_name,birth,email,hashed_password,career,user_name,path_pic,code))
+        acceso = cur.execute("INSERT INTO usuarios(nombre,apellido_p,apellido_M,birth,correo,password,carrera,user_name,foto_d_perfil,correo_verificado,code_verification,fondo_perfil) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,false,%s,%s) RETURNING id",(name,f_last_name,s_last_name,birth,email,hashed_password,career,user_name,path_pic,code,path_bg))
         
         psql.commit()
 
@@ -91,13 +91,26 @@ def Sign_up(name,f_last_name,s_last_name,birth,email,hashed_password,career,user
         if "«correo_unico»" in ei:
             err = "El correo ya existe"
         
-        return err
+        return ei
 
 
 def posts(id_user):
+    
     con = psql.cursor()
     query_cuammunity = "SELECT u.id,u.user_name,u.foto_d_perfil,cu.nombre,cuaji_posts.id, cuaji_posts.fecha, cuaji_posts.titulo, cuaji_posts.contenido_post,cuaji_posts.likes,cuaji_posts.img_post FROM cuammunity_users c join cuaji_posts on c.id_comunidad = cuaji_posts.id_cuammunity JOIN Usuarios u on u.id = cuaji_posts.id_usuario  JOIN cuammunitys cu ON c.id_comunidad = cu.id where c.id_usuario = %s ORDER BY  cuaji_posts.id DESC"
     con.execute(query_cuammunity,(id_user,))
+    
+    
+    if (con.rowcount >= 1 ):
+        posts = con.fetchall()
+        return posts
+    else: 
+        return 0
+    
+def posts_of(id_user):
+    con = psql.cursor()
+    query_cuammunity = "SELECT u.id,u.user_name,u.foto_d_perfil,cu.nombre,cuaji_posts.id, cuaji_posts.fecha, cuaji_posts.titulo, cuaji_posts.contenido_post,cuaji_posts.likes,cuaji_posts.img_post FROM cuammunity_users c join cuaji_posts on c.id_comunidad = cuaji_posts.id_cuammunity JOIN Usuarios u on u.id = %s JOIN cuammunitys cu ON c.id_comunidad = cu.id WHERE c.id_usuario =%s  AND cuaji_posts.id_usuario = %s ORDER BY cuaji_posts.id DESC;"
+    con.execute(query_cuammunity,(id_user,id_user,id_user,))
     
     
     if (con.rowcount >= 1 ):
@@ -392,3 +405,18 @@ def join_a_cuammunity(id_user,id_cuammunity,roll):
             psql.rollback()
             return err
     
+def not_friends(id_u):
+    try:
+        print(f'heeyyyy{id_u}')
+        cur = psql.cursor()
+        query = "SELECT * FROM usuarios u LEFT JOIN amigos ag ON ag.id_amigo = u.id WHERE ag.id IS NULL AND  u.id != %s"
+        cur.execute(query,(id_u,))
+        new_friends = cur.fetchall()
+        psql.commit()
+        cur.close()
+        return new_friends
+    except Exception as e:
+        print(e)
+        err = str(e)
+        psql.rollback()
+        return err

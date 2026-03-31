@@ -146,6 +146,8 @@ def registrar():
     psswrd      = request.form.get('contraseña')
     career      = request.form.get('carrer')
     profile_pic = request.files.get('Profile_pic')
+    profile_bg = request.files.get('Profile_bg')
+    
 
 
     code = "".join([str(rand.randint(0, 9)) for _ in range(6)])
@@ -153,14 +155,17 @@ def registrar():
     
 
     hashed_password = bcrypt.generate_password_hash (psswrd).decode('utf-8')
-    path_pic=profile_accept(profile_pic)
-    insert_db = m.Sign_up(name,f_last_name,s_last_name,birth,email,hashed_password,career,user_name,path_pic,code)   
+    path_pic = profile_accept(profile_pic)
+    path_bg  = profile_accept(profile_bg)
+
+    print(f'{name},{f_last_name},{s_last_name},{birth},{email},{hashed_password},{career},{user_name},{path_pic},{path_bg},{code}')    
+    insert_db = m.Sign_up(name,f_last_name,s_last_name,birth,email,hashed_password,career,user_name,path_pic,path_bg,code)   
     id_sign = insert_db
     if (type(insert_db) == int):    
         verify_mail(email,code)
         return jsonify({"status":"success","id":id_sign})
     else: 
-        print(f'Se envia el erro:{insert_db}')
+        print(f'Se envia el error:{insert_db}')
         return jsonify({"status":"error", "details": insert_db})
 
 
@@ -258,7 +263,6 @@ def cuamminitys_to_post():
     
     return jsonify({"status":"success","comunidades":cuammunitys})
 
-@app.route('/posts',methods = ["GET"])
 @login_required
 def post_4_user():
     
@@ -268,11 +272,26 @@ def post_4_user():
         for c in query:
             like_user = m.DoUserlikes(current_user.id,c[4])
             posts.append({"id":c[0],"usuario":c[1],"imgPerfil":c[2],"comunidad":c[3],"idPost":c[4],"fecha":[5],"titulo":c[6],"texto":c[7],"likes":c[8],"imgPost":c[9],"like":like_user})
-        return jsonify({"status":"success" ,"post":posts})
+        return posts
     else:
-        return jsonify({"status":"error"})
+        return None
 
-@app.route('/Communitys')
+
+@login_required
+def post_of(user):
+    
+    query = m.posts_of(user)
+    if(query != 0):
+        posts = []
+        for c in query:
+            like_user = m.DoUserlikes(current_user.id,c[4])
+            posts.append({"id":c[0],"usuario":c[1],"imgPerfil":c[2],"comunidad":c[3],"idPost":c[4],"fecha":[5],"titulo":c[6],"texto":c[7],"likes":c[8],"imgPost":c[9],"like":like_user})
+        return posts
+    else:
+        return None
+
+
+
 @login_required
 def Community_card():
     id_4_post =current_user.id
@@ -284,7 +303,21 @@ def Community_card():
         cuammunity.append({"id":cua[0],"nombre":cua[1],"usuarios":cua[2],"logo":cua[3]})
     
     
-    return jsonify({"status":"success","comunidad":cuammunity})
+    return cuammunity
+
+@login_required
+def Community_card_user(user_id):
+    
+    query = m.user_into_communitys(user_id) 
+
+    cuammunity = []
+    
+    for cua in query:
+        cuammunity.append({"id":cua[0],"nombre":cua[1],"usuarios":cua[2],"logo":cua[3]})
+    
+    
+    return cuammunity
+
 
 @app.route('/delete', methods=["POST"])
 @login_required
@@ -397,7 +430,6 @@ def NewCuammunity():
     else:
             return jsonify({"status":"error","details": "El formato de las imagenes no es valido, intenta nuevamente"})
         
-@app.route('/amount_user', methods=['POST','GET'])
 @login_required
 def amount_into():
     communitys = m.amount_communitys(current_user.id)
@@ -405,24 +437,79 @@ def amount_into():
     
     print(communitys,friends)
     
-    return jsonify({"status":"success","friends":friends,"community":communitys})
+    ammount = []
+    ammount.append({"friends":friends,"communitys":communitys})
 
-@app.route('/profile/<int:id_p>', methods=['POST','GET'])
+    return ammount
+
+@login_required
+def amount_into_profile(user):
+    communitys = m.amount_communitys(user)
+    friends = m.amount_friends(user)
+    
+    print(communitys,friends)
+    
+    ammount = []
+    ammount.append({"friends":friends,"communitys":communitys})
+
+    return ammount
+
+
+@app.route('/Profile/<int:id_p>', methods=['POST','GET'])
 @login_required
 def profile_user(id_p):
-    data_user = m.Usuario(current_user.id)
+    data_user = m.Usuario(id_p)
     return render_template('perfil.html',profile_data = data_user)
 
-@app.route('/suggestions',methods=['POST','GET'])
-@login_required
-def friends_suggestions():
-    data = m.not_friends()
-    newfriends =[]
-    
-    for f in data:
-        newfriends.append({"id":f[0],"usuario":f[1],"imgPerfil":f[2]})
 
-    return jsonify({"status":"success","friends": newfriends})
+def friends_suggestions():
+    data = m.not_friends(current_user.id)
+    newfriends =[]
+    for f in data:
+        if f[11] is True:
+            newfriends.append({"id":f[0],"usuario":f[8],"imgPerfil":f[9]})
+
+    return newfriends
+
+@app.route('/mainData',methods=['GET'])
+@login_required
+def main_data():
+    try:
+        amount_user = amount_into()
+        suggestions = friends_suggestions()
+        communitys_user = Community_card()
+        posts = post_4_user()
+
+        return jsonify({"status":"success", "ammount":amount_user,"suggestions":suggestions,"CommunityCards":communitys_user,"Posts": posts})
+    except Exception as e:
+        err = str(e)
+        print(err)
+        return jsonify({"status":"error","details":err})
+
+
+ 
+@app.route('/profileData',methods=['GET','POST'])
+@login_required
+def profile_data():
+    try:
+        data = request.get_json()
+        id_profile = data.get('id')
+        amount_user = amount_into_profile(id_profile)
+        suggestions = friends_suggestions()
+        communitys_user = Community_card_user(id_profile)
+        posts = post_of(id_profile)
+        print(f'The dataaaa :{amount_user},{suggestions},{communitys_user},{posts}')
+        return jsonify({"status":"success", "ammount":amount_user,"suggestions":suggestions,"CommunityCards":communitys_user,"Posts": posts,"WhoRequest":current_user.id})
+    except Exception as e:
+        err = str(e)
+        print(err)
+        return jsonify({"status":"error","details":err})
+
+
+ 
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True,port=8000)

@@ -34,15 +34,15 @@
           <div id="Background-Front">
             <!-- Figuras del Fondo-->
         
-        <img src="{{ url_for('static', filename='Icons/Group_12.webp')}}" class="figura_fondo" id="Group_12">
-        <img src="{{ url_for('static', filename='Icons/Group_13.webp')}}" class="figura_fondo" id="Group_13">
-        <img src="{{ url_for('static', filename='Icons/Group_14.webp')}}" class="figura_fondo" id="Group_14">
-        <img src="{{ url_for('static', filename='Icons/Group_16.webp')}}" class="figura_fondo" id="Group_16">
-        <img src="{{ url_for('static', filename='Icons/Group_18.webp')}}" class="figura_fondo" id="Group_18">
-        <img src="{{ url_for('static', filename='Icons/Group_19.webp')}}" class="figura_fondo" id="Group_19">
-        <img src="{{ url_for('static', filename='Icons/Group_24.webp')}}" class="figura_fondo" id="Group_24">
-        <img src="{{ url_for('static', filename='Icons/Group_20.webp')}}" class="figura_fondo" id="Group_20">
-        <img src="{{ url_for('static', filename='Icons/Group_21.webp')}}" class="figura_fondo" id="Group_21">
+        <img src="{{ url_for('static', filename='Icons/Group_12.webp')}}" class="figura_fondo" id="Group_12"  alt="Icons_bg">
+        <img src="{{ url_for('static', filename='Icons/Group_13.webp')}}" class="figura_fondo" id="Group_13"  alt="Icons_bg">
+        <img src="{{ url_for('static', filename='Icons/Group_14.webp')}}" class="figura_fondo" id="Group_14"  alt="Icons_bg">
+        <img src="{{ url_for('static', filename='Icons/Group_16.webp')}}" class="figura_fondo" id="Group_16"  alt="Icons_bg">
+        <img src="{{ url_for('static', filename='Icons/Group_18.webp')}}" class="figura_fondo" id="Group_18"  alt="Icons_bg">
+        <img src="{{ url_for('static', filename='Icons/Group_19.webp')}}" class="figura_fondo" id="Group_19"  alt="Icons_bg">
+        <img src="{{ url_for('static', filename='Icons/Group_24.webp')}}" class="figura_fondo" id="Group_24"  alt="Icons_bg">
+        <img src="{{ url_for('static', filename='Icons/Group_20.webp')}}" class="figura_fondo" id="Group_20"  alt="Icons_bg">
+        <img src="{{ url_for('static', filename='Icons/Group_21.webp')}}" class="figura_fondo" id="Group_21"  alt="Icons_bg">
             <div id="Form-Section">
               <a href="/" id="anchor-Title-logo">
               <div id="Title-Logo">
@@ -70,26 +70,36 @@
                    <label  id=user-label class="text">Email</label>
                    <input name = "email"  type="email" id="email-input-holder" placeholder="juan.c.lopez@cua.uam.com" required>
                   
-                   <label  id=user-label class="text">Nombre de Usuario</label>
-                   <input name = "user_name"  type="text" id="user_name-input-holder" placeholder="JuaOncahui" required>
-
-                   </div>
-                   <div id="column-2">
-
-                    <label  id=user-label class="text">Licenciatura/Ingenieria</label>
+                   
+                   <label  id=user-label class="text">Licenciatura/Ingenieria</label>
                    <input name = "career"  type="text" id="carreer-input-holder" placeholder="Licenciatura en Computación" required>
-                  
-                    <label  id=user-label class="text">Fecha de Nacimiento</label>
-                   <input name = "birth"  type="date" id="birth-input-holder" placeholder="01/01/1999" required>
-                 
-                   <div class="upload-container">
-                    <label  id=user-label class="text">Foto de Perfil</label>
-                    <label  id="btnfake">
-                        <i class="fas fa-cloud-upload-alt"></i> Seleccionar Foto
-                      </label>
-                    <input name = "profile_p"  type="file" id="profile_p-input-holder" value="Foto de perfil" required>
-                    <span id="fakefile">Ningún archivo seleccionado</span>
-                   </div>
+                   
+                   <label  id=user-label class="text">Fecha de Nacimiento</label>
+                  <input name = "birth"  type="date" id="birth-input-holder" placeholder="01/01/1999" required>
+                
+                  </div>
+                  <div id="column-2">
+                    <label  id=user-label class="text">Nombre de Usuario</label>
+                    <input name = "user_name"  type="text" id="user_name-input-holder" placeholder="JuaOncahui" required>
+                    
+                     <div class="upload-container">
+                      <label  id=user-label class="text">Foto de Perfil</label>
+                      <label  id="btnfake">
+                          <i class="fas fa-cloud-upload-alt"></i> Seleccionar Foto
+                        </label>
+                       <input name = "profile_p"  type="file" id="profile_p-input-holder" value="Foto de perfil" required>
+                      <span id="fakefile">Ningún archivo seleccionado</span>
+                     </div>
+
+                    <div class="upload-container">
+                      <label  id=user-label class="text">Fondo de Perfil</label>
+                      <label  id="btnfake-bg">
+                          <i class="fas fa-cloud-upload-alt"></i> Seleccionar Foto
+                        </label>
+                       <input name = "profile_p"  type="file" id="profile_bg-input-holder" value="Foto de perfil" required>
+                      <span id="fakefile-bg">Ningún archivo seleccionado</span>
+                     </div>
+
 
                     <label name = "password" id=pswd-label>Password</label>
                     <input name = "pswd"  type="password" id="pswd-input-holder" placeholder="Password" oninput="passwordCheck()" required>

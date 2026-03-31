@@ -1,10 +1,111 @@
 var looking = document.getElementById("Text-Lp")
 var input_id = document.getElementById("id_user")
 var template = document.getElementById('template-4-post');
+var template_Nfriends = document.getElementById('Suggestions');
 var post_Section= document.getElementById('Users_Posts');
+var suggestion_Section = document.getElementById('New_Friends')
 var new_post_text = document.querySelector('#Text_Post')
 var templateCommunity = document.getElementById('template-4-communitys');
 var into_communitys = document.getElementById('Communitys')
+var popcard = document.getElementById("PopCard")
+var pop_text = document.getElementById("msg")
+var pop_btn = document.getElementById("pop_btn")
+var pop_btn_2 = document.getElementById("pop_btn_2")
+var pop_Area = document.getElementById("Pop_Text")
+var pop_nText = document.getElementById("Pop_Text_Area")
+var file_area_logo =       document.querySelector(".upload-container" )
+var file_area_background = document.querySelector(".upload-container" )
+var title_community = document.querySelector("#CommunityN_Title")
+var btnreal = document.getElementById('community_logo_input')
+var btnrealbg = document.getElementById('community_background_input')
+var btnfake = document.getElementById('btnfake')
+var btnfake_bg = document.getElementById('btnfake_bg')
+var btntxt = document.getElementById('fakefile')
+var btntxt_bg = document.getElementById('fakefile_background')
+var imgPost_fake = document.querySelector('#btnfake_post')
+var imgPost_Real = document.querySelector('#input-pic')
+
+
+function mostrarPopCard(mensaje,type,text){
+
+    if(type === "error"){
+        pop_text.innerHTML = mensaje;
+        popcard.style.display = "flex";
+        pop_btn_2.style.display = "none"
+        pop_Area.style.display = "none"
+        file_area_background.style.display ="none"
+        file_area_logo.style.display ="none"
+
+        pop_btn.textContent = "Entendido"
+        pop_btn.style.backgroundColor = "red";
+
+    }else if (type ==="success" ){
+        pop_text.innerHTML = mensaje;
+        popcard.style.display = "flex";
+        pop_btn_2.style.display = "none"
+        pop_Area.style.display = "none"
+
+        pop_btn.textContent = "Entendido"
+        pop_btn.style.backgroundColor = "lightgreen";
+    }else if( type === "options"){
+        console.log("entre")
+        pop_text.innerHTML = mensaje;
+        popcard.style.display = "flex";
+        pop_btn.style.backgroundColor = "red";
+        pop_btn.textContent ="No";
+        pop_btn.onclick =ClosePop;
+        pop_btn_2.style.display = "flex"
+        pop_btn_2.style.backgroundColor = "lightgreen";
+        pop_btn_2.textContent ="Si";
+        pop_btn.style.borderRadius = "50px";
+        pop_btn_2.style.borderRadius = "50px";
+        pop_btn_2.style.width = "6%";
+        pop_Area.style.display = "none"
+
+    }else if(type ==="edit"){
+        pop_text.innerHTML = mensaje;
+        pop_Area.style.display = "flex"
+        pop_nText.placeholder = text
+        popcard.style.display = "flex";
+        pop_btn.textContent = "Aceptar"
+        pop_btn_2.textContent = "Cancelar"
+        pop_btn_2.style.display ="flex"
+        pop_btn_2.onclick = ClosePop;
+        pop_btn_2.style.backgroundColor = "red";
+        pop_btn.style.backgroundColor = "lightgreen";
+        pop_Area.style.height="auto"
+        pop_Area.style.gap="none"
+
+
+    }else if(type === "Crear-Comunidad"){
+        title_community.textContent = "Nombre de tu comunidad"
+        pop_text.innerHTML = mensaje;
+        pop_Area.style.width="max-content"
+        popcard.style.display = "flex"
+        pop_Area.style.flexDirection = "column"
+        pop_Area.style.alignItems ="center"
+        pop_Area.style.justifyContent ="center"
+        pop_nText.placeholder = "Cuammunity!"
+        pop_Area.style.gap="6%"
+        pop_Area.style.height="40%"
+        pop_btn.style.fontSize = "1.5em"
+        pop_Area.style.display = "flex";
+        file_area_logo.style.display ="flex"
+        file_area_background.style.display ="flex"
+        pop_btn.textContent = text;
+        pop_btn_2.style.display = "none";
+        pop_btn.style.backgroundColor = "orange"
+
+        pop_btn.addEventListener('click',()=>{
+            CreaComunidad()
+        },{ once: true })
+
+    }
+}
+
+function ClosePop(){
+    popcard.style.display ="none"
+}
 
 
 
@@ -20,35 +121,23 @@ looking.addEventListener('input',() =>{
 
 
 
-async function Communitys_cards() {
-
-    const data = await fetch('/Communitys')
-
-    const data_community = await data.json()
-
+function Communitys_cards(community) {
     
-    console.log(data_community)
-    if(data_community.status === "success"){
-        into_communitys.innerHTML=''
-        data_community.comunidad.forEach(community =>{
-            const community_template = templateCommunity.content.cloneNode(true);
-            community_template.querySelector('#Community_Name').textContent = community.nombre;
-            community_template.querySelector('#linkCommunity').href = '/Cuammunity/'+community.id;
-            if(community.usuarios == "1"){
-                community_template.querySelector('#Community_Users').textContent = community.usuarios + ' Usuario';
-            }else{
-                community_template.querySelector('#Community_Users').textContent = community.usuarios + ' Usuarios';
-            }
-            community_template.querySelector('#Community_pic').src = `${community.logo}`;
-         
-
-            into_communitys.appendChild(community_template);
-        });
-
-
-
-
-    }
+    console.log(community)
+    into_communitys.innerHTML=''
+    community.forEach(community =>{
+        const community_template = templateCommunity.content.cloneNode(true);
+        community_template.querySelector('#Community_Name').textContent = community.nombre;
+        community_template.querySelector('#linkCommunity').href = '/Cuammunity/'+community.id;
+        if(community.usuarios == "1"){
+            community_template.querySelector('#Community_Users').textContent = community.usuarios + ' Usuario';
+        }else{
+            community_template.querySelector('#Community_Users').textContent = community.usuarios + ' Usuarios';
+        }
+        community_template.querySelector('#Community_pic').src = `${community.logo}`;
+     
+        into_communitys.appendChild(community_template);
+    });
 
     
 }
@@ -61,9 +150,12 @@ async function usuarios_agregar(){
     
 }
 
-function EditContent(){
-    const id_post = document.querySelector("#Id_post")
-    const old_text = document.querySelector("#Content-Text")
+function EditContent(btn){
+    console.log(btn)
+    const post_card = btn.closest('#Post');
+
+    const id_post = post_card.querySelector("#Id_post")
+    const old_text = post_card.querySelector("#Content-Text")
     mostrarPopCard("Ingresa el nuevo texto!","edit",old_text.textContent)
 
     const confirm = document.querySelector("#pop_btn")
@@ -75,8 +167,6 @@ function EditContent(){
         Edit(id_post, new_text)
 
     },{ once: true })
-
-    
 
 }
 
@@ -203,19 +293,12 @@ async function Search_community(lp) {
 
 
 
-async function Posts() {
+function Posts(posts_db) {
         
-    const res = await  fetch('/posts')
-
-
-    const res_db = await res.json()
-
-    if (res_db.status === "success"){
     
-
-        
+    if (posts_db.length >  0){
         post_Section.innerHTML= ''
-        res_db.post.forEach(datos => {
+        posts_db.forEach(datos => {
             const postTemplate = template.content.cloneNode(true);
             
             const uniqueId = "toggle-heart-" + datos.idPost;
@@ -370,104 +453,32 @@ async function Cuammunitys(options){
                     options.appendChild(option);
                 });    
         }}catch (error) {
-            optionsElement.innerHTML = '<div class="Cuammunity-option">No hay Comunidades a las que este unido</div>';
+            options.innerHTML = '<div class="Cuammunity-option">No hay Comunidades a las que este unido</div>';
         }
 }
 
-const popcard = document.getElementById("PopCard")
+async function RequestData() {
+    const requestFeed = await fetch('/mainData', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json', 
+          
+            }
+        })
 
-const pop_text = document.getElementById("msg")
-const pop_btn = document.getElementById("pop_btn")
-const pop_btn_2 = document.getElementById("pop_btn_2")
-const pop_Area = document.getElementById("Pop_Text")
-const pop_nText = document.getElementById("Pop_Text_Area")
-const file_area_logo =       document.querySelector(".upload-container" )
-const file_area_background = document.querySelector(".upload-container" )
-const title_community = document.querySelector("#CommunityN_Title")
+    const dataFeed = await requestFeed.json()
+    console.log(dataFeed)
 
-
-
-
-function mostrarPopCard(mensaje,type,text){
-
-    if(type === "error"){
-        pop_text.innerHTML = mensaje;
-        popcard.style.display = "flex";
-        pop_btn_2.style.display = "none"
-        pop_Area.style.display = "none"
-        file_area_background.style.display ="none"
-        file_area_logo.style.display ="none"
-
-        pop_btn.textContent = "Entendido"
-        pop_btn.style.backgroundColor = "red";
-
-    }else if (type ==="success" ){
-        pop_text.innerHTML = mensaje;
-        popcard.style.display = "flex";
-        pop_btn_2.style.display = "none"
-        pop_Area.style.display = "none"
-
-        pop_btn.textContent = "Entendido"
-        pop_btn.style.backgroundColor = "lightgreen";
-    }else if( type === "options"){
-        console.log("entre")
-        pop_text.innerHTML = mensaje;
-        popcard.style.display = "flex";
-        pop_btn.style.backgroundColor = "red";
-        pop_btn.textContent ="No";
-        pop_btn.onclick =ClosePop;
-        pop_btn_2.style.display = "flex"
-        pop_btn_2.style.backgroundColor = "lightgreen";
-        pop_btn_2.textContent ="Si";
-        pop_btn.style.borderRadius = "50px";
-        pop_btn_2.style.borderRadius = "50px";
-        pop_btn_2.style.width = "6%";
-        pop_Area.style.display = "none"
-
-    }else if(type ==="edit"){
-        pop_text.innerHTML = mensaje;
-        pop_Area.style.display = "flex"
-        pop_nText.placeholder = text
-        popcard.style.display = "flex";
-        pop_btn.textContent = "Aceptar"
-        pop_btn_2.textContent = "Cancelar"
-        pop_btn_2.style.display ="flex"
-        pop_btn_2.onclick = ClosePop;
-        pop_btn_2.style.backgroundColor = "red";
-        pop_btn.style.backgroundColor = "lightgreen";
-        pop_Area.style.height="auto"
-        pop_Area.style.gap="none"
-
-
-    }else if(type === "Crear-Comunidad"){
-        title_community.textContent = "Nombre de tu comunidad"
-        pop_text.innerHTML = mensaje;
-        pop_Area.style.width="max-content"
-        popcard.style.display = "flex"
-        pop_Area.style.flexDirection = "column"
-        pop_Area.style.alignItems ="center"
-        pop_Area.style.justifyContent ="center"
-        pop_nText.placeholder = "Cuammunity!"
-        pop_Area.style.gap="6%"
-        pop_Area.style.height="40%"
-        pop_btn.style.fontSize = "1.5em"
-        pop_Area.style.display = "flex";
-        file_area_logo.style.display ="flex"
-        file_area_background.style.display ="flex"
-        pop_btn.textContent = text;
-        pop_btn_2.style.display = "none";
-        pop_btn.style.backgroundColor = "orange"
-
-        pop_btn.addEventListener('click',()=>{
-            CreaComunidad()
-        },{ once: true })
-
+    if(dataFeed.status == "success"){
+        Communitys_cards(dataFeed.CommunityCards)
+        Amount_CF(dataFeed.ammount)
+        Suggestions(dataFeed.suggestions)
+        Posts(dataFeed.Posts)
     }
+
 }
 
-function ClosePop(){
-    popcard.style.display ="none"
-}
+
 
 function CommunityForm(){
     console.log("Prueba")
@@ -475,28 +486,33 @@ function CommunityForm(){
 }
 
 
-async function Amount_CF(){
+ function Amount_CF(res){
     const friends_u   = document.querySelector('#Amount_Friends')
     const community_u = document.querySelector('#Amount_Community')
 
     
-    const data = await fetch('/amount_user')
-
-    const res = await data.json()
-
-    if(res.status === "success"){
         friends_u.textContent = res.friends;
         community_u.textContent = res.community;
-    }
 }
 
+function Suggestions(sugg_db) {
+    sugg_db.forEach(datos => {
+        const userTemplate = template_Nfriends.content.cloneNode(true);
+        const url = userTemplate.querySelector('#Suggestion-User').href='/Profile/'+datos.id
+        console.log(url)
+        userTemplate.querySelector('#Suggest_Name').textContent =  datos.usuario;
+        const imgUser = userTemplate.querySelector('#suggestion_Img');
+        imgUser.src = `${datos.imgPerfil}`;
+        
+        suggestion_Section.appendChild(userTemplate);
+    });
+
+}
 
 
 document.addEventListener('DOMContentLoaded',() =>{
 
-    Posts()
-    Amount_CF()
-    Communitys_cards()
+    RequestData()
 
     const dropdown = document.querySelector('#Community-options');
 
@@ -521,6 +537,7 @@ document.addEventListener('DOMContentLoaded',() =>{
         })
 
     }
+    
 
     document.addEventListener('click', (e) => {
         const menu = document.querySelector('#Cuammunity-menu');
@@ -537,16 +554,6 @@ document.addEventListener('DOMContentLoaded',() =>{
 
 })
 
-const btnreal = document.getElementById('community_logo_input')
-const btnrealbg = document.getElementById('community_background_input')
-const btnfake = document.getElementById('btnfake')
-const btnfake_bg = document.getElementById('btnfake_bg')
-
-const btntxt = document.getElementById('fakefile')
-const btntxt_bg = document.getElementById('fakefile_background')
-
-const imgPost_fake = document.querySelector('#btnfake_post')
-const imgPost_Real = document.querySelector('#input-pic')
 
 
 btnfake.addEventListener("click", function() {
