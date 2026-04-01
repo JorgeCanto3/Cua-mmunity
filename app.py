@@ -192,13 +192,15 @@ def community(id_com):
 @app.route('/comentar', methods=["GET", "POST"])
 def comentar():
     user = current_user.id
-    user_post = request.form['user_post']
-
-    text = request.form['comment']
+    data = request.get_json()
+    user_post = data.get('id_post')
+    text =data.get('text')
     
-    comentario = m.add_comment(user,user_post,text)
+    img = None
     
-    if comentario:
+    comentario = m.add_comment(user,user_post,text, img)
+    
+    if (type(comentario) == int):
         return jsonify({"status":"success"})
     else:
         return jsonify({"status":"fail"})
@@ -208,26 +210,32 @@ def comentar():
 def post():
     user = current_user.id
 
-    print(f'El usuario{current_user.id} va a postiar')
     new_post_txt =      request.form.get('text')   
     post_community =    request.form.get('community')  
     post_img =          request.files.get('img')  
-    print(f'Verficando imagen: {post_img}')
-    post_url = post_accept(post_img)
-    
-    print(f'La imagen es: {post_url}')
-    
-    if(type(post_url) != int):
-    
-        posted = m.create_post(user,new_post_txt,post_community,post_url)
-    
+    if(post_img is not None ):
+        post_url = post_accept(post_img)
+        
+        if(type(post_url) != int):
+        
+            posted = m.create_post(user,new_post_txt,post_community,post_url)
+        
 
+            if posted:
+                data = post_4_user()
+                return jsonify({"status":"success", "mensaje":"Post Creado 🦐🦐","data":data})
+            else:
+                return jsonify({"status":"fail", "mensaje":"No se pudo crear el post 😭😭"})
+        else:
+            return jsonify({"status":"error","details":"Formato de Imagen no aceptado"})
+    else:
+        posted = m.create_post(user,new_post_txt,post_community,None)
         if posted:
-                return jsonify({"status":"success", "mensaje":"Post Creado 🦐🦐"})
+            data = post_4_user()
+            return jsonify({"status":"success", "mensaje":"Post Creado 🦐🦐","data":data})
         else:
             return jsonify({"status":"fail", "mensaje":"No se pudo crear el post 😭😭"})
-    else:
-        return jsonify({"status":"error","details":"Formato de Imagen no aceptado"})
+        
 
 @login_manager.unauthorized_handler
 def unauthorized():
@@ -275,6 +283,7 @@ def post_4_user():
         return posts
     else:
         return None
+    
 
 
 @login_required
@@ -285,7 +294,7 @@ def post_of(user):
         posts = []
         for c in query:
             like_user = m.DoUserlikes(current_user.id,c[4])
-            posts.append({"id":c[0],"usuario":c[1],"imgPerfil":c[2],"comunidad":c[3],"idPost":c[4],"fecha":[5],"titulo":c[6],"texto":c[7],"likes":c[8],"imgPost":c[9],"like":like_user})
+            posts.append({"id":c[0],"usuario":c[1],"imgPerfil":c[2],"comunidad":c[3],"idPost":c[4],"fecha":c[5],"titulo":c[6],"texto":c[7],"likes":c[8],"imgPost":c[9],"like":like_user})
         return posts
     else:
         return None
@@ -327,7 +336,8 @@ def Delete_post():
     
     query = m.erase_post(id_post) 
     if query:
-        return jsonify({"status":"success"})
+        data = post_4_user()
+        return jsonify({"status":"success","details": data})
     else:
         print(query)
         return jsonify({"status":"error", "details": query})
@@ -343,7 +353,8 @@ def Update_post():
     
     query = m.edit_post(id_post,text) 
     if query:
-        return jsonify({"status":"success"})
+        data = post_4_user()
+        return jsonify({"status":"success","update": data})
     else:
         print(query)
         return jsonify({"status":"error", "details": query})
@@ -463,24 +474,44 @@ def profile_user(id_p):
 
 
 def friends_suggestions():
-    data = m.not_friends(current_user.id)
+    data,pending = m.not_friends(current_user.id)
     newfriends =[]
     for f in data:
-        if f[11] is True:
-            newfriends.append({"id":f[0],"usuario":f[8],"imgPerfil":f[9]})
-
+        if len(pending) > 0:
+            if f[11] is True and f[0] not in pending[0]:
+                newfriends.append({"id":f[0],"usuario":f[8],"imgPerfil":f[9]})
+        else:
+            if f[11] is True :
+                newfriends.append({"id":f[0],"usuario":f[8],"imgPerfil":f[9]})
     return newfriends
+
+def notificaciones_4_user():
+    notifications = m.notificaciones(current_user.id)
+    
+    if isinstance(notifications, tuple):
+        notifications = [notifications]
+    
+    if(notifications is not None):
+        data = []
+        for n in notifications: 
+            data.append({'name':n[0],'idNotification':n[1]})
+        return data
+    else:
+        return None
 
 @app.route('/mainData',methods=['GET'])
 @login_required
 def main_data():
     try:
+        
         amount_user = amount_into()
         suggestions = friends_suggestions()
         communitys_user = Community_card()
         posts = post_4_user()
-
-        return jsonify({"status":"success", "ammount":amount_user,"suggestions":suggestions,"CommunityCards":communitys_user,"Posts": posts})
+        notificaciones = notificaciones_4_user()
+        print(notificaciones)
+        
+        return jsonify({"status":"success", "ammount":amount_user,"suggestions":suggestions,"CommunityCards":communitys_user,"Posts": posts,"Notifications":notificaciones })
     except Exception as e:
         err = str(e)
         print(err)
@@ -498,7 +529,6 @@ def profile_data():
         suggestions = friends_suggestions()
         communitys_user = Community_card_user(id_profile)
         posts = post_of(id_profile)
-        print(f'The dataaaa :{amount_user},{suggestions},{communitys_user},{posts}')
         return jsonify({"status":"success", "ammount":amount_user,"suggestions":suggestions,"CommunityCards":communitys_user,"Posts": posts,"WhoRequest":current_user.id})
     except Exception as e:
         err = str(e)
@@ -506,10 +536,80 @@ def profile_data():
         return jsonify({"status":"error","details":err})
 
 
- 
+@app.route('/FriendRequest',methods=['GET','POST'])
+@login_required
+def FriendRequest():
+    datos = request.get_json()
+    requested = datos.get('id_to')
+    who_request = current_user.id
+    
+    try:
+        m.addFRequest(requested,who_request)
+        return jsonify({"status":"success"})
+    except Exception as e:
+        err = str(e)
+        print(err)
+        return jsonify({"status":"error","details":err })
+
+@app.route('/Post/<int:id_p>', methods=['GET','POST'])
+@login_required
+def PostCompleto(id_p):
+    data_user = m.Usuario(current_user.id)
+    return render_template('Post.html', profile_data = data_user, post_id = id_p)
+
+
+@app.route('/PostData', methods=['POST'])
+@login_required
+def PostData():
+    data = request.get_json()
+    post_id =data.get('id')
+    print(post_id)
+    comment_raw = m.comentarios(post_id)
+    
+    post_raw = m.post(post_id)
+    
+    post_data = []
+    like_user = m.DoUserlikes(current_user.id,post_raw[0])
+    post_data.append({"idPost":post_raw[0],"idCuammunity":post_raw[1],"texto":post_raw[2],"likes":post_raw[3],"imgPost":post_raw[4],"usuario":post_raw[5],"imgPerfil":post_raw[6],"comunidad":post_raw[7],"userID":post_raw[8],"like":like_user})
+    comments =[]
+    print(post_data)
+    
+    
+    for c in comment_raw:
+        comments.append({"id_user":c[0],"name":c[1],"user_pic":c[2],"comentario":c[3]})
+    
+    print(comments)
+    return jsonify({"status": "success", "posts":post_data,"comments":comments})
 
 
 
+@app.route('/acceptFriend', methods =[ 'POST','GET'])
+@login_required
+def acceptrequest():
+    data = request.get_json()
+    id_not = data.get('id')
+    
+    try:
+        m.acceptrq(id_not)
+        return jsonify({"status":"success"})
+    except Exception as e:
+        err = str(e)
+        print (err)
+        return err
+    
+@app.route('/rejectFriend', methods =[ 'POST','GET'])
+@login_required
+def declinerequest():
+    data = request.get_json()
+    id_not = data.get('id')
+    
+    try:
+        m.rejectrq(id_not)
+        return jsonify({"status":"success"})
+    except Exception as e:
+        err = str(e)
+        print (err)
+        return err
 
 if __name__ == '__main__':
     app.run(debug=True,port=8000)

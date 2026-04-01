@@ -1,11 +1,14 @@
+
 var looking = document.getElementById("Text-Lp")
 var input_id = document.getElementById("id_user")
 var template = document.getElementById('template-4-post');
 var template_Nfriends = document.getElementById('Suggestions');
 var post_Section= document.getElementById('Users_Posts');
-var suggestion_Section = document.getElementById('New_Friends')
+var suggestion_Section = document.getElementById('New_Friends');
+var notifications_section = document.getElementById('notifications-section')
 var new_post_text = document.querySelector('#Text_Post')
 var templateCommunity = document.getElementById('template-4-communitys');
+var templateNotification = document.getElementById('Notificacions');
 var into_communitys = document.getElementById('Communitys')
 var popcard = document.getElementById("PopCard")
 var pop_text = document.getElementById("msg")
@@ -13,8 +16,9 @@ var pop_btn = document.getElementById("pop_btn")
 var pop_btn_2 = document.getElementById("pop_btn_2")
 var pop_Area = document.getElementById("Pop_Text")
 var pop_nText = document.getElementById("Pop_Text_Area")
-var file_area_logo =       document.querySelector(".upload-container" )
-var file_area_background = document.querySelector(".upload-container" )
+var containers = document.querySelectorAll(".upload-container");
+var file_area_logo =       containers[0]
+var file_area_background = containers[1]
 var title_community = document.querySelector("#CommunityN_Title")
 var btnreal = document.getElementById('community_logo_input')
 var btnrealbg = document.getElementById('community_background_input')
@@ -51,15 +55,17 @@ function mostrarPopCard(mensaje,type,text){
         console.log("entre")
         pop_text.innerHTML = mensaje;
         popcard.style.display = "flex";
-        pop_btn.style.backgroundColor = "red";
-        pop_btn.textContent ="No";
-        pop_btn.onclick =ClosePop;
+        pop_btn_2.style.backgroundColor = "red";
+        pop_btn_2.textContent ="No";
+        pop_btn_2.onclick =ClosePop;
+        pop_btn.style.display = "flex"
         pop_btn_2.style.display = "flex"
-        pop_btn_2.style.backgroundColor = "lightgreen";
-        pop_btn_2.textContent ="Si";
+        pop_btn.style.backgroundColor = "lightgreen";
+        pop_btn.textContent ="Si";
         pop_btn.style.borderRadius = "50px";
-        pop_btn_2.style.borderRadius = "50px";
-        pop_btn_2.style.width = "6%";
+        pop_btn.style.borderRadius = "50px";
+
+        pop_btn.style.width = "20%";
         pop_Area.style.display = "none"
 
     }else if(type ==="edit"){
@@ -75,6 +81,12 @@ function mostrarPopCard(mensaje,type,text){
         pop_btn.style.backgroundColor = "lightgreen";
         pop_Area.style.height="auto"
         pop_Area.style.gap="none"
+
+        //Community Creation hidden
+        file_area_logo.style.display ="none"
+        file_area_background.style.display ="none"
+
+
 
 
     }else if(type === "Crear-Comunidad"){
@@ -107,6 +119,42 @@ function ClosePop(){
     popcard.style.display ="none"
 }
 
+async function comentar(whatPost){
+    const sectionComentarios = whatPost.closest('#Comment_Section');
+    
+    const Post =  sectionComentarios.previousElementSibling;
+    const id_post = Post.querySelector('#Id_post')
+    const comment = sectionComentarios.querySelector('#comment_holder')
+
+    if (comment.value.trim() !== ""){
+
+        const send_comment = await fetch('/comentar',{
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body:JSON.stringify({
+                'id_post':id_post.value,
+                'text': comment.value
+            })
+
+        })
+
+
+        const res = await send_comment.json()
+
+        if (res.status === "success"){
+            mostrarPopCard("Comentario Agregado","success")
+            
+        }else{
+            mostrarPopCard("Ocurrio un error intentalo más tarde","error")
+
+        }
+        
+    } else{
+        return  mostrarPopCard("No puedes mandar cadenas vacias >:(","error")
+    }
+
+
+}
 
 
 looking.addEventListener('input',() =>{
@@ -142,13 +190,50 @@ function Communitys_cards(community) {
     
 }
 
-async function notificaciones(){
-
-}
-
-async function usuarios_agregar(){
+function notificaciones(notificaciones){
     
+    console.log(notificaciones)
+    if(notificaciones != null){
+    notificaciones.forEach(notificacion=>{
+        const notiTemplate = templateNotification.content.cloneNode(true);
+        
+        notiTemplate.querySelector('#textNotification').textContent = notificacion.name + ' Quiere ser tu amigo!'
+        notiTemplate.querySelector('#id_not').value = notificacion.idNotification
+
+        notifications_section.appendChild(notiTemplate)
+     })
+    }
+    else{
+        notifications_section.innerHTML = '<h4>No tienes notificaciones pendientes</h4>'
+    }
+
+
 }
+
+async function SendFriendRequest(who){
+    const user = who.closest('#Suggest')
+    const id_request = user.querySelector('#id_suggestion')
+    const SendRequest = await fetch('/FriendRequest',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({
+           'id_to' : id_request.value ,
+        })
+    })
+
+    const publish = await SendRequest.json()
+
+    if(publish.status === "success"){
+        user.remove()
+    }
+}
+
+
+function CloseSuggest(who){
+    const user = who.closest('#Suggest')
+    user.remove()
+}
+
 
 function EditContent(btn){
     console.log(btn)
@@ -190,8 +275,9 @@ async function Edit(id_post,new_text){
         const confirm = document.querySelector("#pop_btn")
         confirm.addEventListener("click",()=>{
         
-        ClosePop()
-        Posts()
+            ClosePop()
+            Posts(ans.update)
+
         },{ once: true })
 
     }else{
@@ -205,7 +291,7 @@ function Preventive (){
     const id_post = document.querySelector("#Id_post")
     mostrarPopCard("Estas seguro de eliminar la publicación?","options",)
     
-    const confirm = document.querySelector("#pop_btn_2")
+    const confirm = document.querySelector("#pop_btn")
 
 
     confirm.addEventListener("click",()=>{
@@ -230,7 +316,7 @@ async function erase(id_post){
 
     if (ans.status === "success"){
         mostrarPopCard("Se elimino la publicación con Exito!","success")
-        Posts()
+        Posts(ans.details)
     }else{
         mostrarPopCard("No se pudo eliminar la publicación, intentalo más tarde","error")
     }
@@ -257,7 +343,8 @@ async function Add_Post() {
 
     if (response.status === "success"){
         mostrarPopCard(response.mensaje, response.status)
-        Posts()
+        console.log(response)
+        Posts(response.data)
 
     }else{
         mostrarPopCard(response.mensaje, response.status)
@@ -312,6 +399,7 @@ function Posts(posts_db) {
             postTemplate.querySelector('#Id_post').value = datos.idPost;
             postTemplate.querySelector('#Content-Text').textContent = datos.texto;
             postTemplate.querySelector('#Community_Name').textContent = datos.comunidad
+            postTemplate.querySelector('#Post_Comments').href = '/Post/'+datos.idPost
             const imgUser = postTemplate.querySelector('#Post_Img_User');
             imgUser.src = `${datos.imgPerfil}`;
             
@@ -337,7 +425,6 @@ function Posts(posts_db) {
                 postTemplate.querySelector('#amount-likes').style.display = "none";
 
             }
-            console.log(datos.like)
 
             if(datos.like){
                 checkbox.checked = true
@@ -473,11 +560,55 @@ async function RequestData() {
         Communitys_cards(dataFeed.CommunityCards)
         Amount_CF(dataFeed.ammount)
         Suggestions(dataFeed.suggestions)
+        notificaciones(dataFeed.Notifications)
         Posts(dataFeed.Posts)
     }
 
 }
 
+async function AcceptFriend(who){
+    const noti = who.closest('#Notificacion')
+
+    const id_notificacion = noti.querySelector("#id_not")
+    
+    const Accept = await fetch('/acceptFriend',{
+        method : 'POST',
+        headers :{'Content-Type':'application/json'},
+        body: JSON.stringify({
+            'id': id_notificacion.value
+        })
+    })
+
+    const res = await Accept.json()
+
+    if(res.status === "success"){
+        noti.remove
+    }
+
+}
+
+
+async function RejectFriend(who){
+    const noti = who.closest('#Notificacion')
+
+    const id_notificacion = noti.querySelector("#id_not")
+    
+    const rejectfriend = await fetch('/rejectFriend',{
+        method : 'POST',
+        headers :{'Content-Type':'application/json'},
+        body: JSON.stringify({
+            'id': id_notificacion.value
+        })
+    })
+
+    const res = await rejectfriend.json()
+
+    if(res.status === "success"){
+        noti.remove
+    }
+
+
+}
 
 
 function CommunityForm(){
@@ -486,20 +617,20 @@ function CommunityForm(){
 }
 
 
- function Amount_CF(res){
+ function Amount_CF(amm){
+    res = amm[0]
     const friends_u   = document.querySelector('#Amount_Friends')
     const community_u = document.querySelector('#Amount_Community')
 
-    
-        friends_u.textContent = res.friends;
-        community_u.textContent = res.community;
+    friends_u.textContent = res.friends;
+    community_u.textContent = res.communitys;
 }
 
 function Suggestions(sugg_db) {
     sugg_db.forEach(datos => {
         const userTemplate = template_Nfriends.content.cloneNode(true);
         const url = userTemplate.querySelector('#Suggestion-User').href='/Profile/'+datos.id
-        console.log(url)
+        userTemplate.querySelector('#id_suggestion').value = datos.id
         userTemplate.querySelector('#Suggest_Name').textContent =  datos.usuario;
         const imgUser = userTemplate.querySelector('#suggestion_Img');
         imgUser.src = `${datos.imgPerfil}`;

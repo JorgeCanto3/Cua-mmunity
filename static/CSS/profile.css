@@ -1105,7 +1105,13 @@ header {
   border-radius: 30px;
 }
 
-#Title_Trends {
+
+#Notificaciones{
+  width: 90%;
+  padding: 20px;
+}
+
+#Notificaciones_Title {
   text-align: left;
   -webkit-background-clip: text;
   background-clip: text;
@@ -1116,7 +1122,7 @@ header {
   font-weight: 600;
 }
 
-#Trend {
+#Notificacion {
   grid-column-gap: 16px;
   background-color: #5882c147;
   border-radius: 28.5px;
@@ -1126,39 +1132,129 @@ header {
   align-items: center;
   width: 100%;
   margin: 0;
-  padding: 3.9px 0 3.9px 17.9px;
+  padding: .5em;
   display: flex;
   position: relative;
   overflow: hidden;
+  flex-wrap: wrap;
 }
 
-#Trend_No {
+#dataNotification{
+  display: flex ;
+  width: 100%;
+  flex-direction: row;
+}
+
+#notifications-section{
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+
+#New_Friends {
+  background-color: #5882c129;
+  border-radius: 28.5px;
+  flex-flow: column;
+  flex-shrink: 0;
+  justify-content: flex-start;
+  align-items: center;
+  row-gap: 12px;
+  width: 90%;
+  height: auto;
+  padding: 1em;
+  margin: 0;
+  display: flex;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+#Title_Suggestions {
   text-align: left;
   -webkit-background-clip: text;
   background-clip: text;
   flex-shrink: 0;
   width: max-content;
   margin: 0;
-  font-size: 1.1rem;
-  font-weight: 600;
-  display: inline;
-  position: relative;
-}
-
-#Trend_Name {
-  text-align: left;
-  flex-shrink: 0;
-  width: max-content;
-  margin: 0;
   font-family: Poppins;
-  font-size: 1.1rem;
+  font-size: 24px;
   font-weight: 600;
   display: inline;
   position: relative;
 }
 
+#Suggestion-User{
+  gap: 3%;
+  width: 100%;
+  height: auto;
+  display: flex;
+}
+
+#Options-Suggetions{
+  display: flex;
+  width: 100%;
+  height: auto;
+  justify-content: center;
+  gap: 3%;
+  padding-bottom: 5%;
+  padding-top: 3%;
 
 
+}
+
+#Add{
+  flex: 1;
+  font: inherit;
+  background-color: #f0f0f0;
+  border: 0;
+  color: #242424;
+  border-radius: 0.5em;
+  padding: 0.075em 0.5em ;
+  font-weight: 600;
+  text-shadow: 0 0.0625em 0 #fff;
+  box-shadow: inset 0 0.0625em 0 0 #f4f4f4, 
+              0 0.0625em 0 0 #efefef,
+              0 0.125em 0 0 #ececec, 
+              0 0.25em 0 0 #e0e0e0, 
+              0 0.3125em 0 0 #dedede,
+              0 0.375em 0 0 #dcdcdc, 
+              0 0.425em 0 0 #cacaca, 
+              0 0.425em 0.5em 0 rgba(0,0,0,0.1);
+  transition: 0.15s ease;
+  cursor: pointer;
+}
+#Ignore{
+  flex: 1;
+  font: inherit;
+  background-color: #ff4d4d; 
+  border: 0;
+  color: #ffffff; 
+  border-radius: 0.5em;
+  padding: 0.075em 0.5em;
+  font-weight: 600;
+  text-shadow: 0 0.0625em 0 rgba(0, 0, 0, 0.2); 
+  box-shadow: inset 0 0.0625em 0 0 #ff6666, 0 0.0625em 0 0 #e60000,
+    0 0.125em 0 0 #cc0000, 0 0.25em 0 0 #b30000, 0 0.3125em 0 0 #990000,
+    0 0.375em 0 0 #800000, 0 0.425em 0 0 #660000, 0 0.425em 0.5em 0 rgba(0, 0, 0, 0.3);
+  transition: 0.15s ease;
+  cursor: pointer;
+}
+
+#Add:active{
+  translate: 0 0.225em;
+ box-shadow: inset 0 0.03em 0 0 #f4f4f4, 0 0.03em 0 0 #efefef,
+    0 0.0625em 0 0 #ececec, 0 0.125em 0 0 #e0e0e0, 0 0.125em 0 0 #dedede,
+    0 0.2em 0 0 #dcdcdc, 0 0.225em 0 0 #cacaca, 0 0.225em 0.375em 0 #cecece;
+}
+
+#Ignore:active {
+  translate: 0 0.225em;
+  box-shadow: inset 0 0.03em 0 0 #ff6666, 0 0.03em 0 0 #e60000,
+    0 0.0625em 0 0 #cc0000, 0 0.125em 0 0 #b30000, 0 0.125em 0 0 #990000,
+    0 0.2em 0 0 #800000, 0 0.225em 0 0 #660000, 0 0.225em 0.375em 0 rgba(0, 0, 0, 0.2);
+}
 
 #Profile-resume {
   background-color: #5882c147;

@@ -95,17 +95,21 @@ def Sign_up(name,f_last_name,s_last_name,birth,email,hashed_password,career,user
 
 
 def posts(id_user):
-    
-    con = psql.cursor()
-    query_cuammunity = "SELECT u.id,u.user_name,u.foto_d_perfil,cu.nombre,cuaji_posts.id, cuaji_posts.fecha, cuaji_posts.titulo, cuaji_posts.contenido_post,cuaji_posts.likes,cuaji_posts.img_post FROM cuammunity_users c join cuaji_posts on c.id_comunidad = cuaji_posts.id_cuammunity JOIN Usuarios u on u.id = cuaji_posts.id_usuario  JOIN cuammunitys cu ON c.id_comunidad = cu.id where c.id_usuario = %s ORDER BY  cuaji_posts.id DESC"
-    con.execute(query_cuammunity,(id_user,))
-    
-    
-    if (con.rowcount >= 1 ):
-        posts = con.fetchall()
-        return posts
-    else: 
-        return 0
+    try:
+        con = psql.cursor()
+        query_cuammunity = "SELECT u.id,u.user_name,u.foto_d_perfil,cu.nombre,cuaji_posts.id, cuaji_posts.fecha, cuaji_posts.titulo, cuaji_posts.contenido_post,cuaji_posts.likes,cuaji_posts.img_post FROM cuammunity_users c join cuaji_posts on c.id_comunidad = cuaji_posts.id_cuammunity JOIN Usuarios u on u.id = cuaji_posts.id_usuario  JOIN cuammunitys cu ON c.id_comunidad = cu.id where c.id_usuario = %s ORDER BY  cuaji_posts.id DESC"
+        con.execute(query_cuammunity,(id_user,))
+        
+        
+        if (con.rowcount >= 1 ):
+            posts = con.fetchall()
+            return posts
+        else: 
+            return 0
+    except Exception as e:
+        err = str(e)
+        print(f'Saco los posts{err}')
+        return err
     
 def posts_of(id_user):
     con = psql.cursor()
@@ -124,41 +128,44 @@ def posts_of(id_user):
 
 def add_comment(user,user_post,text,route):
 
-    if route:
+    if route is not None:
         try:
-            cur = psql.cursor
+            cur = psql.cursor()
 
-            comentar = 'INSERT INTO Comentarios(id_post,id_usuario,comentario,img,date)'
+            comentar = 'INSERT INTO Comentario(id_post,id_usuario,comentario,img,date)  VALUES(%s,%s,%s,%s,%s)'
 
             cur.execute(comentar,(user_post,user,text,route,now))
 
-            cur.commit()
-            
-            cur.close()
-            
-            flash("Comentario Agregado","success")
-            return redirect(url_for('main'))
-            
-        except Exception as e:
-            psql.rollback()
-            flash("Error no se pudo agregar tu comentario, intentalo más tarde","error")
-            return redirect(url_for('main'))  
-    else: 
-        try:
-            cur = psql.cursor
-
-            comentar = 'INSERT INTO Comentarios(id_post,id_usuario,comentario,date)'
-
-            cur.execute(comentar,(user_post,user,text,now))
-
-            cur.commit()
+            psql.commit()
             
             cur.close()
             
             return 1
             
         except Exception as e:
-            return 0
+            psql.rollback()
+            err = str(e)
+            print(e)
+            return e  
+    else: 
+        try:
+            cur = psql.cursor()
+
+            comentar = 'INSERT INTO Comentario(id_post,id_usuario,comentario,date) VALUES(%s,%s,%s,%s)'
+
+            cur.execute(comentar,(user_post,user,text,now))
+
+            psql.commit()
+            
+            cur.close()
+            
+            return 1
+            
+        except Exception as e:
+            psql.rollback()
+            err = str(e)
+            print(err)
+            return err
         
 def create_post(user,new_post_txt,post_community,post_img):
     try:
@@ -202,19 +209,20 @@ def user_into_communitys(id_user):
             cur.close()
             return 0
     except Exception as e:
-        print(e)
         err = str(e)
+        print(f'saco las cards{err}')
         psql.rollback()
         return err
     
-def amount_friends(id):
+def amount_friends(id_U):
     try:
         cur = psql.cursor()
-        query = "SELECT COUNT(*) FROM amigos WHERE id_usuario = %s"
-        cur.execute(query,(id,))
+        query = "SELECT COUNT(*) FROM amigos WHERE id_usuario = %s OR id_amigo = %s"
+        cur.execute(query,(id_U,id_U,))
         
         if cur.rowcount >= 1:
-            friends_count = cur.fetchone()[0]
+            friends_count = cur.fetchone()
+            print(cur.fetchall())
             cur.close()
             return friends_count
         else:
@@ -407,16 +415,119 @@ def join_a_cuammunity(id_user,id_cuammunity,roll):
     
 def not_friends(id_u):
     try:
-        print(f'heeyyyy{id_u}')
         cur = psql.cursor()
         query = "SELECT * FROM usuarios u LEFT JOIN amigos ag ON ag.id_amigo = u.id WHERE ag.id IS NULL AND  u.id != %s"
+        query_request = "SELECT * FROM solicitud WHERE id_usuario_peticion = %s"
         cur.execute(query,(id_u,))
         new_friends = cur.fetchall()
+        cur.execute(query_request,(id_u,))
+        pending_friend = cur.fetchall()
         psql.commit()
         cur.close()
-        return new_friends
+        return new_friends, pending_friend
     except Exception as e:
-        print(e)
         err = str(e)
+        print(f'saco los frens{err}')
         psql.rollback()
+        return err
+    
+def addFRequest(requested,whorequest):
+    try:
+        cur=psql.cursor()
+        query ="INSERT INTO Solicitud (id_usuario_peticion,id_usuario_agregar,solicitud) VALUES(%s,%s,%s)"
+        cur.execute(query,(whorequest,requested,False,))       
+        psql.commit()
+        cur.close()
+        return 1
+
+    except Exception as e:
+        psql.rollback()
+        err = str(e)
+        print(e)
+        return err
+    
+def comentarios(id_post):
+    try:
+        print(f'sakandoooo{id_post}')
+        cur=psql.cursor()
+        query ="select u.id, u.user_name,u.foto_d_perfil,c.comentario from comentario c join cuaji_posts cp on cp.id = %s join usuarios u on c.id_usuario = u.id"
+        cur.execute(query,(id_post,))        
+        comentarios = cur.fetchall()
+        psql.commit()
+        cur.close()
+        print(comentarios)
+        return comentarios
+    except Exception as e:
+        psql.rollback()
+        err = str(e)
+        print(e)
+        return err
+    
+def post(id_post):
+    try:
+        cur=psql.cursor()
+        query ="SELECT cp.id,cp.id_cuammunity,cp.contenido_post,cp.likes,cp.img_post,u.user_name,u.foto_d_perfil,c.nombre,u.id FROM Cuaji_posts cp JOIN Usuarios u on cp.id_usuario = u.id  JOIN cuammunitys c on c.id = cp.id_cuammunity WHERE cp.id = %s  "
+        cur.execute(query,(id_post,))        
+        data_post = cur.fetchone()
+        psql.commit()
+        cur.close()
+        return data_post
+
+    except Exception as e:
+        psql.rollback()
+        err = str(e)
+        print(e)
+        return err
+    
+def notificaciones(id_notifications4):
+    try:
+        cur=psql.cursor()
+        query ="SELECT u.user_name, s.id from usuarios u JOIN solicitud s on s.id_usuario_peticion = u.id  WHERE s.id_usuario_agregar = %s "
+        cur.execute(query,(id_notifications4,))        
+        data_post = cur.fetchone()
+        print(data_post)
+        psql.commit()
+        cur.close()
+        return data_post
+
+    except Exception as e:
+        psql.rollback()
+        err = str(e)
+        print(f'saco notifs{err}')
+        return err
+    
+def acceptrq(idrq):
+    try:
+        cur=psql.cursor()
+        query ="SELECT * FROM solicitud WHERE id= %s "
+        cur.execute(query,(idrq,))        
+        data_rq = cur.fetchone()
+        friend = data_rq[2]
+        user = data_rq[1]
+        query_add = "INSERT INTO amigos(id_amigo,id_usuario) VALUES(%s,%s)"
+        cur.execute(query_add,(friend,user,))
+        query_deleteRQ = "DELETE FROM solicitud WHERE id = %s"
+        cur.execute(query_deleteRQ,(idrq,))
+        psql.commit()
+        cur.close()
+        return "success"
+
+    except Exception as e:
+        psql.rollback()
+        err = str(e)
+        print(f'saco notifs{err}')
+        return err
+    
+def rejectrq(idrq):
+    try:
+        cur=psql.cursor()
+        query ="DELETE FROM solicitud WHERE id= %s "
+        cur.execute(query,(idrq,))        
+        psql.commit()
+        cur.close()
+        return "success"
+    except Exception as e:
+        psql.rollback()
+        err = str(e)
+        print(f'saco notifs{err}')
         return err

@@ -46,7 +46,7 @@
            <div id="Profile" >
               <div id = "User_imgs" class="glass-panel">
                 <div id="background_pic_frame" class="pointer-events-none">
-                  <img src="{{url_for('static',filename='Img/Img_Borrador.avif')}}" alt="User background image" id="background_pic" >
+                  <img src="{{profile_data[10]}}" alt="User background image" id="background_pic" >
                 </div>
                 <div id="Profile-Info">
               
@@ -212,7 +212,7 @@
             </div>
             </section>
 
-            <aside id="Right-Panel" class="glass-card">
+           <aside id="Right-Panel" class="glass-card">
 
                  <div class="container">
                   <div class="btn"><button onclick="CommunityForm()">Crea una Comunidad</button></div>
@@ -220,16 +220,47 @@
 
                 <div id="Notificaciones" class="glass-card">
                 <span id="Notificaciones_Title" class="text">Notificaciónes</span></span>
-                  <div id="Notificacion" class="glass-card">
-                    <span id="Trend_No" class="text">1.</span></span>
-                    <span id="Trend_Name" class="pointer-events-none" class="text">#Trend1</span></span>
+                  <div id="notifications-section">  
+                    <template id="Notificacions">
+                      <div id="Notificacion" class="glass-card">
+                        <input type="hidden" id="id_not">
+                        <div id ="dataNotification">
+                        <div id="Frame_suggest" class="pointer-events-none">
+                          <img src="{{url_for('static',filename='Img/Hug.webp')}}" loading="lazy" id="suggestion_Img" alt="Friend_Icon" class="Img_Evento" >
+                        </div>
+
+                        <span id="textNotification"></span>
+                        </div>
+                        <div id="Options-Suggetions">
+                        <button id="Add"    onclick="AcceptFriend(this)">Aceptar</button>
+                        <button id="Ignore" onclick="RejectFriend(this)">Rechazar</button>
+                        </div>
+                    </template>
+                  </div>
                   </div>  
-                </div>
 
                 <div id="New_Friends" class="glass-card">
                   <span id="Title_Suggestions" class="text">Posibles Amigos</span></span>
                   
-             
+                  <template id="Suggestions">
+                    <div id="Suggest" class="glass-btn">
+                      <input type="hidden" id="id_suggestion">
+                      <a id="Suggestion-User" href="#">
+                      <div id="Frame_suggest" class="pointer-events-none">
+                          <img src="{{url_for('static',filename='Img/Img_Borrador.avif')}}" loading="lazy" id="suggestion_Img" alt="Logo_Evento" class="Img_Evento" >
+                      </div>
+
+                      <div id="Nombre_Suggest" class="glass-card">
+                        <span id="Suggest_Name" class="text">Evento 1</span></span>
+                      </div>
+                      </a>
+
+                      <div id="Options-Suggetions">
+                        <button id="Add"    onclick="SendFriendRequest(this)">Agregar</button>
+                        <button id="Ignore" onclick="CloseSuggest(this)">Descartar</button>
+                      </div>
+                    </div>
+                  </template>
                   
 
 
@@ -248,7 +279,7 @@
           <span id="menu_Text" >Principal</span></span>
         </a>
         
-        <a href= "bai" id="Perfil" class="glass-btn">
+        <a href= "{{url_for('profile_user', id_p=profile_data[0])}}" id="Perfil" class="glass-btn">
         
           <svg  id="Vector_3" width="40" height="37" viewBox="0 0 40 37" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 18.5C20.3869 18.5 22.6761 17.5254 24.364 15.7907C26.0518 14.056 27 11.7033 27 9.25C27 6.79675 26.0518 4.44397 24.364 2.70926C22.6761 0.974551 20.3869 0 18 0C15.6131 0 13.3239 0.974551 11.636 2.70926C9.94821 4.44397 9 6.79675 9 9.25C9 11.7033 9.94821 14.056 11.636 15.7907C13.3239 17.5254 15.6131 18.5 18 18.5ZM24 9.25C24 10.8855 23.3679 12.454 22.2426 13.6105C21.1174 14.767 19.5913 15.4167 18 15.4167C16.4087 15.4167 14.8826 14.767 13.7574 13.6105C12.6321 12.454 12 10.8855 12 9.25C12 7.6145 12.6321 6.04598 13.7574 4.88951C14.8826 3.73303 16.4087 3.08333 18 3.08333C19.5913 3.08333 21.1174 3.73303 22.2426 4.88951C23.3679 6.04598 24 7.6145 24 9.25ZM36 33.9167C36 37 33 37 33 37H3C3 37 0 37 0 33.9167C0 30.8333 3 21.5833 18 21.5833C33 21.5833 36 30.8333 36 33.9167ZM33 33.9043C32.997 33.1458 32.538 30.8642 30.504 28.7737C28.548 26.7633 24.867 24.6667 18 24.6667C11.133 24.6667 7.452 26.7633 5.496 28.7737C3.462 30.8642 3.006 33.1458 3 33.9043H33Z" fill="white"></path></svg>
           <span id="menu_Text" >Perfil</span></span>
